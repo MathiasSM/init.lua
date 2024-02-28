@@ -52,12 +52,55 @@ return {
 				-- [*] Specific handlers
 				["jsonls"] = function()
 					require("lspconfig").jsonls.setup({
+						capabilities = require("cmp_nvim_lsp").default_capabilities(),
 						settings = {
 							json = {
 								schemas = require("schemastore").json.schemas(),
 								validate = { enable = true },
 							},
 						},
+					})
+				end,
+				["jdtls"] = function()
+					vim.api.nvim_create_autocmd("FileType", {
+						pattern = "java",
+						desc = "Attach jdtls on java files",
+						group = vim.api.nvim_create_augroup("UserLspConfigJava", {}),
+						callback = function()
+							local root_dir = require("jdtls.setup").find_root({ "packageInfo" }, "Config")
+							local home = os.getenv("HOME")
+							local eclipse_workspace = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+							local ws_folders_jdtls = {}
+							if root_dir then
+								local file = io.open(root_dir .. "/.bemol/ws_root_folders")
+								if file then
+									for line in file:lines() do
+										table.insert(ws_folders_jdtls, "file://" .. line)
+									end
+									file:close()
+								end
+							end
+							local config = {
+								cmd = {
+									"jdtls", -- need to be on your PATH
+									"--jvm-arg=-javaagent:" .. home .. "/lombok.jar",
+									"-data",
+									eclipse_workspace,
+								},
+								root_dir = root_dir,
+							}
+							local extendedClientCapabilities = require 'jdtls'.extendedClientCapabilities
+							extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
+							config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+							config.init_options = {
+								workspaceFolders = ws_folders_jdtls,
+								extendedClientCapabilities = extendedClientCapabilities,
+							}
+
+							require("jdtls").start_or_attach(config)
+						end,
 					})
 				end,
 			})
@@ -213,50 +256,6 @@ return {
 		"mfussenegger/nvim-jdtls",
 		ft = "java",
 		config = function()
-			vim.cmd([[
-        function! BrazilWorkspaceRoot()
-          let l:working_directory = getcwd()
-          let l:workspace_root = split(l:working_directory, "/")[0:4]
-          return "/" . join(l:workspace_root, "/")
-        endfunction
-
-        function! BrazilOpenJDKLocation()
-          let l:workspace_directory=BrazilWorkspaceRoot()
-          let l:jdk_path=""
-          if (isdirectory(l:workspace_directory."/env/OpenJDK8-1.1"))
-              let l:jdk_path=l:workspace_directory."/env/OpenJDK8-1.1"
-          elseif (isdirectory(l:workspace_directory."/env/JDK8-1.0"))
-              let l:jdk_path=l:workspace_directory."/env/JDK8-1.0"
-          endif
-
-          if (empty(l:jdk_path))
-            return "/apollo/env/JavaSE11/jdk-11/"
-          else
-            return l:jdk_path . "/runtime/jdk1.8/"
-          endif
-        endfunction
-
-        function! SetBrazilJDKHome()
-          let $JDK_HOME=BrazilOpenJDKLocation()
-        endfunction
-
-        call SetBrazilJDKHome()
-      ]])
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "java",
-				desc = "Attach jdtls on java files",
-				group = vim.api.nvim_create_augroup("UserLspConfigJava", {}),
-				callback = function()
-					local config = {
-						cmd = { "/usr/bin/env jdtls" },
-						root_dir = vim.fs.dirname(vim.fs.find(
-							{ "gradlew", ".git", "mvnw" }, -- TODO: Brazil?
-							{ upward = true }
-						)[1]),
-					}
-					require("jdtls").start_or_attach(config)
-				end,
-			})
 		end,
 	},
 

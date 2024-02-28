@@ -54,7 +54,6 @@ return {
 					"edgy",
 					"help",
 				},
-				add_blank_line_at_top = true,
 				source_selector = {
 					winbar = true,
 					statusline = false,

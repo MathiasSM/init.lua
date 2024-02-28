@@ -25,7 +25,7 @@ return {
             "c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
             "java", "javascript", "kotlin", "lua", "matlab", "ocaml",
             "perl", "python", "ruby", "rust", "scala",
-            "sql", "swift", "typescript", "vim",
+            "sql", "typescript", "vim",
             -- Documentation
             "doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
             -- Configuration
