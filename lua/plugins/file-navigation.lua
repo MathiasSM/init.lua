@@ -16,7 +16,8 @@ return {
 						toggle = true,
 						source = "filesystem",
 						position = "left",
-						reveal = true,
+						reveal_force_cwd = true,
+                        reveal = true
 					})
 				end,
 				desc = "[Neotree] Files (project dir)",
@@ -66,29 +67,7 @@ return {
 					},
 				},
 				window = {
-					mappings = {
-						["f"] = function()
-							vim.api.nvim_exec2(
-								"Neotree focus filesystem left",
-								{}
-							)
-						end,
-						["b"] = function()
-							vim.api.nvim_exec2("Neotree focus buffers left", {})
-						end,
-						["g"] = function()
-							vim.api.nvim_exec2(
-								"Neotree focus git_status left",
-								{}
-							)
-						end,
-						["s"] = function()
-							vim.api.nvim_exec2(
-								"Neotree focus document_symbols left",
-								{}
-							)
-						end,
-					},
+                    width = 44,
 				},
 				default_component_configs = {
 					name = {
@@ -155,10 +134,6 @@ return {
 						},
 					},
 					hijack_netrw_behavior = "open_current",
-					filtered_items = {
-						hide_dotfiles = false,
-						hide_gitignored = false,
-					},
 					components = {
 						harpoon_index = function(config, node, _)
 							local harpoon_list = require("harpoon"):list()
