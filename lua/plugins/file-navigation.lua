@@ -195,12 +195,18 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
+		cmd = { "Harpoon" },
 		keys = {
-			{ "<C-e>" }, -- Defined in config
+			"<C-e>", -- Defined in config
 			{
 				"<leader>`",
 				function() require("harpoon"):list():append() end,
-				desc = "[Harpoon] Add to list",
+				desc = "[Harpoon] Add current to list",
+			},
+			{
+				"<leader>~",
+				function() require("harpoon"):list():remove() end,
+				desc = "[Harpoon] Remove current from list",
 			},
 
 			{
@@ -240,7 +246,7 @@ return {
 			-- Directly taken from docs
 			local harpoon = require("harpoon")
 			harpoon:setup({})
-
+			-- Configure telescope UI
 			local conf = require("telescope.config").values
 			local function toggle_telescope(harpoon_files)
 				local file_paths = {}
