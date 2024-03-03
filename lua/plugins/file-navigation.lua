@@ -1,3 +1,16 @@
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -221,32 +234,59 @@ return {
 			-- Directly taken from docs
 			local harpoon = require("harpoon")
 			harpoon:setup({})
-			-- Configure telescope UI
-			local conf = require("telescope.config").values
-			local function toggle_telescope(harpoon_files)
-				local file_paths = {}
-				for _, item in ipairs(harpoon_files.items) do
-					table.insert(file_paths, item.value)
-				end
+            -- basic telescope configuration
+            local conf = require("telescope.config").values
+            local function toggle_telescope(harpoon_files)
+                local displayer = require('telescope.pickers.entry_display').create({
+                    separator = "",
+                    items = {
+                        { width = 3  },
+                        { width = 70 },
+                        { width = 10 },
+                        { remaining = true },
+                    }
+                })
+                local results = {}
+                for idx, item in ipairs(harpoon_files.items) do
+                    local entry = vim.deepcopy(item)
+                    entry.index = idx
+                    table.insert(results, entry)
+                end
+                print(dump(results))
+                require("telescope.pickers").new({}, {
+                    prompt_title = "Harpoon",
+                    finder = require("telescope.finders").new_table({
+                        results = results,
+                        entry_maker = function(entry)
+                            print("entry_maker" .. dump(entry))
+                            return {
+                                value = entry.value,
+                                -- path = entry.value.value,
+                                ordinal = entry.index,
+                                display = function() 
+                                    print("displayer" .. dump(entry))
+                                    return displayer({
+                                        {tostring(entry.index), "TelescopeResultsNumber"},
+                                        entry.value,
+                                        {
+                                            entry.context.row .. ":" .. entry.context.col,
+                                            "TelescopeResultsLineNr"
+                                        }
+                                    })
+                                end,
+                                --lnum = entry.context.row,
+                                -- context = entry.context,
+                                -- index = entry.index,
+                            }
+                        end
+                    }),
+                    --previewer = conf.grep_previewer({}),
+                    --sorter = conf.generic_sorter({}),
+                }):find()
+            end
 
-				require("telescope.pickers")
-					.new({}, {
-						prompt_title = "Harpoon",
-						finder = require("telescope.finders").new_table({
-							results = file_paths,
-						}),
-						previewer = conf.file_previewer({}),
-						sorter = conf.generic_sorter({}),
-					})
-					:find()
-			end
-
-			vim.keymap.set(
-				"n",
-				"<C-e>",
-				function() toggle_telescope(harpoon:list()) end,
-				{ desc = "[Harpoon] Open list" }
-			)
+            vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
+                { desc = "[Harpoon] Open list" })
 		end,
 	},
 
