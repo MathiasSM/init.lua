@@ -4,56 +4,62 @@ return {
 		build = ":TSUpdate",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
-			vim.o.foldmethod = "expr"
-			vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-			vim.o.foldenable = false
+			vim.cmd[[
+				set foldmethod=expr
+				set foldexpr=nvim_treesitter#foldexpr()
+				set nofoldenable                     
+			]]
 			---@diagnostic disable-next-line missing-fields
 			configs.setup({
-          -- Grouped, some are purposely duplicated into multiple groups
-          -- stylua: ignore
-          ensure_installed = {
-            -- Markup
-            "html", "css", "scss",
-            "rst", "markdown", "markdown_inline", "latex", "bibtex",
-            "mermaid", "gnuplot", "dot",
-            -- Scripting
-            "bash", "awk", "jq", "make", "cmake", "passwd", "regex", "printf",
-            -- Data
-            "sql", "jsonnet",
-            "csv", "tsv", "xml", "json", "json5", "jsonc", "yaml",
-            -- Programming
-            "c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
-            "java", "javascript", "kotlin", "lua", "matlab", "ocaml",
-            "perl", "python", "ruby", "rust", "scala",
-            "sql", "typescript", "vim",
-            -- Documentation
-            "doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
-            -- Configuration
-            "dhall", "toml", "json", "yaml", "nix", "ini",
-            "dockerfile", "requirements", "ssh_config", "readline", "tmux",
-            "git_config", "gitignore", "gitattributes", "requirements",
-            -- Specific tooling/work
-            "diff", "git_rebase", "gitcommit",
-            "regex", "printf",
-            "gdscript", "godot_resource",
-            "gpg",
-            "http",
-            "ledger",
-            "muttrc",
-            "hlsplaylist",
-            -- Other
-            "html",  -- Required for luckasRanarison/nvim-devdocs
-            "http", "json", -- Both required for rest.nvim
-          },
+				auto_install = true,
 				sync_install = false,
-				highlight = { enable = true },
+				incremental_selection = { enable = true },
 				indent = { enable = true },
+				highlight = { enable = true },
+				-- Grouped, some are purposely duplicated into multiple groups
+				-- stylua: ignore
+				ensure_installed = {
+					-- Markup
+					"html", "css", "scss",
+					"rst", "markdown", "markdown_inline", "latex", "bibtex",
+					"mermaid", "gnuplot", "dot",
+					-- Scripting
+					"bash", "awk", "jq", "make", "cmake", "passwd", "regex", "printf",
+					-- Data
+					"sql", "jsonnet",
+					"csv", "tsv", "xml", "json", "json5", "jsonc", "yaml",
+					-- Programming
+					"c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
+					"java", "javascript", "kotlin", "lua", "matlab", "ocaml",
+					"perl", "python", "ruby", "rust", "scala",
+					"sql", "typescript", "vim",
+					-- Documentation
+					"doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
+					-- Configuration
+					"dhall", "toml", "json", "yaml", "nix", "ini",
+					"dockerfile", "requirements", "ssh_config", "readline", "tmux",
+					"git_config", "gitignore", "gitattributes", "requirements",
+					-- Specific tooling/work
+					"diff", "git_rebase", "gitcommit",
+					"regex", "printf",
+					"gdscript", "godot_resource",
+					"gpg",
+					"http",
+					"ledger",
+					"muttrc",
+					"hlsplaylist",
+					-- Other
+					"html",  -- Required for luckasRanarison/nvim-devdocs
+					"http", "json", -- Both required for rest.nvim
+					"query" -- Recommended for playground
+				},
 			})
 		end,
 	},
 
 	{
 		"nvim-treesitter/nvim-treesitter-context",
+		cmd = { "TSContextToggle" },
 		config = function()
 			local tsc = require("treesitter-context")
 			tsc.setup({
@@ -70,6 +76,18 @@ return {
 				[[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]]
 			)
 		end,
+	},
+
+	{
+		'nvim-treesitter/playground',
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		cmd = "TSPlaygroundToggle",
+		config = function ()
+			---@diagnostic disable-next-line missing-fields
+			require("nvim-treesitter.configs").setup({
+				playground = { enable = true, }
+			})
+		end
 	},
 
 	{
@@ -123,7 +141,9 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
-		config = true,
+		opts = {
+			scope = { show_start = false, show_end = false }
+		},
 	},
 
 	{
