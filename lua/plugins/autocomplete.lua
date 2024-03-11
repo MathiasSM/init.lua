@@ -1,3 +1,6 @@
+--- Autocomplete configuration (`nvim-cmp`)
+-- @module autocomplete
+
 return {
 	{
 		"hrsh7th/nvim-cmp",
@@ -23,9 +26,7 @@ return {
 
 			cmp.setup({
 				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
+					expand = function(args) require("luasnip").lsp_expand(args.body) end,
 				},
 				window = {
 					completion = cmp.config.window.bordered(),
@@ -64,9 +65,7 @@ return {
 						option = {
 							keep_all_entries = false,
 							enable_in_context = function()
-								return require("cmp.config.context").in_treesitter_capture(
-									"spell"
-								)
+								return require("cmp.config.context").in_treesitter_capture("spell")
 							end,
 						},
 					},

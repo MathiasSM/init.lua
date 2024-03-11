@@ -1,20 +1,32 @@
+--- Colorschemes I like
+-- The default one must have lazy=false, priority=1000
+-- The others should have lazy=true
+--
+-- TODO: Find a switcher that loads the name from lazy config (?)
+--
+-- @module colorschemes
+
 return {
 	{
 		"catppuccin/nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			require('catppuccin').setup({
+			require("catppuccin").setup({
 				styles = {
-					conditionals = { }, -- Defaults to italics
+					conditionals = {}, -- Defaults to italics
+				},
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
 				},
 				integrations = {
-					harpoon=true,
-					headlines=true,
-					markdown=true,
-					mason=true,
-					neotree=true,
-					neotest=true,
+					harpoon = true,
+					headlines = true,
+					markdown = true,
+					mason = true,
+					neotree = true,
+					neotest = true,
 					treesitter_context = false,
 					lsp_trouble = true,
 					which_key = true,
@@ -23,11 +35,11 @@ return {
 						underlines = {
 							errors = { "underline" },
 							warnings = { "underline" },
-							hints = { },
-							information = { },
+							hints = {},
+							information = {},
 						},
 					},
-				}
+				},
 			})
 			vim.cmd([[colorscheme catppuccin]])
 		end,
@@ -42,17 +54,17 @@ return {
 			styles = {
 				sidebars = "transparent",
 				floats = "transparent",
-				comments = { italic = true }
+				comments = { italic = true },
 			},
 		},
 	},
 
 	{
-		'nyngwang/nvimgelion',
+		"nyngwang/nvimgelion",
 		lazy = true,
-		config = function ()
-			vim.api.nvim_create_autocmd({ 'ColorScheme', 'FileType' }, {
-				callback = function ()
+		config = function()
+			vim.api.nvim_create_autocmd({ "ColorScheme", "FileType" }, {
+				callback = function()
 					vim.cmd([[
 						hi IndentBlanklineChar gui=nocombine guifg=#444C55
 						hi IndentBlanklineSpaceChar gui=nocombine guifg=#444C55
@@ -61,7 +73,6 @@ return {
 					]])
 				end,
 			})
-		end
-	}
-
+		end,
+	},
 }

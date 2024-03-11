@@ -1,17 +1,9 @@
-function dump(o)
-   if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-         if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
-      end
-      return s .. '} '
-   else
-      return tostring(o)
-   end
-end
+--- Navigation between files and across directories/projects
+-- @module navigation
 
 return {
+	"mateuszwieloch/automkdir.nvim",
+
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -30,7 +22,7 @@ return {
 						source = "filesystem",
 						position = "left",
 						reveal_force_cwd = true,
-                        reveal = true
+						reveal = true,
 					})
 				end,
 				desc = "[Neotree] Files (project dir)",
@@ -38,10 +30,7 @@ return {
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("BufEnter", {
-				group = vim.api.nvim_create_augroup(
-					"NeoTreeInit",
-					{ clear = true }
-				),
+				group = vim.api.nvim_create_augroup("NeoTreeInit", { clear = true }),
 				callback = function()
 					local f = vim.fn.expand("%:p")
 					if vim.fn.isdirectory(f) ~= 0 then
@@ -80,7 +69,7 @@ return {
 					},
 				},
 				window = {
-                    width = 44,
+					width = 44,
 				},
 				default_component_configs = {
 					name = {
@@ -160,11 +149,9 @@ return {
 								end
 
 								if value == path then
-									vim.print(path)
 									return {
 										text = string.format(" ⥤ %d", i),
-										highlight = config.highlight
-											or "NeoTreeDirectoryIcon",
+										highlight = config.highlight or "NeoTreeDirectoryIcon",
 									}
 								end
 							end
@@ -222,7 +209,7 @@ return {
 			{
 				"<leader>-",
 				function() require("harpoon"):list():prev() end,
-				desc = "[Harpoon] Go to next",
+				desc = "[Harpoon] Go to previous",
 			},
 			{
 				"<leader>=",
@@ -234,61 +221,66 @@ return {
 			-- Directly taken from docs
 			local harpoon = require("harpoon")
 			harpoon:setup({})
-            -- basic telescope configuration
-            local conf = require("telescope.config").values
-            local function toggle_telescope(harpoon_files)
-                local displayer = require('telescope.pickers.entry_display').create({
-                    separator = "",
-                    items = {
-                        { width = 3  },
-                        { width = 70 },
-                        { width = 10 },
-                        { remaining = true },
-                    }
-                })
-                local results = {}
-                for idx, item in ipairs(harpoon_files.items) do
-                    local entry = vim.deepcopy(item)
-                    entry.index = idx
-                    table.insert(results, entry)
-                end
-                print(dump(results))
-                require("telescope.pickers").new({}, {
-                    prompt_title = "Harpoon",
-                    finder = require("telescope.finders").new_table({
-                        results = results,
-                        entry_maker = function(entry)
-                            print("entry_maker" .. dump(entry))
-                            return {
-                                value = entry.value,
-                                -- path = entry.value.value,
-                                ordinal = entry.index,
-                                display = function() 
-                                    print("displayer" .. dump(entry))
-                                    return displayer({
-                                        {tostring(entry.index), "TelescopeResultsNumber"},
-                                        entry.value,
-                                        {
-                                            entry.context.row .. ":" .. entry.context.col,
-                                            "TelescopeResultsLineNr"
-                                        }
-                                    })
-                                end,
-                                --lnum = entry.context.row,
-                                -- context = entry.context,
-                                -- index = entry.index,
-                            }
-                        end
-                    }),
-                    --previewer = conf.grep_previewer({}),
-                    --sorter = conf.generic_sorter({}),
-                }):find()
-            end
+			harpoon:extend({
+				SELECT = function(ctx) print(" ⥤  " .. ctx.item.value) end,
+				ADD = function(ctx) print(" [+] " .. ctx.item.value) end,
+				REMOVE = function(ctx) print(" [-]  " .. ctx.item.value) end,
+			})
+			-- basic telescope configuration
+			local conf = require("telescope.config").values
+			local function toggle_telescope(harpoon_files)
+				local filename_width = vim.o.columns > 170 and 80 or 60
+				local displayer = require("telescope.pickers.entry_display").create({
+					separator = "",
+					items = {
+						{ width = 3 },
+						{ width = filename_width },
+						{ width = 10 },
+						{ remaining = true },
+					},
+				})
+				local results = {}
+				for idx, item in ipairs(harpoon_files.items) do
+					local entry = vim.deepcopy(item)
+					entry.index = idx
+					table.insert(results, entry)
+				end
+				require("telescope.pickers")
+					.new({}, {
+						prompt_title = "Harpoon",
+						finder = require("telescope.finders").new_table({
+							results = results,
+							entry_maker = function(entry)
+								return {
+									value = entry.value,
+									-- path = entry.value.value,
+									ordinal = entry.index,
+									display = function()
+										return displayer({
+											{ tostring(entry.index), "TelescopeResultsNumber" },
+											entry.value,
+											{
+												entry.context.row .. ":" .. entry.context.col,
+												"TelescopeResultsLineNr",
+											},
+										})
+									end,
+									lnum = entry.context.row,
+								}
+							end,
+						}),
+						previewer = conf.grep_previewer({}),
+						sorter = conf.generic_sorter({}),
+					})
+					:find()
+			end
 
-            vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
-                { desc = "[Harpoon] Open list" })
+			vim.keymap.set(
+				"n",
+				"<C-e>",
+				function() toggle_telescope(harpoon:list()) end,
+				{ desc = "[Harpoon] Open list" }
+			)
 		end,
 	},
-
-	"mateuszwieloch/automkdir.nvim",
 }

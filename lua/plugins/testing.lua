@@ -1,34 +1,10 @@
+--- Plugins for running tests 
+--
+-- Some interact with the DAP
+--
+-- @module testing
+
 return {
-	{
-		"mfussenegger/nvim-dap",
-		lazy = true,
-	},
-
-	{
-		"rcarriga/nvim-dap-ui",
-		dependencies = {
-			"mfussenegger/nvim-dap",
-			"theHamsta/nvim-dap-virtual-text",
-		},
-		cmd = {
-			"Debug",
-			"TestNearestDebug",
-			"TestFileDebug",
-		},
-		-- TODO: Setup commands
-		config = true,
-	},
-
-	{
-		"theHamsta/nvim-dap-virtual-text",
-		dependencies = {
-			"theHamsta/nvim-dap-virtual-text",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		lazy = true,
-		config = true,
-	},
-
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
@@ -61,8 +37,7 @@ return {
 				adapters = {
 					-- TODO: Test
 					require("neotest-jest")({
-						jestCommand = is_amazon and "brazil-build test --"
-							or "npm test --",
+						jestCommand = is_amazon and "brazil-build test --" or "npm test --",
 					}),
 					-- TODO: Config
 					require("neotest-haskell"),
@@ -95,18 +70,14 @@ return {
 					-- TODO: Confirm it's used
 					-- TODO: Check Tslime
 					vim.cmd([[
-            let test#strategy = {
-              \ 'nearest': 'neovim',
-              \ 'file':    'dispatch',
-              \ 'suite':   'basic',
-            \}
-          ]])
+						let test#strategy = {
+							\ 'nearest': 'neovim',
+							\ 'file':    'dispatch',
+							\ 'suite':   'basic',
+						\}
+					]])
 				end,
 			},
 		},
 	},
-
-	-- Configured alongside other LSPs
-	"mfussenegger/nvim-jdtls",
-	"mrcjkb/haskell-tools.nvim",
 }

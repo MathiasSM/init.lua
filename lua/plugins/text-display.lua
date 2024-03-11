@@ -1,14 +1,79 @@
+--- Plugins that change the way text is displayed
+--
+-- * Hide secrets
+-- * Syntax highlighting (treesitter)
+-- * Indentation guides
+-- * Colorcolumn guide
+-- * Spelling
+-- * Extra highlighting (color codes, etc.)
+--
+-- @module text-display
+
+-- stylua: ignore
+local treesitter_grammars_to_install = {
+	-- Markup
+	"html", "css", "scss",
+	"rst", "markdown", "markdown_inline", "latex", "bibtex",
+	"mermaid", "gnuplot", "dot",
+	-- Scripting
+	"bash", "awk", "jq", "make", "cmake", "passwd", "regex", "printf",
+	-- Data
+	"sql", "jsonnet",
+	"csv", "tsv", "xml", "json", "json5", "jsonc", "yaml",
+	-- Programming
+	"c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
+	"java", "javascript", "kotlin", "lua", "matlab", "ocaml",
+	"perl", "python", "ruby", "rust", "scala",
+	"sql", "typescript", "vim",
+	-- Documentation
+	"doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
+	-- Configuration
+	"dhall", "toml", "json", "yaml", "nix", "ini",
+	"dockerfile", "requirements", "ssh_config", "readline", "tmux",
+	"git_config", "gitignore", "gitattributes", "requirements",
+	-- Specific tooling/work
+	"diff", "git_rebase", "gitcommit",
+	"regex", "printf",
+	"gdscript", "godot_resource",
+	"gpg",
+	"http",
+	"ledger",
+	"muttrc",
+	"hlsplaylist",
+	-- Other
+	"html",  -- Required for luckasRanarison/nvim-devdocs
+	"http", "json", -- Both required for rest.nvim
+	"query" -- Recommended for playground
+}
+
 return {
+	{
+		"laytan/cloak.nvim",
+		lazy = false, -- Plugin loads before text file is displayed
+		opts = {
+			highlight_group = "Comment",
+			cloak_length = 8,
+			patterns = {
+				{
+					file_pattern = {
+						".env*",
+					},
+					cloak_pattern = { "=.+", ":.+" },
+				},
+			},
+		},
+	},
+
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
-			vim.cmd[[
-				set foldmethod=expr
-				set foldexpr=nvim_treesitter#foldexpr()
-				set nofoldenable                     
-			]]
+
+			vim.o.foldmethod = "expr"
+			vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+			vim.o.foldenable = false
+
 			---@diagnostic disable-next-line missing-fields
 			configs.setup({
 				auto_install = true,
@@ -17,42 +82,7 @@ return {
 				indent = { enable = true },
 				highlight = { enable = true },
 				-- Grouped, some are purposely duplicated into multiple groups
-				-- stylua: ignore
-				ensure_installed = {
-					-- Markup
-					"html", "css", "scss",
-					"rst", "markdown", "markdown_inline", "latex", "bibtex",
-					"mermaid", "gnuplot", "dot",
-					-- Scripting
-					"bash", "awk", "jq", "make", "cmake", "passwd", "regex", "printf",
-					-- Data
-					"sql", "jsonnet",
-					"csv", "tsv", "xml", "json", "json5", "jsonc", "yaml",
-					-- Programming
-					"c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
-					"java", "javascript", "kotlin", "lua", "matlab", "ocaml",
-					"perl", "python", "ruby", "rust", "scala",
-					"sql", "typescript", "vim",
-					-- Documentation
-					"doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
-					-- Configuration
-					"dhall", "toml", "json", "yaml", "nix", "ini",
-					"dockerfile", "requirements", "ssh_config", "readline", "tmux",
-					"git_config", "gitignore", "gitattributes", "requirements",
-					-- Specific tooling/work
-					"diff", "git_rebase", "gitcommit",
-					"regex", "printf",
-					"gdscript", "godot_resource",
-					"gpg",
-					"http",
-					"ledger",
-					"muttrc",
-					"hlsplaylist",
-					-- Other
-					"html",  -- Required for luckasRanarison/nvim-devdocs
-					"http", "json", -- Both required for rest.nvim
-					"query" -- Recommended for playground
-				},
+				ensure_installed = treesitter_grammars_to_install,
 			})
 		end,
 	},
@@ -67,30 +97,16 @@ return {
 			})
 			vim.keymap.set(
 				"n",
-				"[c",
+				"[u", -- TODO: Not a fan of using the prev [ for this
 				function() tsc.go_to_context(vim.v.count1) end,
-				{ desc = "[Treesitter] Jump to previous context" }
+				{ desc = "[Treesitter] Jump Up to scope context start" }
 			)
 			vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
-			vim.cmd(
-				[[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]]
-			)
+			vim.cmd([[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]])
 		end,
 	},
 
-	{
-		'nvim-treesitter/playground',
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		cmd = "TSPlaygroundToggle",
-		config = function ()
-			---@diagnostic disable-next-line missing-fields
-			require("nvim-treesitter.configs").setup({
-				playground = { enable = true, }
-			})
-		end
-	},
-
-	{
+	{ -- TODO: Do I even like this?
 		"lukas-reineke/headlines.nvim",
 		dependencies = "nvim-treesitter/nvim-treesitter",
 		ft = { "markdown", "rmd", "norg", "org" },
@@ -121,7 +137,8 @@ return {
 				"netrw",
 			},
 			custom_colorcolumn = {
-				java = "100",
+				java = "120",
+				lua = "100",
 			},
 		},
 	},
@@ -142,7 +159,7 @@ return {
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
-			scope = { show_start = false, show_end = false }
+			scope = { show_start = false, show_end = false },
 		},
 	},
 
@@ -151,5 +168,16 @@ return {
 		build = ":DirtytalkUpdate",
 		event = "VeryLazy",
 		config = function() vim.cmd("set spelllang+=programming") end,
+	},
+
+	{
+		"norcalli/nvim-colorizer.lua",
+		cmd = { "ColorizerAttachToBuffer" },
+		ft = { "css" }, -- Autoload automatically
+		opts = {
+			"*", -- Highlight all files, but customize some others.
+			css = { css = true }, -- Enable parsing rgb(...) functions in css.
+			html = { names = false },
+		},
 	},
 }
