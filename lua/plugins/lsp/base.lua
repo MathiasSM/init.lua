@@ -26,10 +26,11 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		dependencies = {
-			{ "folke/neodev.nvim", opts = {} }, -- Neodev must run before lspconfig
+			"folke/neodev.nvim", -- Neodev must run before lspconfig
 			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function()
+			require("neodev").setup({}) -- Neodev must run before lspconfig
 			require("mason-lspconfig").setup({
 				handlers = get_handlers(),
 			})
