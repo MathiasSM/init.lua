@@ -1,7 +1,7 @@
 --- Defines mappings
 -- * Some override default nvim mappings
 -- * Some are personal mappings I like to use
--- * Some are LSP-specifc mappings to use the lsp client
+-- * Some are LSP-specific mappings to use the lsp client
 -- * Some are diagnostic-related mappings
 --
 -- @see vim.diagnostic
