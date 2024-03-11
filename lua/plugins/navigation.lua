@@ -56,6 +56,7 @@ return {
 					"qf",
 					"edgy",
 					"help",
+					"harpoon",
 				},
 				source_selector = {
 					winbar = true,
@@ -82,6 +83,7 @@ return {
 					},
 				},
 				filesystem = {
+					hijack_netrw_behavior = "open_current",
 					renderers = {
 						file = {
 							{ "icon" },
@@ -135,7 +137,6 @@ return {
 							},
 						},
 					},
-					hijack_netrw_behavior = "open_current",
 					components = {
 						harpoon_index = function(config, node, _)
 							local harpoon_list = require("harpoon"):list()
@@ -166,10 +167,7 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
+		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = { "Harpoon" },
 		keys = {
 			"<C-e>", -- Defined in config
@@ -218,67 +216,30 @@ return {
 			},
 		},
 		config = function()
-			-- Directly taken from docs
+			local function refresh_neotree()
+				local neotree_sources_manager = package.loaded["neo-tree.sources.manager"]
+				if neotree_sources_manager ~= nil then neotree_sources_manager.refresh() end
+			end
+
 			local harpoon = require("harpoon")
 			harpoon:setup({})
 			harpoon:extend({
-				SELECT = function(ctx) print(" ⥤  " .. ctx.item.value) end,
-				ADD = function(ctx) print(" [+] " .. ctx.item.value) end,
-				REMOVE = function(ctx) print(" [-]  " .. ctx.item.value) end,
+				SELECT = function(ctx) vim.notify(" ⥤  " .. ctx.item.value) end,
+				ADD = function(ctx)
+					vim.notify(" [+] " .. ctx.item.value)
+					refresh_neotree()
+				end,
+				REMOVE = function(ctx)
+					vim.notify(" [-] " .. ctx.item.value)
+					refresh_neotree()
+				end,
+				REORDER = function() refresh_neotree() end,
 			})
-			-- basic telescope configuration
-			local conf = require("telescope.config").values
-			local function toggle_telescope(harpoon_files)
-				local filename_width = vim.o.columns > 170 and 80 or 60
-				local displayer = require("telescope.pickers.entry_display").create({
-					separator = "",
-					items = {
-						{ width = 3 },
-						{ width = filename_width },
-						{ width = 10 },
-						{ remaining = true },
-					},
-				})
-				local results = {}
-				for idx, item in ipairs(harpoon_files.items) do
-					local entry = vim.deepcopy(item)
-					entry.index = idx
-					table.insert(results, entry)
-				end
-				require("telescope.pickers")
-					.new({}, {
-						prompt_title = "Harpoon",
-						finder = require("telescope.finders").new_table({
-							results = results,
-							entry_maker = function(entry)
-								return {
-									value = entry.value,
-									-- path = entry.value.value,
-									ordinal = entry.index,
-									display = function()
-										return displayer({
-											{ tostring(entry.index), "TelescopeResultsNumber" },
-											entry.value,
-											{
-												entry.context.row .. ":" .. entry.context.col,
-												"TelescopeResultsLineNr",
-											},
-										})
-									end,
-									lnum = entry.context.row,
-								}
-							end,
-						}),
-						previewer = conf.grep_previewer({}),
-						sorter = conf.generic_sorter({}),
-					})
-					:find()
-			end
 
 			vim.keymap.set(
 				"n",
 				"<C-e>",
-				function() toggle_telescope(harpoon:list()) end,
+				function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
 				{ desc = "[Harpoon] Open list" }
 			)
 		end,
