@@ -61,6 +61,7 @@ local mason_tools_lsp = {
 }
 
 --- Linters that are not LSPs. Used with nvim-lint
+-- stylua: ignore
 local mason_tools_linters = {
 	"codespell",            -- All. Spell checker
 	"cspell",               -- All. Spell checker
@@ -87,6 +88,7 @@ local mason_tools_linters = {
 }
 
 --- Formatters for specifc languages
+-- stylua: ignore
 local mason_tools_formatters = {
 	"beautysh",        -- Bash
 	"bibtext-tidy",    -- BibTeX
@@ -104,6 +106,7 @@ local mason_tools_formatters = {
 }
 
 --- DAP tools for specifc languages
+-- stylua: ignore
 local mason_tools_debugging = {
 	"bash-debug-adapter",    -- Bash
 	"go-debug-adapter",      -- Go
@@ -116,6 +119,7 @@ local mason_tools_debugging = {
 }
 
 --- Other external tools mason can install
+-- stylua: ignore
 local mason_tools_other = {
 	"gh",              -- Github CLI
 	"glow",            -- Pretty markdown in terminal
@@ -126,19 +130,18 @@ local mason_tools_other = {
 	"tree-sitter-cli", -- Treesitter
 }
 
-local mason_tools_to_install = {}
-
-local Utils = require("utils")
-Utils.absorb_table(mason_tools_to_install, mason_tools_lsp)
-Utils.absorb_table(mason_tools_to_install, mason_tools_linters)
-Utils.absorb_table(mason_tools_to_install, mason_tools_formatters)
-Utils.absorb_table(mason_tools_to_install, mason_tools_debugging)
-Utils.absorb_table(mason_tools_to_install, mason_tools_other)
+local mason_tools_to_install = require("utils").merge(
+	mason_tools_lsp,
+	mason_tools_linters,
+	mason_tools_formatters,
+	mason_tools_debugging,
+	mason_tools_other
+)
 
 return {
 	{
 		"williamboman/mason.nvim",
-		cmd = "Mason",
+		lazy = false, -- So path is up to date
 		build = ":MasonUpdate",
 		opts = {
 			ui = {
