@@ -33,22 +33,41 @@ function M.get_browser_cmd()
 	return "xdg-open"
 end
 
---- Merges second table into first table recursively
-function M.absorb_table(t1, t2)
-	for k, v in pairs(t2) do
-		if (type(v) == "table") and (type(t1[k]) == "table") then
-			M.absorb_table(t1[k], t2[k])
+--- Merges second table into first table recursively (overwrites numbered keys!)
+function M.absorb_object(t1, t2)
+	for k, t2k in pairs(t2) do
+		local v1 = t1[k]
+		if (type(v1) == "table") and (type(v2) == "table") then
+			M.absorb_object(t1[k], t2[k])
 		else
 			t1[k] = v
 		end
 	end
 end
 
-function M.merge(...)
+function M.merge_tables(...)
 	local result = {}
 
 	for _, tbl in ipairs({ ... }) do
-		M.absorb_table(result, tbl)
+		M.absorb_object(result, tbl)
+	end
+
+	return result
+end
+
+function M.concat_tables(...)
+	local result = {}
+
+	for _, tbl in ipairs({ ... }) do
+		for k, v in pairs(tbl) do
+			if type(k) ~= "number" then
+				notify_once(
+					"Found table member with non-number key, ingoring.",
+					vim.log.levels.WARN
+				)
+			end
+			table.insert(result, v)
+		end
 	end
 
 	return result

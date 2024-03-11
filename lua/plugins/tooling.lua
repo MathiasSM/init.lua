@@ -130,7 +130,7 @@ local mason_tools_other = {
 	"tree-sitter-cli", -- Treesitter
 }
 
-local mason_tools_to_install = require("utils").merge(
+local mason_tools_to_install = require("utils").concat_tables(
 	mason_tools_lsp,
 	mason_tools_linters,
 	mason_tools_formatters,
