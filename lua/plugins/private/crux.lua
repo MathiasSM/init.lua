@@ -37,7 +37,6 @@ return {
 		name = "crux",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
 		dependencies = "scat",
-		lazy = true,
 		config = function()
 			local brazil = require("scat.brazil")
 			local cr = require("scat.cr")

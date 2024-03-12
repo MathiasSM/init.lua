@@ -131,7 +131,6 @@ return {
 			"nvim-telescope/telescope.nvim",
 			"sindrets/diffview.nvim",
 		},
-		lazy = true,
 		opts = {},
 	},
 
@@ -140,7 +139,6 @@ return {
 		name = "brazil",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
 		dependencies = "scat",
-		lazy = true,
 		config = function()
 			local brazil = require("scat.brazil")
 			local brazil_utils = require("scat.brazil.utils")

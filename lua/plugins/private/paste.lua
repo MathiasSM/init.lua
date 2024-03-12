@@ -3,7 +3,6 @@ return {
 		name = "paste",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
 		dependencies = "scat",
-		lazy = true,
 		config = function()
 			local paste = require("scat.paste")
 
