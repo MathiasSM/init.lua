@@ -44,7 +44,7 @@ return {
 			tabline = {},
 			winbar = {},
 			inactive_winbar = {},
-			extensions = { "neo-tree", "fzf", "fugitive", "lazy" },
+			extensions = { "neo-tree", "trouble" },
 		},
 	},
 
