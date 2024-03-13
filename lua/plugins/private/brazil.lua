@@ -152,7 +152,7 @@ return {
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>av",
+				"<leader>auv",
 				brazil.display_current_version_set_url,
 				{ desc = "[Brazil] Display URL for Current Version Set" }
 			)
@@ -160,7 +160,7 @@ return {
 			-- Prepare
 			vim.keymap.set(
 				"n",
-				"<leader>aij",
+				"<leader>ai",
 				brazil.install_current_jdt_package,
 				{ desc = "[Brazil] Install Current JDT Package" }
 			)
@@ -195,13 +195,13 @@ return {
 				"n",
 				"<leader>ac",
 				brazil.run_command_inside_current_package,
-				{ desc = "[Brazil] Run any command" }
+				{ desc = "[Brazil] <any cmd>" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>as",
+				"<leader>aC",
 				brazil_utils.run_checkstyle,
-				{ desc = "[Brazil] Run Checkstyle" } -- TODO: Confirm is this or lint is better
+				{ desc = "[Brazil] Checkstyle" } -- TODO: Confirm is this or lint is better
 			)
 			vim.keymap.set(
 				"n",

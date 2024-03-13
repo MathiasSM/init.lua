@@ -8,6 +8,15 @@ return {
 				["<leader>"] = {
 					["a"] = {
 						name = "[Amazon] ...",
+						["b"] = {
+							name = "[Brazil] ...",
+						},
+						["r"] = {
+							name = "[CRUX] ...",
+						},
+						["u"] = {
+							name = "[URLs] ...",
+						},
 					},
 				},
 			})

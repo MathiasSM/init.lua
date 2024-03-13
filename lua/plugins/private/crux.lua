@@ -52,29 +52,29 @@ return {
 			})
 			vim.keymap.set(
 				"n",
-				"<leader>ap",
+				"<leader>aup",
 				brazil.display_current_package_url,
 				{ desc = "[Code] Display URL for Current Package" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>aP",
+				"<leader>auP",
 				brazil.display_package_under_cursor_url,
 				{ desc = "[Code] Display URL for Package under Cursor" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>aR",
+				"<leader>auR",
 				brazil.display_release_under_cursor_url,
 				{ desc = "[Code] Display URL for Release under Cursor" }
 			)
 			vim.keymap.set(
 				{ "n", "x" },
-				"<leader>af",
+				"<leader>auf",
 				brazil.display_current_file_url,
 				{ desc = "[Code] Display URL for Current File" }
 			)
-			vim.keymap.set("n", "<leader>ar", cr.open_cr, { desc = "[CRUX] Open CR" })
+			vim.keymap.set("n", "<leader>aro", cr.open_cr, { desc = "[CRUX] Open CR" })
 			vim.keymap.set(
 				"n",
 				"<leader>arp",

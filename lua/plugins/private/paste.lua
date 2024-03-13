@@ -8,7 +8,7 @@ return {
 
 			vim.keymap.set(
 				{ "n", "x" },
-				"<leader>as",
+				"<leader>ap",
 				paste.send_to_pastebin,
 				{ desc = "[Paste] Send to paste.amazon.com" }
 			)
