@@ -34,9 +34,9 @@ Depends on: [CR_ID](CR_URL), [CR_ID](CR_URL)
 
 return {
 	{
-		name = "crux",
+		name = "amazon:crux",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
-		dependencies = "scat",
+		dependencies = "amazon:scat",
 		config = function()
 			local brazil = require("scat.brazil")
 			local cr = require("scat.cr")

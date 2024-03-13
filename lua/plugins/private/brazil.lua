@@ -97,7 +97,7 @@ return {
 	},
 
 	{
-		name = "brazil-java",
+		name = "amazon:java",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
 		ft = "java",
 		dependencies = "mfussenegger/nvim-lint",
@@ -124,7 +124,7 @@ return {
 	},
 
 	{
-		name = "scat",
+		name = "amazon:scat",
 		url = "enlovson@git.amazon.com:pkg/Scat-nvim",
 		branch = "mainline",
 		dependencies = {
@@ -136,9 +136,9 @@ return {
 
 	{
 		-- TODO: Load lazily adding lazy keys
-		name = "brazil",
+		name = "amazon:brazil",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
-		dependencies = "scat",
+		dependencies = "amazon:scat",
 		config = function()
 			local brazil = require("scat.brazil")
 			local brazil_utils = require("scat.brazil.utils")

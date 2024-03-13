@@ -1,8 +1,8 @@
 return {
 	{
-		name = "paste",
+		name = "amazon:paste",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
-		dependencies = "scat",
+		dependencies = "amazon:scat",
 		config = function()
 			local paste = require("scat.paste")
 

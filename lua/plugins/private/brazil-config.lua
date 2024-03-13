@@ -10,6 +10,7 @@ return {
 		url = "enlovson@git.amazon.com:pkg/NinjaHooks",
 		branch = "mainline",
         ft = "brazil-config",
+		name = "amazon:NinjaHooks",
 		config = function(plugin)
 			-- Setup brazil-config
 			vim.opt.rtp:prepend(plugin.dir .. "/configuration/vim/amazon/brazil-config")

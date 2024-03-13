@@ -1,6 +1,6 @@
 return {
 	{
-		name = "whichkey--brazil",
+		name = "amazon:whichkey",
 		dir = "~/.config/nvim/lua/plugins/private/noop.lua",
 		dependencies = "folke/which-key.nvim",
 		config = function()
