@@ -168,15 +168,15 @@ return {
 			-- Build
 			vim.keymap.set(
 				"n",
-				"<leader>ab",
+				"<leader>abb",
 				brazil.build_current_package,
-				{ desc = "[Brazil] Build Current Package" }
+				{ desc = "[Brazil] bb (current package)" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>aB",
+				"<leader>abr",
 				brazil.build_current_package_recursively,
-				{ desc = "[Brazil] Build Current Package Recursively" }
+				{ desc = "[Brazil] bb (current package recursively)" }
 			)
 
 			-- Other Tasks
@@ -184,22 +184,22 @@ return {
 				brazil.pick_brazil_task_inside_current_package({
 					callback = function(task) vim.g.test_replacement_command = task end,
 				})
-			end, { desc = "[Brazil] Pick Task inside Current Package" })
+			end, { desc = "[Brazil] bb <task> (pick task)" })
 			vim.keymap.set(
 				"n",
 				"<leader>abl",
 				brazil.run_prev_brazil_task,
-				{ desc = "[Brazil] Run last task" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>abc",
-				brazil.run_command_inside_current_package,
-				{ desc = "[Brazil] Run Command inside Current Package" }
+				{ desc = "[Brazil] bb <task> (last task)" }
 			)
 			vim.keymap.set(
 				"n",
 				"<leader>ac",
+				brazil.run_command_inside_current_package,
+				{ desc = "[Brazil] Run any command" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>as",
 				brazil_utils.run_checkstyle,
 				{ desc = "[Brazil] Run Checkstyle" } -- TODO: Confirm is this or lint is better
 			)
