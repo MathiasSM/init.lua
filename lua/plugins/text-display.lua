@@ -26,7 +26,7 @@ local treesitter_grammars_to_install = {
 	"perl", "python", "ruby", "rust", "scala",
 	"sql", "typescript", "vim",
 	-- Documentation
-	"doxygen", "jsdoc", "luadoc", "vimdoc", "comment",
+	"doxygen", "jsdoc", "luadoc", "vimdoc",
 	-- Configuration
 	"dhall", "toml", "json", "yaml", "nix", "ini",
 	"dockerfile", "requirements", "ssh_config", "readline", "tmux",
@@ -104,6 +104,28 @@ return {
 			vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
 			vim.cmd([[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]])
 		end,
+	},
+
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {
+			signs = true, -- show icons in the signs column
+			sign_priority = 8, -- sign priority
+			keywords = {
+				FIX = {
+					icon = " ",
+					color = "error",
+					alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+				},
+				TODO = { icon = " ", color = "info" },
+				HACK = { icon = "󰶯 ", color = "warning" },
+				WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+				PERF = { icon = "󰑮 ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+				NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+				TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+			},
+		},
 	},
 
 	{ -- TODO: Do I even like this?
