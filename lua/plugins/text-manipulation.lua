@@ -45,4 +45,21 @@ return {
 			})
 		end,
 	},
+
+	{
+		"Wansmer/treesj",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		keys = {
+			{
+				"<leader>jj",
+				"<cmd>TSJToggle<cr>",
+				desc = "[TreeSJ] Toggle join/split code",
+			},
+		},
+		config = function()
+			require("treesj").setup({
+				use_default_keymaps = false,
+			})
+		end,
+	},
 }
