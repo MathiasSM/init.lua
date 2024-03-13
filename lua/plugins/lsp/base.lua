@@ -8,6 +8,7 @@ local function get_handlers()
 			})
 		end,
 		-- [*] Specific handlers
+		["jdtls"] = function() end, -- Set in private
 		["jsonls"] = function(server_name)
 			require("lspconfig")[server_name].setup({
 				capabilities = completion_capabilities,
