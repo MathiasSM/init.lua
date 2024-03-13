@@ -23,11 +23,6 @@ return {
 				desc = "[Telescope] Find files (fzf)",
 			},
 			{
-				"<leader>fg",
-				require("telescope.builtin").live_grep,
-				desc = "[Telescope] Live grep",
-			},
-			{
 				"<leader>fb",
 				require("telescope.builtin").buffers,
 				desc = "[Telescope] Buffers",
@@ -57,9 +52,9 @@ return {
 		cmd = "Ag",
 		keys = {
 			{
-				"<leader>fgg",
+				"<leader>fg",
 				require("telescope.builtin").live_grep,
-				desc = "[Telescope] Live Ag",
+				desc = "[Telescope] Live grep/ag",
 			},
 		},
 		config = function() require("telescope").load_extension("ag") end,
