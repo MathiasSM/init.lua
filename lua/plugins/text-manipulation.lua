@@ -26,4 +26,23 @@ return {
 		"junegunn/vim-easy-align",
 		cmd = { "EasyAlign" },
 	},
+
+	{
+		"nat-418/boole.nvim", -- TODO: Check nguyenvukhang/nvim-toggler
+		config = function()
+			require("boole").setup({
+				mappings = {
+					increment = "<C-a>",
+					decrement = "<C-x>",
+				},
+				additions = {
+					{ "Foo", "Bar" },
+					{ "tic", "tac", "toe" },
+				},
+				allow_caps_additions = {
+					{ "enable", "disable" }, -- Enable → Disable, ENABLE → DISABLE, ...
+				},
+			})
+		end,
+	},
 }
