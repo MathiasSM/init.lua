@@ -1,10 +1,5 @@
 --- Integration with external tools
 --
--- * Tmux: Seemless navigation between splits/windows
--- * Git: interact with git repos
--- * jq: Interactive jq for JSON qmanipulation
--- * HTTP requests
---
 -- @module tooling
 
 
@@ -12,7 +7,7 @@
 -- Ideally one per language, but sometimes it's useful to have multiple
 -- stylua: ignore
 local mason_tools_lsp = {
-	-- Specifc languages
+	-- Specific languages
 	"awk-language-server",             -- AWK
 	"bash-language-server",            -- Bash
 	"clangd",                          -- C++
@@ -37,14 +32,14 @@ local mason_tools_lsp = {
 	"purescript-language-server",      -- Purescript
 	"rust-analyzer",                   -- Rust
 	"taplo",                           -- TOML
-	"typescript-language-server",      -- Typescript (Required for typescript-tools)
+	-- "typescript-language-server",   -- PERF Using typescript-tools instead
 	"vim-language-server",             -- Vimscript
 	"custom-elements-languageserver",  -- WebComponents
 	"lemminx",                         -- XML
 	"yaml-language-server",            -- YAML
 	"jsonnet-language-server",         -- jsonnet
 
-	-- Specifc tools
+	-- Specific tools
 	"sonarlint-language-server", -- Java, JS, TS, CSS, HTML, Python, C#, PHP, Go, Ruby, VB, Kotlin
 	"harper-ls",                 -- Prose. Grammar checker Linter-as-LSP
 	"vale-ls",                   -- Prose. Style Linter-as-LSP
@@ -87,7 +82,7 @@ local mason_tools_linters = {
 	"vint",                 -- Vimscript
 }
 
---- Formatters for specifc languages
+--- Formatters for specific languages
 -- stylua: ignore
 local mason_tools_formatters = {
 	"beautysh",        -- Bash
@@ -105,7 +100,7 @@ local mason_tools_formatters = {
 	"shfmt",           -- Shell, bash, zsh
 }
 
---- DAP tools for specifc languages
+--- DAP tools for specific languages
 -- stylua: ignore
 local mason_tools_debugging = {
 	"bash-debug-adapter",    -- Bash
