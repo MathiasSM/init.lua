@@ -165,7 +165,62 @@ return {
 	},
 
 	{
-		"ThePrimeagen/harpoon",
+		"stevearc/oil.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		cmd = "Oil",
+		keys = {
+			{ "<leader>m", "<cmd>Oil --float .<cr>", desc = "[Oil] Open folder float" },
+			{ "<leader>M", "<cmd>Oil .<cr>", desc = "[Oil] Open folder" },
+		},
+		-- init = function()
+		-- 	vim.api.nvim_create_autocmd("BufEnter", {
+		-- 		group = vim.api.nvim_create_augroup("OilInit", { clear = true }),
+		-- 		callback = function()
+		-- 			local f = vim.fn.expand("%:p")
+		-- 			if vim.fn.isdirectory(f) ~= 0 then
+		-- 				vim.cmd("Oil " .. f) -- FIX: Not working
+		-- 				vim.api.nvim_clear_autocmds({ group = "OilInit" })
+		-- 			end
+		-- 		end,
+		-- 	})
+		-- end,
+		opts = {
+			-- default_file_explorer = true,
+			columns = {
+				"icon",
+			},
+			float = {
+				max_width = 60,
+				max_height = 40,
+			},
+			keymaps = {
+				["g?"] = "actions.show_help",
+				["<CR>"] = "actions.select",
+				["o"] = "actions.select",
+				["s"] = "actions.select_vsplit",
+				["S"] = "actions.select_split",
+				["<C-t>"] = "actions.select_tab", -- TODO
+				["p"] = "actions.preview",
+				["<esc>"] = "actions.close",
+				["q"] = "actions.close",
+				["r"] = "actions.refresh",
+				["R"] = "actions.refresh",
+				["-"] = "actions.parent",
+				["<del>"] = "actions.parent",
+				["_"] = "actions.open_cwd",
+				["`"] = "actions.cd",
+				["~"] = "actions.tcd",
+				["gs"] = "actions.change_sort",
+				["gx"] = "actions.open_external",
+				["g."] = "actions.toggle_hidden",
+				["H"] = "actions.toggle_hidden",
+				["g\\"] = "actions.toggle_trash",
+			},
+		},
+	},
+
+	{
+		"ThePrimeagen/harpoon", -- TODO: Consider cbochs/grapple.nvim or desdic/marlin.nvim
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = { "Harpoon" },
