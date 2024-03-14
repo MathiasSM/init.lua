@@ -1,4 +1,4 @@
---- 
+---
 return {
 	{
 		"nvim-lualine/lualine.nvim",
@@ -66,7 +66,7 @@ return {
 				}
 			end,
 			current_line_blame_opts = {
-				virt_text_priority = require('ui_priorities').virtual_text.git_blame,
+				virt_text_priority = require("ui_priorities").virtual_text.git_blame,
 				ignore_whitespace = true,
 			},
 
@@ -184,7 +184,7 @@ return {
 	{
 		"nvim-treesitter/playground",
 		dependencies = "nvim-treesitter/nvim-treesitter",
-		cmd = "TSPlaygroundToggle",
+		cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
 		config = function()
 			---@diagnostic disable-next-line missing-fields
 			require("nvim-treesitter.configs").setup({
