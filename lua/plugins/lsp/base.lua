@@ -19,20 +19,8 @@ local function get_handlers()
 				},
 			})
 		end,
-		["tsserver"] = function(server_name)
-			local capabilities = vim.deepcopy(completion_capabilities)
-			-- Disable tsserver as formatter
-			completion_capabilities.documentFormattingProvider = false
-			completion_capabilities.documentRangeFormattingProvider = false
-			require("lspconfig")[server_name].setup({
-				capabilities = capabilities,
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
-				},
-			})
+		["tsserver"] = function()
+			-- Handled by typescript-tools
 		end,
 		["bashls"] = function(server_name)
 			require("lspconfig")[server_name].setup({

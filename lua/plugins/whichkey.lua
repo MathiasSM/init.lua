@@ -38,6 +38,12 @@ return {
 					["h"] = {
 						name = "[Haskell] ...",
 					},
+					["t"] = {
+						name = "[Typescript] ...",
+						["i"] = {
+							name = "[Imports] ...",
+						},
+					},
 				},
 				["g"] = {
 					name = "Go to...",
