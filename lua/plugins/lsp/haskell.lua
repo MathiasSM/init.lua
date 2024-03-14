@@ -46,7 +46,7 @@ return {
 					)
 					vim.keymap.set(
 						"n",
-						"<leader>hrq",
+						"<leader>hR",
 						ht.repl.quit,
 						keyOpts("[LSP] Haskell: Quit REPL")
 					)
