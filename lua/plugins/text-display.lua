@@ -1,7 +1,6 @@
 --- Plugins that change the way text is displayed
 --
 -- * Hide secrets
--- * Syntax highlighting (treesitter)
 -- * Indentation guides
 -- * Colorcolumn guide
 -- * Spelling
@@ -10,41 +9,7 @@
 -- @module text-display
 
 -- stylua: ignore
-local treesitter_grammars_to_install = {
-	-- Markup
-	"html", "css", "scss",
-	"rst", "markdown", "markdown_inline", "latex", "bibtex",
-	"mermaid", "gnuplot", "dot",
-	-- Scripting
-	"bash", "awk", "jq", "make", "cmake", "passwd", "regex", "printf",
-	-- Data
-	"sql", "jsonnet",
-	"csv", "tsv", "xml", "json", "json5", "jsonc", "yaml",
-	-- Programming
-	"c", "cmake", "comment", "cpp", "cuda", "go", "graphql", "haskell",
-	"java", "javascript", "kotlin", "lua", "matlab", "ocaml",
-	"perl", "python", "ruby", "rust", "scala",
-	"sql", "typescript", "vim",
-	-- Documentation
-	"doxygen", "jsdoc", "luadoc", "vimdoc",
-	-- Configuration
-	"dhall", "toml", "json", "yaml", "nix", "ini",
-	"dockerfile", "requirements", "ssh_config", "readline", "tmux",
-	"git_config", "gitignore", "gitattributes", "requirements",
-	-- Specific tooling/work
-	"diff", "git_rebase", "gitcommit",
-	"regex", "printf",
-	"gdscript", "godot_resource",
-	"gpg",
-	"http",
-	"ledger",
-	"muttrc",
-	"hlsplaylist",
-	-- Other
-	"html",  -- Required for luckasRanarison/nvim-devdocs
-	"http", "json", -- Both required for rest.nvim
-	"query" -- Recommended for playground
-}
+
 
 return {
 	{
@@ -62,29 +27,6 @@ return {
 				},
 			},
 		},
-	},
-
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function()
-			local configs = require("nvim-treesitter.configs")
-
-			vim.o.foldmethod = "expr"
-			vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-			vim.o.foldenable = false
-
-			---@diagnostic disable-next-line missing-fields
-			configs.setup({
-				auto_install = true,
-				sync_install = false,
-				incremental_selection = { enable = true },
-				indent = { enable = true },
-				highlight = { enable = true },
-				-- Grouped, some are purposely duplicated into multiple groups
-				ensure_installed = treesitter_grammars_to_install,
-			})
-		end,
 	},
 
 	{
@@ -157,6 +99,7 @@ return {
 				"Trouble",
 				"mason",
 				"netrw",
+				"qf",
 			},
 			custom_colorcolumn = {
 				java = "120",
