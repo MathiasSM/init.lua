@@ -29,6 +29,7 @@ return {
 
 	{
 		"nat-418/boole.nvim", -- TODO: Check nguyenvukhang/nvim-toggler
+		keys = {"<C-a>", "<C-x>"},
 		config = function()
 			require("boole").setup({
 				mappings = {
