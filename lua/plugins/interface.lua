@@ -157,6 +157,18 @@ return {
 	},
 
 	{
+		"andythigpen/nvim-coverage",
+		dependencies = "nvim-lua/plenary.nvim",
+		cmd = { "Coverage", "CoverageSummary", "CoverageToggle" },
+		opts = {
+			auto_reload = true,
+			summary = {
+				min_coverage = 80.0,
+			},
+		},
+	},
+
+	{
 		"folke/trouble.nvim",
 		cmd = { "TroubleToggle" },
 		keys = {
@@ -202,11 +214,11 @@ return {
 					relativenumber = false,
 					cursorline = false,
 					cursorcolumn = false,
-					foldcolumn = "0"
+					foldcolumn = "0",
 				},
 			},
 			on_open = function(win) end,
-			on_close = function() end
+			on_close = function() end,
 		},
 	},
 
