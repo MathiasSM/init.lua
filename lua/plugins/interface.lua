@@ -3,49 +3,78 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {
-			options = {
-				theme = "auto",
-				icons_enabled = true,
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
-			},
-			sections = {
-				lualine_a = {
-					{ "mode", fmt = function(str) return str:sub(1, 1) end },
+		config = function()
+			local function is_not_unicode() return "utf-8" ~= vim.opt.fileencoding:get() end
+			local short_mode = { "mode", fmt = function(str) return str:sub(1, 1) end }
+			local filename = {
+				"filename",
+				newfile_status = true,
+				path = 1,
+				separator = "",
+			}
+			local encoding = { "encoding", cond = is_not_unicode }
+			local treesitter_node = {
+				function()
+					local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
+					if node == nil then return nil end
+					return "[" .. node:type() .. "]"
+				end,
+				color = "lualine_c_inactive",
+			}
+			require("lualine").setup({
+				options = {
+					theme = "auto",
+					icons_enabled = true,
 				},
-				lualine_b = { "branch", "diff" },
-				lualine_c = { "filename", "diagnostics" },
-				lualine_x = {
-					function()
-						local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
-						if node == nil then return nil end
-						return "[" .. node:type() .. "]"
-					end,
-					"filetype",
-					"encoding",
-					"fileformat",
+				sections = {
+					lualine_a = {
+						short_mode,
+					},
+					lualine_b = { "branch", "diff" },
+					lualine_c = {
+						filename,
+						treesitter_node,
+					},
+					lualine_x = {
+						"diagnostics",
+						"filetype",
+						encoding,
+						"fileformat",
+					},
+					lualine_y = { "selectioncount", "searchcount", "progress" },
+					lualine_z = { "location" },
 				},
-				lualine_y = { "selectioncount", "searchcount", "progress" },
-				lualine_z = { "location" },
-			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = { "branch", "diff" },
-				lualine_c = { "filename", "diagnostics" },
-				lualine_x = {
-					{ "filetype", icons_enabled = false },
-					"encoding",
-					"fileformat",
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = { "branch", "diff" },
+					lualine_c = { filename, "diagnostics" },
+					lualine_x = {
+						{ "filetype", icons_enabled = false },
+						"encoding",
+						"fileformat",
+					},
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
 				},
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
-			},
-			tabline = {},
-			winbar = {},
-			inactive_winbar = {},
-			extensions = { "neo-tree", "trouble" },
-		},
+				tabline = {
+					-- NOTE: If I ever need a tabbar:
+					-- lualine_b = {{ "tabs", mode = 2, path = 1, separator = {left='',right=''}}},
+				},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {
+					"fugitive",
+					"lazy",
+					"man",
+					"mason",
+					"neo-tree",
+					"nvim-dap-ui",
+					"oil",
+					"quickfix",
+					"trouble",
+				},
+			})
+		end,
 	},
 
 	{
