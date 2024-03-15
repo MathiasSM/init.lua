@@ -17,5 +17,6 @@ return {
 			{ "<leader>rl", function() require("rulebook").lookupRule() end },
 			{ "<leader>ry", function() require("rulebook").yankDiagnosticCode() end },
 		},
+		config = true
 	},
 }
