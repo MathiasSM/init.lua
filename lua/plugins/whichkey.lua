@@ -10,53 +10,30 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
-			require("which-key").setup({ window = { border = "single", winblend=25 } })
+			require("which-key").setup({ window = { border = "single", winblend = 25 } })
 			require("which-key").register({
 				["<leader>"] = {
 					name = "[Personal] ...",
-					["d"] = {
-						name = "[Docs] ...",
-					},
-					["f"] = {
-						name = "[Find] ...",
-					},
-					["h"] = {
-						name = "[Git] (hunk) ...",
-					},
-					["g"] = {
-						name = "[Git] ...",
-					},
-					["x"] = {
-						name = "[Trouble] ...",
-					},
-					["y"] = {
-						name = "[Yeet] ...",
-					},
+					["d"] = { name = "[Docs] ..." },
+					["f"] = { name = "[Find] ..." },
+					["g"] = { name = "[Git] ..." },
+					["h"] = { name = "[Git] (hunk) ..." },
+					["r"] = { name = "[Rulebook] ..." },
+					["x"] = { name = "[Trouble] ..." },
+					["y"] = { name = "[Yeet] ..." },
 				},
 				["<space>"] = {
 					name = "[LSP] ...",
-					["w"] = {
-						name = "[Workspace] ...",
-					},
-					["h"] = {
-						name = "[Haskell] ...",
-					},
+					["w"] = { name = "[Workspace] ..." },
+					["h"] = { name = "[Haskell] ..." },
 					["t"] = {
 						name = "[Typescript] ...",
-						["i"] = {
-							name = "[Imports] ...",
-						},
+						["i"] = { name = "[Imports] ..." },
 					},
 				},
-				["g"] = {
-					name = "Go to...",
-				},
-				["["] = {
-					name = "Previous...",
-				},
-				["]"] = {
-					name = "Next...",
-				},
+				["g"] = { name = "Go to..." },
+				["["] = { name = "Previous..." },
+				["]"] = { name = "Next..." },
 			})
 		end,
 	},
