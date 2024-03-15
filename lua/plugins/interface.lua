@@ -195,10 +195,18 @@ return {
 			{ "<leader>z", function() require("zen-mode").toggle() end, desc = "[ZenMode] Toggle" },
 		},
 		opts = {
-			options = {
-				signcolumn = "no",
-				number = false,
+			window = {
+				options = {
+					signcolumn = "no",
+					number = false,
+					relativenumber = false,
+					cursorline = false,
+					cursorcolumn = false,
+					foldcolumn = "0"
+				},
 			},
+			on_open = function(win) end,
+			on_close = function() end
 		},
 	},
 
@@ -210,7 +218,7 @@ return {
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 
-	{ 'yorickpeterse/nvim-pqf', ft = "qf", opts={} },
+	{ "yorickpeterse/nvim-pqf", ft = "qf", opts = {} },
 
 	{
 		"nvim-treesitter/playground",
