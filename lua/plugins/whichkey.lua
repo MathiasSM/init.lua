@@ -10,7 +10,7 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
-			require("which-key").setup({ window = { border = "single" } })
+			require("which-key").setup({ window = { border = "single", winblend=25 } })
 			require("which-key").register({
 				["<leader>"] = {
 					name = "[Personal] ...",

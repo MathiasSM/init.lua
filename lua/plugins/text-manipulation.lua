@@ -51,7 +51,7 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		keys = {
 			{
-				"<leader>jj",
+				"<leader>j",
 				"<cmd>TSJToggle<cr>",
 				desc = "[TreeSJ] Toggle join/split code",
 			},
