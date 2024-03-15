@@ -210,6 +210,8 @@ return {
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 
+	{ 'yorickpeterse/nvim-pqf', ft = "qf", opts={} },
+
 	{
 		"nvim-treesitter/playground",
 		dependencies = "nvim-treesitter/nvim-treesitter",
