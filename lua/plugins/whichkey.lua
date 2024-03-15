@@ -29,6 +29,9 @@ return {
 					["x"] = {
 						name = "[Trouble] ...",
 					},
+					["y"] = {
+						name = "[Yeet] ...",
+					},
 				},
 				["<space>"] = {
 					name = "[LSP] ...",

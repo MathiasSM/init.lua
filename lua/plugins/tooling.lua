@@ -217,4 +217,46 @@ return {
 		"gennaro-tedesco/nvim-jqx",
 		ft = { "json", "yaml" },
 	},
+
+	{
+		"samharju/yeet.nvim",
+		dependencies = {
+			"stevearc/dressing.nvim",
+			"ThePrimeagen/harpoon",
+		},
+		cmd = "Yeet",
+		keys = {
+			{
+				"<leader>yt",
+				function() require("yeet").select_target() end,
+			},
+			{
+				"<leader>yc",
+				function() require("yeet").set_cmd() end,
+			},
+			{
+				"<leader>\\",
+				function() require("yeet").execute() end,
+			},
+		},
+		init = function()
+			local harpoon = require("harpoon")
+			harpoon:setup({
+				yeet = {
+					select = function(list_item, _, _) require("yeet").execute(list_item.value) end,
+				},
+			})
+
+			vim.keymap.set(
+				"n",
+				"<leader>9",
+				function()
+					harpoon.ui:toggle_quick_menu(
+						harpoon:list("yeet"),
+						{ title = "Yeet  " .. harpoon.config.settings.key() }
+					)
+				end
+			)
+		end,
+	},
 }

@@ -8,5 +8,5 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "[Personal] Move selection
 vim.keymap.set("n", "<leader>P", '"_dP', { desc = "[Personal] Paste preserving register" })
 
 -- Meta
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "[Personal] Copy to system clipboard" })
-vim.keymap.set("n", "<leader>Y", '"+Y', { desc = "[Personal] Copy line to system clipboard" })
+-- vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "[Personal] Copy to system clipboard" })
+-- vim.keymap.set("n", "<leader>Y", '"+Y', { desc = "[Personal] Copy line to system clipboard" })
