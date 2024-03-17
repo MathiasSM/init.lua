@@ -15,7 +15,11 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		},
+		cmd = "Telescope",
 		keys = {
 			{
 				"<leader>ff",
@@ -33,16 +37,11 @@ return {
 				desc = "[Telescope] Help tags",
 			},
 		},
-		config = true,
-		cmd = "Telescope",
-	},
-
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make",
-		lazy = true,
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		config = function() require("telescope").load_extension("fzf") end,
+		opts = {},
+		config = function()
+			require("telescope").setup({})
+			require("telescope").load_extension("fzf")
+		end,
 	},
 
 	{
@@ -54,7 +53,7 @@ return {
 			{
 				"<leader>fg",
 				require("telescope.builtin").live_grep,
-				desc = "[Telescope] Live grep/ag",
+				desc = "[Telescope] Live grep (Ag)",
 			},
 		},
 		config = function() require("telescope").load_extension("ag") end,
@@ -65,14 +64,12 @@ return {
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		keys = {
 			{
-				"<leader>u",
+				"<leader>fu",
 				function() require("telescope").extensions.undo.undo({ side_by_side = true }) end,
 				desc = "[Telescope] Undo History",
 			},
 		},
 		config = function()
-			-- Calling telescope's setup from multiple specs does not hurt,
-			-- it will happily merge the configs for us.
 			require("telescope").setup({
 				extensions = {
 					undo = {
@@ -81,23 +78,9 @@ return {
 						entry_format = "#$ID\t$STAT\t$TIME",
 						diff_context_lines = 5,
 					},
-					-- no other extensions here, they can have their own spec too
 				},
 			})
 			require("telescope").load_extension("undo")
 		end,
-	},
-
-	{
-		'2kabhishek/nerdy.nvim',
-		dependencies = {
-			'stevearc/dressing.nvim',
-			'nvim-telescope/telescope.nvim',
-		},
-		cmd = 'Nerdy',
-		build = "python3 scripts/generator.py",
-		config = function()
-			require('telescope').load_extension('nerdy')
-		end
 	},
 }
