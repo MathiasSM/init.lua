@@ -1,4 +1,4 @@
---- Plugins for running tests 
+--- Plugins for running tests
 --
 -- Some interact with the DAP
 --
@@ -17,66 +17,104 @@ return {
 			"rcasia/neotest-java",
 			"rcasia/neotest-bash",
 			"nvim-neotest/neotest-plenary",
-			"nvim-neotest/neotest-vim-test",
+			{ "nvim-neotest/neotest-vim-test", dependencies = "vim-test/vim-test" },
 		},
-		cmd = {
-			"TestNearest",
-			"TestFile",
-			"TestNearestDebug",
-			"TestFileDebug",
-			-- "TestStop",
-			-- "TestNearestAttach"
+		keys = {
+			{
+				"<leader>tt",
+				function() require("neotest").run.run() end,
+				desc = "[Test] Run Nearest",
+			},
+			{
+				"<leader>td",
+				---@diagnostic disable-next-line: missing-fields
+				function() require("neotest").run.run({ strategy = "dap" }) end,
+				desc = "[Test] Debug Nearest",
+			},
+			{
+				"<leader>tT",
+				function() require("neotest").run.run(vim.fn.expand("%")) end,
+				desc = "[Test] Run File",
+			},
+			{
+				"<leader>tD",
+				---@diagnostic disable-next-line: missing-fields
+				function() require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" }) end,
+				desc = "[Test] Debug File",
+			},
+			{
+				"<leader>ta",
+				function() require("neotest").run.run(vim.loop.cwd()) end,
+				desc = "[Test] Run Project",
+			},
+			{
+				"<leader>ts",
+				function() require("neotest").summary.toggle() end,
+				desc = "[Test] Toggle Summary",
+			},
+			{
+				"<leader>to",
+				function() require("neotest").output.open({ enter = true, auto_close = true }) end,
+				desc = "[Test] Show Output",
+			},
+			{
+				"<leader>tO",
+				function() require("neotest").output_panel.toggle() end,
+				desc = "[Test] Toggle Output Panel",
+			},
+			{ "<leader>tS", function() require("neotest").run.stop() end, desc = "[Test] Stop" },
 		},
-		config = function()
-			-- TODO: Look for Config file instead
-			local is_amazon = false
-			if vim.fn.executable("brazil-build") == 1 then is_amazon = true end
-			-- TODO: Setup commands
-			---@diagnostic disable-next-line missing-fields
-			require("neotest").setup({
-				adapters = {
-					-- TODO: Test
-					require("neotest-jest")({
-						jestCommand = is_amazon and "brazil-build test --" or "npm test --",
-					}),
-					-- TODO: Config
-					require("neotest-haskell"),
-					-- TODO: Test
-					require("neotest-java"),
-					require("neotest-bash"),
-					require("neotest-plenary"),
-					require("neotest-vim-test")({
-						ignore_file_types = {
-							"typescript",
-							"javascript",
-							"java",
-							"bash",
-							"vim",
-							"lua",
-						},
-					}),
-				},
-			})
+		opts = { ---@diagnostic disable-line: missing-fields
+			quickfix = {
+				open = function() require("trouble").open({ mode = "quickfix", focus = false }) end,
+				enabled = true,
+			},
+			output = { open_on_run = true, enabled = true },
+			status = { virtual_text = true, signs = true, enabled = true },
+			icons = {
+				failed = "󰅙",
+				passed = "",
+				running = "",
+				running_animated = { "⡿", "⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟" },
+				skipped = "",
+				unknown = "",
+				watching = "",
+			},
+		},
+		config = function(_, opts)
+			opts.adapters = {
+				require("neotest-jest"),
+				require("neotest-haskell"),
+				require("neotest-java"),
+				require("neotest-bash"),
+				require("neotest-plenary"),
+				require("neotest-vim-test")({
+					-- Must ignore filetypes handled by other adapters
+					ignore_file_types = {
+						"typescript",
+						"typescriptreact",
+						"javascript",
+						"javascriptreact",
+						"haskell",
+						"java",
+						"bash",
+						"lua",
+					},
+				}),
+			}
+
+			require("neotest").setup(opts)
 		end,
 	},
 
 	{
-		"nvim-neotest/neotest-vim-test",
-		lazy = true,
-		dependencies = {
-			{
-				"vim-test/vim-test",
-				init = function()
-					-- TODO: Confirm it's used
-					-- TODO: Check Tslime
-					vim.cmd([[
-						let test#strategy = {
-							\ 'nearest': 'neovim',
-							\ 'file':    'dispatch',
-							\ 'suite':   'basic',
-						\}
-					]])
-				end,
+		"andythigpen/nvim-coverage",
+		dependencies = "nvim-lua/plenary.nvim",
+		cmd = { "Coverage", "CoverageSummary", "CoverageToggle" },
+		opts = {
+			auto_reload = true,
+			summary = {
+				min_coverage = 80.0,
 			},
 		},
 	},
