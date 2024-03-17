@@ -1,9 +1,8 @@
 --- Mathias' NeoVim init.lua
--- This file sets the core/base options 
--- @script 
+-- This file sets the core/base options
+-- @script
 
-
-vim.cmd("let g:python3_host_prog='" ..vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
+vim.cmd("let g:python3_host_prog='" .. vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
 
 -- Integration
 vim.opt_global.mouse = "a"
