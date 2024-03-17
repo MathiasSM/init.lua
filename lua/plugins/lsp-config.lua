@@ -1,4 +1,10 @@
-local function get_handlers()
+
+--- Builds the handlers for each LSP server
+--
+-- As required by mason-lspconfig.setup({handlers})
+--
+-- Requires (lazily?) lspconfig, schemastore, cmp_nvim_lsp
+local function get_handler_setups()
 	local completion_capabilities = require("cmp_nvim_lsp").default_capabilities()
 	return {
 		-- [1]: Default handler
@@ -54,19 +60,13 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		dependencies = {
-			-- Neodev must run before lspconfig
-			"folke/neodev.nvim",
-			-- TODO. Want it to run when LSP runs
-			{
-				"j-hui/fidget.nvim",
-				opts = {},
-			},
+			{ "folke/neodev.nvim", opts = {} },
+			{ "j-hui/fidget.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function()
-			require("neodev").setup({}) -- Neodev must run before lspconfig
 			require("mason-lspconfig").setup({
-				handlers = get_handlers(),
+				handlers = get_handler_setups(),
 			})
 		end,
 	},
