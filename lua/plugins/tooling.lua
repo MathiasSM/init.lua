@@ -44,7 +44,7 @@ return {
 		dependencies = "nvim-lua/plenary.nvim",
 		cmd = { "RestNvim", "RestNvimPreview", "RestNvimLast" },
 		keys = {
-			{ "<leader>r", "<Plug>RestNvim<cr>", desc = "[RestNvim] Run", ft = "http" },
+			{ "<leader>rr", "<Plug>RestNvim<cr>", desc = "[RestNvim] Run", ft = "http" },
 			{
 				"<leader>rp",
 				"<Plug>RestNvimPreview<cr>",
