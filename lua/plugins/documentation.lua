@@ -29,7 +29,7 @@ return {
 			{ "<leader>do", "<cmd>DookuOpen<cr>", desc = "[Dooku] Open generated" },
 		},
 		opts = {
-			browser_cmd = require("utils").get_browser_cmd(),
+			browser_cmd = require("utils").get_open_cmd(),
 		},
 	},
 
