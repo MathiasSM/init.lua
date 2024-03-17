@@ -66,6 +66,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = "nvim-treesitter/nvim-treesitter",
+		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.configs").setup({ ---@diagnostic disable-line: missing-fields
 				textobjects = {
@@ -121,13 +122,14 @@ return {
 
 	{
 		"chrisgrieser/nvim-various-textobjs",
-		lazy = false,
+		event = "VeryLazy",
 		opts = { useDefaultKeymaps = true },
 	},
 
 	{
 		"RRethy/nvim-treesitter-textsubjects",
 		dependencies = "nvim-treesitter/nvim-treesitter",
+		event = "VeryLazy",
 		config = function()
 			require("nvim-treesitter.configs").setup({ ---@diagnostic disable-line: missing-fields
 				textsubjects = {
