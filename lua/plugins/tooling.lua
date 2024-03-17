@@ -72,34 +72,37 @@ return {
 			{
 				"<leader>yt",
 				function() require("yeet").select_target() end,
+				desc = "[Yeet] Select target",
 			},
 			{
 				"<leader>yc",
 				function() require("yeet").set_cmd() end,
+				desc = "[Yeet] Set cmd",
 			},
 			{
 				"<leader>\\",
 				function() require("yeet").execute() end,
+				desc = "[Yeet] Execute",
+			},
+			{
+				"<leader>9",
+				function()
+					local harpoon = require("harpoon")
+					harpoon.ui:toggle_quick_menu(
+						harpoon:list("yeet"),
+						{ title = "Yeet  " .. harpoon.config.settings.key() }
+					)
+				end,
+				desc = "[Yeet] Open harpoon list",
 			},
 		},
-		init = function()
+		config = function()
 			local harpoon = require("harpoon")
 			harpoon:setup({
 				yeet = {
 					select = function(list_item, _, _) require("yeet").execute(list_item.value) end,
 				},
 			})
-
-			vim.keymap.set(
-				"n",
-				"<leader>9",
-				function()
-					harpoon.ui:toggle_quick_menu(
-						harpoon:list("yeet"),
-						{ title = "Yeet  " .. harpoon.config.settings.key() }
-					)
-				end
-			)
 		end,
 	},
 }
