@@ -2,7 +2,7 @@
 -- @module navigation
 
 return {
-	"mateuszwieloch/automkdir.nvim",
+	{ "mateuszwieloch/automkdir.nvim", event = "VeryLazy" },
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -172,18 +172,6 @@ return {
 			{ "<leader>m", "<cmd>Oil --float .<cr>", desc = "[Oil] Open folder float" },
 			{ "<leader>M", "<cmd>Oil .<cr>", desc = "[Oil] Open folder" },
 		},
-		-- init = function()
-		-- 	vim.api.nvim_create_autocmd("BufEnter", {
-		-- 		group = vim.api.nvim_create_augroup("OilInit", { clear = true }),
-		-- 		callback = function()
-		-- 			local f = vim.fn.expand("%:p")
-		-- 			if vim.fn.isdirectory(f) ~= 0 then
-		-- 				vim.cmd("Oil " .. f) -- FIX: Not working
-		-- 				vim.api.nvim_clear_autocmds({ group = "OilInit" })
-		-- 			end
-		-- 		end,
-		-- 	})
-		-- end,
 		opts = {
 			-- default_file_explorer = true,
 			columns = {
@@ -283,7 +271,7 @@ return {
 				settings = {
 					save_on_toggle = true,
 					sync_on_ui_close = true,
-					key = vim.loop.cwd -- Grouping key for lists,
+					key = vim.loop.cwd, -- Grouping key for lists,
 				},
 			})
 
@@ -310,7 +298,7 @@ return {
 			})
 
 			vim.keymap.set("n", "<leader>0", function()
-				local title = "Harpoon ⥤ " ..  harpoon.config.settings.key()
+				local title = "Harpoon ⥤ " .. harpoon.config.settings.key()
 				harpoon.ui:toggle_quick_menu(harpoon:list(), { title = title })
 			end, { desc = "[Harpoon] Project files" })
 		end,
