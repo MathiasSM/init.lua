@@ -51,6 +51,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		event = "VeryLazy",
 		opts = {
 			signs = true, -- show icons in the signs column
 			sign_priority = 8, -- sign priority
@@ -67,19 +68,6 @@ return {
 				NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
 				TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
 			},
-		},
-	},
-
-	{ -- TODO: Do I even like this?
-		"lukas-reineke/headlines.nvim",
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		ft = { "markdown", "rmd", "norg", "org" },
-		opts = {
-			-- Default doesn't work on my font
-			markdown = { fat_headline_lower_string = "▔" },
-			rmd = { fat_headline_lower_string = "▔" },
-			norg = { fat_headline_lower_string = "▔" },
-			org = { fat_headline_lower_string = "▔" },
 		},
 	},
 
@@ -123,6 +111,7 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
+		event = "VeryLazy",
 		opts = {
 			scope = { show_start = false, show_end = false },
 		},
