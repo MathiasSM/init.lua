@@ -1,5 +1,11 @@
 ---
 return {
+	{
+		"vladdoster/remember.nvim",
+		lazy = false,
+		config = true,
+	},
+
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 
 	{ "yorickpeterse/nvim-pqf", ft = "qf", opts = {} },
@@ -66,12 +72,6 @@ return {
 			on_open = function(win) end,
 			on_close = function() end,
 		},
-	},
-
-	{
-		"vladdoster/remember.nvim",
-		lazy = false,
-		config = true,
 	},
 
 	{

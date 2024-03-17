@@ -9,26 +9,26 @@ return {
 		ft = "java",
 	},
 
-	-- Not quite LSP, but related
 	{
-		"chrisgrieser/nvim-rulebook",
+		"adoyle-h/lsp-toggle.nvim",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"neovim/nvim-lspconfig",
+			"keyvchan/telescope-find-pickers.nvim",
+		},
+		cmd = { "ToggleLSP" },
 		keys = {
 			{
-				"<leader>ri",
-				function() require("rulebook").ignoreRule() end,
-				desc = "[Rules] Ignore",
-			},
-			{
-				"<leader>rl",
-				function() require("rulebook").lookupRule() end,
-				desc = "[Rules] Lookup",
-			},
-			{
-				"<leader>ry",
-				function() require("rulebook").yankDiagnosticCode() end,
-				desc = "[Rules] Yank code",
+				"<space>T",
+				"<cmd>ToggleLSP<cr>",
+				desc = "[LSP] Toggle clients",
 			},
 		},
-		config = true,
+		config = function()
+			require("lsp-toggle").setup({
+				create_cmds = true,
+				telescope = true,
+			})
+		end,
 	},
 }

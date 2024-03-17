@@ -43,7 +43,7 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		version = false, -- last release is way too old
-		lazy = false,
+		event = "VeryLazy",
         -- stylua: ignore
 		dependencies = {
 			-- Base

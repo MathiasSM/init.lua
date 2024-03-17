@@ -46,7 +46,12 @@ return {
 
 	{
 		"kelly-lin/telescope-ag",
-		-- Needs rg/ag executable
+		build = function()
+			if vim.fn.executable("ag") ~= 1 then
+				vim.notify("Did not find `ag` executable!", vim.log.levels.ERROR)
+				return
+			end
+		end,
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		cmd = "Ag",
 		keys = {
@@ -82,5 +87,63 @@ return {
 			})
 			require("telescope").load_extension("undo")
 		end,
+	},
+
+	{
+		"luc-tielen/telescope_hoogle",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		build = function()
+			if vim.fn.executable("hoogle") ~= 1 then
+				vim.notify(
+					"Did not find `hoogle` executable!\nInstall it with `cabal install hoogle`",
+					vim.log.levels.ERROR
+				)
+				return
+			end
+			vim.fn.system("hoogle generate")
+		end,
+		keys = { { "<leader>fh", "<cmd>Telescope hoogle<cr>", desc = "[Telescope] Hoogle" } },
+		config = function() require("telescope").load_extension("hoogle") end,
+	},
+
+	{
+		"tsakirist/telescope-lazy.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		keys = { { "<leader>fl", "<cmd>Telescope lazy<cr>", desc = "[Telescope] Lazy plugins" } },
+		config = function() require("telescope").load_extension("lazy") end,
+	},
+
+	{
+		"benfowler/telescope-luasnip.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		keys = { { "<leader>fs", "<cmd>Telescope luasnip<cr>", desc = "[Telescope] Snippets" } },
+		config = function() require("telescope").load_extension("luasnip") end,
+	},
+
+	{
+		"barrett-ruth/telescope-http.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		keys = {
+			{ "<leader>fa", "<cmd>Telescope http list<cr>", desc = "[Telescope] HTTP codes" },
+		},
+		config = function()
+			require("telescope").setup({
+				extensions = { http = { open_url = require("utils").get_open_cmd() .. " %s" } },
+			})
+			require("telescope").load_extension("http")
+		end,
+	},
+
+	{
+		"chip/telescope-software-licenses.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		keys = {
+			{
+				"<leader>fc",
+				"<cmd>Telescope software-licenses find<cr>",
+				desc = "[Telescope] Software Licenses",
+			},
+		},
+		config = function() require("telescope").load_extension("software-licenses") end,
 	},
 }

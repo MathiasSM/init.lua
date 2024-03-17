@@ -1,7 +1,7 @@
 --- Formatting configuration
 --
 -- These formatters will be used if LSP provides no formatting capability
--- 
+--
 -- They should be installed first (via Mason or otherwise)
 --
 -- @module formatters
@@ -37,8 +37,10 @@ return {
 				"<leader>p",
 				function()
 					if Utils.lsp_has_formatting() then
+						vim.notify("Formatting using LSP")
 						vim.lsp.buf.format()
 					else
+						vim.notify("Formatting using formatters (No LSP)")
 						vim.cmd("FormatWrite")
 					end
 				end,

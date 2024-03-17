@@ -34,19 +34,6 @@ return {
 	},
 
 	{
-		"luc-tielen/telescope_hoogle",
-		-- Needs hoogle executable
-		keys = {
-			{
-				"<space>ho",
-				"<cmd>Telescope hoogle<cr>",
-				desc = "[Telescope] Hoogle",
-			},
-		},
-		config = function() require("telescope").load_extension("hoogle") end,
-	},
-
-	{
 		"luckasRanarison/nvim-devdocs",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
