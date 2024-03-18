@@ -42,8 +42,8 @@ end
 return {
 	{
 		"hrsh7th/nvim-cmp",
-		version = false, -- last release is way too old
-		event = "VeryLazy",
+		version = false, -- copied from LazyVim
+		event = "InsertEnter", -- Since we're not completing cmdline
         -- stylua: ignore
 		dependencies = {
 			-- Base
