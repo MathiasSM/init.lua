@@ -90,23 +90,6 @@ return {
 	},
 
 	{
-		"luc-tielen/telescope_hoogle",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		build = function()
-			if vim.fn.executable("hoogle") ~= 1 then
-				vim.notify(
-					"Did not find `hoogle` executable!\nInstall it with `cabal install hoogle`",
-					vim.log.levels.ERROR
-				)
-				return
-			end
-			vim.fn.system("hoogle generate")
-		end,
-		keys = { { "<leader>fh", "<cmd>Telescope hoogle<cr>", desc = "[Telescope] Hoogle" } },
-		config = function() require("telescope").load_extension("hoogle") end,
-	},
-
-	{
 		"tsakirist/telescope-lazy.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		keys = { { "<leader>fl", "<cmd>Telescope lazy<cr>", desc = "[Telescope] Lazy plugins" } },
