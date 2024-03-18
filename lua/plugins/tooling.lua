@@ -40,23 +40,6 @@ return {
 	},
 
 	{
-		"rest-nvim/rest.nvim",
-		dependencies = "nvim-lua/plenary.nvim",
-		cmd = { "RestNvim", "RestNvimPreview", "RestNvimLast" },
-		keys = {
-			{ "<leader>rr", "<Plug>RestNvim<cr>", desc = "[RestNvim] Run", ft = "http" },
-			{
-				"<leader>rp",
-				"<Plug>RestNvimPreview<cr>",
-				desc = "[RestNvim] Preview",
-				ft = "http",
-			},
-			{ "<leader>rl", "<Plug>RestNvimLast<cr>", desc = "[RestNvim] Run Last", ft = "http" },
-		},
-		config = true,
-	},
-
-	{
 		"gennaro-tedesco/nvim-jqx",
 		cmd = { "JqxList", "JqxQuery" },
 	},
