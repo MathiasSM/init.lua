@@ -1,25 +1,26 @@
 return {
 	{
+		-- These are supposed to be fallbacks to LSPs
 		"mfussenegger/nvim-lint",
 		event = { "BufWritePost", "BufRead" },
 		config = function()
 			require("lint").linters_by_ft = {
-				markdown = { "alex", "proselint", "vale", "write_good" },
-				cfn = { "cfn_lint", "cfn_nag" },
-				java = { "checkstyle" },
-				latex = { "chktex" },
-				gitcommit = { "commitlint", "gitlint" },
-				["*"] = { "blocklint", "typos", "woke" },
-				help = {},
-				dotenv = { "dotenv_linter" },
-				javascript = {},
-				typescript = {},
-				html = { "htmlhint" },
-				sql = { "sqlfluff" },
 				bash = { "shellcheck" },
+				cfn = { "cfn_lint", "cfn_nag" },
 				css = { "stylelint" },
-				zsh = { "shellcheck", "zsh" },
+				dotenv = { "dotenv_linter" },
+				gitcommit = { "commitlint", "gitlint" },
+				help = {},
+				html = { "htmlhint" },
+				java = { "checkstyle" },
+				javascript = {},
+				latex = { "chktex" },
+				markdown = { "alex", "proselint", "vale", "write_good" },
+				sql = { "sqlfluff" },
+				typescript = {},
 				vim = { "vint" },
+				zsh = { "shellcheck", "zsh" },
+				["*"] = { "blocklint", "typos", "woke" },
 			}
 			vim.api.nvim_create_autocmd({ "BufWritePost", "BufRead" }, {
 				callback = function() require("lint").try_lint() end,
@@ -34,5 +35,27 @@ return {
 				print("󱉶 " .. table.concat(linters, ", "))
 			end, { desc = "[Linters] Display current status" })
 		end,
+	},
+
+	{
+		"chrisgrieser/nvim-rulebook",
+		keys = {
+			{
+				"<leader>ri",
+				function() require("rulebook").ignoreRule() end,
+				desc = "[Rules] Ignore",
+			},
+			{
+				"<leader>rl",
+				function() require("rulebook").lookupRule() end,
+				desc = "[Rules] Lookup",
+			},
+			{
+				"<leader>ry",
+				function() require("rulebook").yankDiagnosticCode() end,
+				desc = "[Rules] Yank code",
+			},
+		},
+		config = true,
 	},
 }

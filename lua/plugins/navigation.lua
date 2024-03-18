@@ -2,7 +2,7 @@
 -- @module navigation
 
 return {
-	"mateuszwieloch/automkdir.nvim",
+	{ "mateuszwieloch/automkdir.nvim", event = "VeryLazy" },
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -172,18 +172,6 @@ return {
 			{ "<leader>m", "<cmd>Oil --float .<cr>", desc = "[Oil] Open folder float" },
 			{ "<leader>M", "<cmd>Oil .<cr>", desc = "[Oil] Open folder" },
 		},
-		-- init = function()
-		-- 	vim.api.nvim_create_autocmd("BufEnter", {
-		-- 		group = vim.api.nvim_create_augroup("OilInit", { clear = true }),
-		-- 		callback = function()
-		-- 			local f = vim.fn.expand("%:p")
-		-- 			if vim.fn.isdirectory(f) ~= 0 then
-		-- 				vim.cmd("Oil " .. f) -- FIX: Not working
-		-- 				vim.api.nvim_clear_autocmds({ group = "OilInit" })
-		-- 			end
-		-- 		end,
-		-- 	})
-		-- end,
 		opts = {
 			-- default_file_explorer = true,
 			columns = {
@@ -220,19 +208,19 @@ return {
 	},
 
 	{
-		"ThePrimeagen/harpoon", -- TODO: Consider cbochs/grapple.nvim or desdic/marlin.nvim
+		"ThePrimeagen/harpoon", -- NOTE: Consider cbochs/grapple.nvim or desdic/marlin.nvim
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = { "Harpoon" },
 		keys = {
 			"<C-e>", -- Defined in config
 			{
-				"<leader>`",
+				"<leader>=",
 				function() require("harpoon"):list():append() end,
 				desc = "[Harpoon] Add current to list",
 			},
 			{
-				"<leader>~",
+				"<leader><del>",
 				function() require("harpoon"):list():remove() end,
 				desc = "[Harpoon] Remove current from list",
 			},
@@ -260,13 +248,13 @@ return {
 
 			-- Toggle previous & next buffers stored within harpoon list
 			{
-				"<leader>-",
-				function() require("harpoon"):list():prev() end,
+				"<leader>[",
+				function() require("harpoon"):list():prev({ ui_nav_wrap = true }) end,
 				desc = "[Harpoon] Go to previous",
 			},
 			{
-				"<leader>=",
-				function() require("harpoon"):list():next() end,
+				"<leader>]",
+				function() require("harpoon"):list():next({ ui_nav_wrap = true }) end,
 				desc = "[Harpoon] Go to next",
 			},
 		},
@@ -277,26 +265,42 @@ return {
 			end
 
 			local harpoon = require("harpoon")
-			harpoon:setup({})
+			local harpoon_default_list = require("harpoon.config").DEFAULT_LIST
+
+			harpoon:setup({
+				settings = {
+					save_on_toggle = true,
+					sync_on_ui_close = true,
+					key = vim.loop.cwd, -- Grouping key for lists,
+				},
+			})
+
+			local list_name = function(name)
+				if name == harpoon_default_list then return "" end
+				return "[" .. name .. "]"
+			end
+
 			harpoon:extend({
-				SELECT = function(ctx) vim.notify(" ⥤  " .. ctx.item.value) end,
+				SELECT = function(ctx)
+					vim.notify(
+						list_name(ctx.list.name) .. " ⥤  " .. ctx.idx .. ": " .. ctx.item.value
+					)
+				end,
 				ADD = function(ctx)
-					vim.notify(" [+] " .. ctx.item.value)
+					vim.notify(list_name(ctx.list.name) .. "  " .. ctx.item.value)
 					refresh_neotree()
 				end,
 				REMOVE = function(ctx)
-					vim.notify(" [-] " .. ctx.item.value)
+					vim.notify(list_name(ctx.list.name) .. " 󰍴 " .. ctx.item.value)
 					refresh_neotree()
 				end,
 				REORDER = function() refresh_neotree() end,
 			})
 
-			vim.keymap.set(
-				"n",
-				"<C-e>",
-				function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-				{ desc = "[Harpoon] Open list" }
-			)
+			vim.keymap.set("n", "<leader>0", function()
+				local title = "Harpoon ⥤ " .. harpoon.config.settings.key()
+				harpoon.ui:toggle_quick_menu(harpoon:list(), { title = title })
+			end, { desc = "[Harpoon] Project files" })
 		end,
 	},
 }

@@ -16,12 +16,12 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins definitions in CONFIG/lua/plugins.lua
 require("lazy").setup("plugins", {
-	change_detection = { notify = false }, -- Gets annoying fast
+	change_detection = { enabled = true, notify = false },
+	checker = { enabled = true, notify = false },
 	ui = {
 		border = "single",
-		browser = nil, -- TODO
+		browser = require("utils").get_open_cmd(),
 	},
-	checker = { enabled = true },
 	profiling = {
 		loader = false,
 		require = false,

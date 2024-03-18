@@ -29,6 +29,10 @@ return {
 
 	{
 		"nat-418/boole.nvim", -- TODO: Check nguyenvukhang/nvim-toggler
+		keys = {
+			{ "<C-a>", desc = "Switch/increment" },
+			{ "<C-x>", desc = "Switch/decrement" },
+		},
 		config = function()
 			require("boole").setup({
 				mappings = {
@@ -51,7 +55,7 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		keys = {
 			{
-				"<leader>jj",
+				"<leader>j",
 				"<cmd>TSJToggle<cr>",
 				desc = "[TreeSJ] Toggle join/split code",
 			},

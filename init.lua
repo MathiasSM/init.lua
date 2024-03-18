@@ -1,9 +1,8 @@
 --- Mathias' NeoVim init.lua
--- This file sets the core/base options 
--- @script 
+-- This file sets the core/base options
+-- @script
 
-
-vim.cmd("let g:python3_host_prog='" ..vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
+vim.cmd("let g:python3_host_prog='" .. vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
 
 -- Integration
 vim.opt_global.mouse = "a"
@@ -25,9 +24,7 @@ vim.opt_global.splitright = true -- Predictable
 vim.opt_global.scrolljump = 5 -- Autoscroll when going out of screen
 vim.opt_global.sidescroll = 5 -- Autoscroll when going out of screen
 
--- Wild* stuff
-vim.opt_global.wildoptions = "pum,tagfile" -- Add fuzzy to defaults
-
+-- Wild*
 -- stylua: ignore
 vim.opt_global.wildignore:append({
 	"*/.DS_Store", "*/._*", -- macOS
@@ -38,6 +35,7 @@ vim.opt_global.wildignore:append({
 	"*.class", "*.0", "*.pyc", "*.hi", "*.o", "*.stack-work", "*/__pycache__/", -- Compiled code
 	"*.pdf", -- Other binaries
 })
+-- vim.opt_global.wildmode = "longest:full,full"
 
 -- Searching
 vim.opt_global.showmatch = true -- Matching brackets highlighting
