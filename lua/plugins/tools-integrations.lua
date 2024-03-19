@@ -1,9 +1,8 @@
 --- Integration with external tools
 --
--- @module tooling
+-- @module
 
 return {
-
 	{
 		"aserowy/tmux.nvim",
 		event = "VeryLazy", -- So clipboard works

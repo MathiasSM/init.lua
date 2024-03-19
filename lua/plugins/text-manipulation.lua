@@ -1,9 +1,7 @@
---- Text manipulation
+--- Special actions to manipulate the current buffer
 --
--- Special actions to manipulate the current buffer
--- * Toggle code comments
--- * EasyAlign magic
--- * Drawing diagrams
+-- Insertions (manipulations that don't modify but are rather only inserting new text)
+-- are defined in a different file.
 --
 -- @module text-manipulation
 

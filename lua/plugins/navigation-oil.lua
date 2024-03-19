@@ -1,16 +1,29 @@
+local current_file_directory = "%:p:h:s?^$?.?"
+
 return {
 	{
 		"stevearc/oil.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		lazy = false,
 		keys = {
-			{ "<leader>m", "<cmd>Oil --float %:h<cr>", desc = "[Oil] Open folder float" },
-			{ "<leader>M", "<cmd>Oil %:h<cr>", desc = "[Oil] Open folder" },
+			{
+				"<leader>m",
+				"<cmd>Oil --float " .. current_file_directory .. "<cr>",
+				desc = "[Oil] Open folder float",
+			},
+			{
+				"<leader>M",
+				"<cmd>Oil " .. current_file_directory .. "<cr>",
+				desc = "[Oil] Open folder",
+			},
 		},
 		opts = {
 			default_file_explorer = true,
+			skip_confirm_for_simple_edits = false,
 			columns = {
 				"icon",
+				{ "size", highlight = "Special" },
+				{ "permissions", highlight = "Comment" },
 			},
 			float = {
 				max_width = 60,
