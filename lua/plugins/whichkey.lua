@@ -19,6 +19,7 @@ return {
 					["f"] = { name = "[Find]" },
 					["g"] = { name = "[Git]" },
 					["h"] = { name = "[Git hunk]" },
+					["l"] = { name = "[Log]" },
 					["r"] = { name = "[Rulebook/Rest]" },
 					["t"] = { name = "[Test]" },
 					["x"] = { name = "[Trouble]" },
