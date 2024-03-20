@@ -1,4 +1,3 @@
-
 --- Builds the handlers for each LSP server
 --
 -- As required by mason-lspconfig.setup({handlers})
@@ -59,11 +58,31 @@ end
 return {
 	{
 		"neovim/nvim-lspconfig",
-		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		keys = {
+			{
+				"<space><cr>",
+				function()
+					vim.keymap.del("n", "<space><cr>") -- TODO: PR so whichkey can remove keys!
+					require("lsp-toggle").setup({ create_cmds = true, telescope = true })
+					vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
+					vim.notify("Loaded. Use `:ToggleLSP` to turn any client on/off on each buffer")
+				end,
+				desc = "[LSP] Turn on LSPs",
+			},
+		},
 		dependencies = {
 			{ "folke/neodev.nvim", opts = {} },
 			{ "j-hui/fidget.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
+			-- For my custom logic:
+			{
+				"adoyle-h/lsp-toggle.nvim",
+				dependencies = {
+					"nvim-telescope/telescope.nvim",
+					"neovim/nvim-lspconfig",
+					"keyvchan/telescope-find-pickers.nvim",
+				},
+			},
 		},
 		config = function()
 			require("mason-lspconfig").setup({

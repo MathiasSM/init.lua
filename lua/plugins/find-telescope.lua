@@ -104,20 +104,6 @@ return {
 	},
 
 	{
-		"barrett-ruth/telescope-http.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		keys = {
-			{ "<leader>fa", "<cmd>Telescope http list<cr>", desc = "[Telescope] HTTP codes" },
-		},
-		config = function()
-			require("telescope").setup({
-				extensions = { http = { open_url = require("utils").get_open_cmd() .. " %s" } },
-			})
-			require("telescope").load_extension("http")
-		end,
-	},
-
-	{
 		"chip/telescope-software-licenses.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		keys = {

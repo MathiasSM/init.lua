@@ -8,16 +8,6 @@
 
 return {
 	{
-		"danymat/neogen",
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		config = true,
-		cmd = { "Neogen" },
-		keys = {
-			{ "<leader>da", "<cmd>Neogen<cr>", desc = "[Neogen] Add docs" },
-		},
-	},
-
-	{
 		"Zeioth/dooku.nvim",
 		cmd = {
 			"DookuAutoSetup",
@@ -107,5 +97,19 @@ return {
 		end,
 		keys = { { "<leader>dh", "<cmd>Telescope hoogle<cr>", desc = "[Telescope] Hoogle" } },
 		config = function() require("telescope").load_extension("hoogle") end,
+	},
+
+	{
+		"barrett-ruth/telescope-http.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		keys = {
+			{ "<leader>fa", "<cmd>Telescope http list<cr>", desc = "[Telescope] HTTP codes" },
+		},
+		config = function()
+			require("telescope").setup({
+				extensions = { http = { open_url = require("utils").get_open_cmd() .. " %s" } },
+			})
+			require("telescope").load_extension("http")
+		end,
 	},
 }

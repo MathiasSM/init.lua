@@ -1,4 +1,4 @@
---- Plugins that change the way text is displayed
+--- Plugins that change the way the buffer text is displayed
 --
 -- * Hide secrets
 -- * Indentation guides
@@ -7,9 +7,6 @@
 -- * Extra highlighting (color codes, etc.)
 --
 -- @module text-display
-
--- stylua: ignore
-
 
 return {
 	{
@@ -54,7 +51,10 @@ return {
 		event = "VeryLazy",
 		opts = {
 			signs = true, -- show icons in the signs column
-			sign_priority = 8, -- sign priority
+			sign_priority = 8, -- sign priority 
+			highlight = {
+				multiline = false,
+			},
 			keywords = {
 				FIX = {
 					icon = " ",

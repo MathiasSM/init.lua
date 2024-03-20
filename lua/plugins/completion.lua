@@ -11,7 +11,7 @@ local function format_completion_popup(entry, vim_item)
 		-- stylua: ignore
 		menu = {
 			buffer                  = "[Buffer]",
-			calc                    = "=",
+			calc                    = "=", -- TODO: Remove lsp type?
 			cmp_pandoc              = "[Pandoc]",
 			emoji                   = "[Emoji]",
 			git                     = "[Git]",
@@ -21,7 +21,7 @@ local function format_completion_popup(entry, vim_item)
 			luasnip                 = "",
 			nerdfont                = "[Nerd]",
 			nvim_lsp                = "[LSP]",
-			nvim_lsp_signature_help = "[LSP sig]",
+			nvim_lsp_signature_help = "[LSP]",
 			omni                    = "[Omni]",
 			path                    = "[Path]",
 			spell                   = "[Spell]",
