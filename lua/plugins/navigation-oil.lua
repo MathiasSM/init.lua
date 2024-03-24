@@ -8,12 +8,12 @@ return {
 		keys = {
 			{
 				"<leader>m",
-				"<cmd>Oil --float " .. current_file_directory .. "<cr>",
+				"<cmd>Oil --float <cr>",
 				desc = "[Oil] Open folder float",
 			},
 			{
 				"<leader>M",
-				"<cmd>Oil " .. current_file_directory .. "<cr>",
+				"<cmd>Oil <cr>",
 				desc = "[Oil] Open folder",
 			},
 		},

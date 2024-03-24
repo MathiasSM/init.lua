@@ -29,6 +29,7 @@
   "formatter.nvim": { "branch": "master", "commit": "ad246d34ce7a32f752071ed81b09b94e6b127fad" },
   "friendly-snippets": { "branch": "main", "commit": "dcd4a586439a1c81357d5b9d26319ae218cc9479" },
   "fscreen.nvim": { "branch": "main", "commit": "9f4805a54ecdf16fffaf8491160f1effd128849b" },
+  "ghci-syntax": { "branch": "master", "commit": "1880baabd31fef4448ce14c8d40b178f6d7fc665" },
   "gitmoji.nvim": { "branch": "main", "commit": "326ddf01cbf3425566a089126ece7e8bd2560601" },
   "gitsigns.nvim": { "branch": "main", "commit": "078041e9d060a386b0c9d3a8c7a7b019a35d3fb0" },
   "goto-breakpoints.nvim": { "branch": "master", "commit": "d14776899eda4023667b246e5c53c14a7c41f88e" },
