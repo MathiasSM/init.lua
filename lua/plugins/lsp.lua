@@ -70,7 +70,10 @@ return {
 			},
 		},
 		dependencies = {
-			{ "folke/neodev.nvim", opts = {} },
+			{
+				"folke/neodev.nvim",
+				opts = { library = { plugins = { "nvim-dap-ui" }, types = true } },
+			},
 			{ "j-hui/fidget.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 			-- For my custom logic:
