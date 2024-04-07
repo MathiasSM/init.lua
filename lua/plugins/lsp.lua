@@ -13,20 +13,6 @@ local function get_handler_setups()
 			})
 		end,
 		-- [*] Specific handlers
-		["jsonls"] = function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
-				},
-			})
-		end,
-		["tsserver"] = function()
-			-- Handled by typescript-tools
-		end,
 		["bashls"] = function(server_name)
 			require("lspconfig")[server_name].setup({
 				capabilities = completion_capabilities,
@@ -50,6 +36,25 @@ local function get_handler_setups()
 					"javascriptreact",
 				},
 			})
+		end,
+		["hls"] = function()
+			-- Handled by haskell-tools
+            return true -- Avoid duplicate servers
+		end,
+		["jsonls"] = function(server_name)
+			require("lspconfig")[server_name].setup({
+				capabilities = completion_capabilities,
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = { enable = true },
+					},
+				},
+			})
+		end,
+		["tsserver"] = function()
+			-- Handled by typescript-tools
+            return true -- Avoid duplicate servers
 		end,
 	}
 end

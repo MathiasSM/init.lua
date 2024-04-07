@@ -57,7 +57,7 @@ function M.lsp_has_formatting()
 
 	for _, client in ipairs(clients) do
 		local capabilities = client and client.server_capabilities
-		if capabilities and capabilities.textDocument and capabilities.textDocument.formatting then return true end
+		if capabilities and capabilities.documentFormattingProvider then return true end
 	end
 	return false
 end
