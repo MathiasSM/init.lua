@@ -53,7 +53,7 @@ return {
 			"hrsh7th/cmp-buffer",                  -- buffer
 			"hrsh7th/cmp-calc",                    -- calc
             {"aspeddro/cmp-pandoc.nvim",           -- cmp_pandoc
-             dependencies="/jbyuki/nabla.nvim" },
+             dependencies="jbyuki/nabla.nvim" },
 			"hrsh7th/cmp-emoji",                   -- emoji
 			"petertriho/cmp-git",                  -- git
 			"Dynge/gitmoji.nvim",                  -- gitmoji

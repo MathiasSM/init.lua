@@ -92,6 +92,7 @@ return {
 			custom_colorcolumn = {
 				java = "120",
 				lua = "100",
+                haskell = "100"
 			},
 		},
 	},
