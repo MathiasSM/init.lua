@@ -49,6 +49,7 @@ local function set_lsp_mappings(event)
 	nmap("<space>r", vim.lsp.buf.rename, "[LSP] Rename all references")
 	nvmap("<space>a", vim.lsp.buf.code_action, "[LSP] Select code action to execute")
 	nmap("<space>f", vim.lsp.buf.format, "[LSP] Format buffer")
+	nmap("<space>l", vim.lsp.codelens.run, "[LSP] Codelens")
 end
 
 -- Only create mappings off LspAttach'd buffers

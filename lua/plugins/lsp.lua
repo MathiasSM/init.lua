@@ -52,6 +52,25 @@ local function get_handler_setups()
 				},
 			})
 		end,
+		["hls"] = function()
+			-- Handled by haskell-tools
+            return true -- Avoid duplicate servers
+		end,
+		["jsonls"] = function(server_name)
+			require("lspconfig")[server_name].setup({
+				capabilities = completion_capabilities,
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = { enable = true },
+					},
+				},
+			})
+		end,
+		["tsserver"] = function()
+			-- Handled by typescript-tools
+            return true -- Avoid duplicate servers
+		end,
 	}
 end
 
@@ -71,7 +90,10 @@ return {
 			},
 		},
 		dependencies = {
-			{ "folke/neodev.nvim", opts = {} },
+			{
+				"folke/neodev.nvim",
+				opts = { library = { plugins = { "nvim-dap-ui" }, types = true } },
+			},
 			{ "j-hui/fidget.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 			-- For my custom logic:
