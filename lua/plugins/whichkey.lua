@@ -10,34 +10,34 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
-			require("which-key").setup({ window = { border = "single", winblend = 25 } })
-			require("which-key").register({
-				["<leader>"] = {
-					name = "[Personal]",
-					["d"] = { name = "[Docs]" },
-					["b"] = { name = "[Debug]" },
-					["f"] = { name = "[Find]" },
-					["g"] = { name = "[Git]" },
-					["h"] = { name = "[Git hunk]" },
-					["l"] = { name = "[Log]" },
-					["r"] = { name = "[Rulebook/Rest]" },
-					["t"] = { name = "[Test]" },
-					["x"] = { name = "[Trouble]" },
-					["y"] = { name = "[Yeet]" },
-				},
-				["<space>"] = {
-					name = "[LSP]",
-					["s"] = { name = "[Symbols]" },
-					["h"] = { name = "[Haskell]" },
-					["t"] = {
-						name = "[Typescript]",
-						["i"] = { name = "[Imports]" },
-					},
-					["w"] = { name = "[Workspace]" },
-				},
-				["g"] = { name = "Go to" },
-				["["] = { name = "Previous" },
-				["]"] = { name = "Next" },
+			require("which-key").setup({
+				preset = "modern",
+				
+			})
+			require("which-key").add({
+				-- Personal (leader)
+				{ "<leader>", group = "[Personal]" },
+				{ "<leader>d", group = "[Docs]" },
+				{ "<leader>b", group = "[Debug]" },
+				{ "<leader>f", group = "[Find]" },
+				{ "<leader>g", group = "[Git]" },
+				{ "<leader>h", group = "[Git hunk]" },
+				{ "<leader>l", group = "[Log]" },
+				{ "<leader>r", group = "[Rulebook/Rest]" },
+				{ "<leader>t", group = "[Test]" },
+				{ "<leader>x", group = "[Trouble]" },
+				{ "<leader>y", group = "[Yeet]" },
+				-- LSP (space)
+				{ "<space>", group = "[LSP]" },
+				{ "<space>s", group = "[Symbols]" },
+				{ "<space>h", group = "[Haskell]" },
+				{ "<space>t", group = "[Typescript]" },
+				{ "<space>ti", group = "[Imports]" },
+				{ "<space>w", group = "[Workspace]" },
+				-- Other
+				{ "g", group = "Go to" },
+				{ "[", group = "Previous" },
+				{ "]", group = "Next" },
 			})
 		end,
 	},

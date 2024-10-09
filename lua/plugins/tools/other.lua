@@ -7,6 +7,6 @@ return {
 	"jq",              -- Manipulate JSON
 	"remark-cli",      -- Compile markdown (commonmark) with plugins
 	"tectonic",        -- LaTeX compiler (improved XeTeX ?)
-	"tree-sitter-cli", -- Treesitter
+	-- "tree-sitter-cli", -- Treesitter CLI (prefer native)
 }
 

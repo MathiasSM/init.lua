@@ -8,16 +8,17 @@
 return {
 	{
 		"numToStr/Comment.nvim",
+		dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
 		event = "InsertEnter",
-		keys = {
-			{ "gc", mode = "v", desc = "[Comment] Line" },
-			{ "gb", mode = "v", desc = "[Comment] Block" },
-			{ "gcc", desc = "[Comment] Line" },
-			{ "gbc", desc = "[Comment] Block" },
-		},
-		opts = {
-			mappings = { extra = false },
-		},
+		config = function ()
+			require('ts_context_commentstring').setup {
+			  enable_autocmd = false,
+			}
+			local integration = 
+			require('Comment').setup({
+				pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+			})
+		end
 	},
 
 	{
@@ -60,6 +61,7 @@ return {
 		},
 		config = function()
 			require("treesj").setup({
+				max_join_length = 1200,
 				use_default_keymaps = false,
 			})
 		end,
