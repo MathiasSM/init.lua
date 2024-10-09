@@ -16,6 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins definitions in CONFIG/lua/plugins.lua
 require("lazy").setup("plugins", {
+	lockfile = require("lazy_lockfile"),
 	change_detection = { enabled = true, notify = false },
 	checker = { enabled = true, notify = false },
 	ui = {

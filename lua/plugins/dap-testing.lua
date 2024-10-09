@@ -82,10 +82,20 @@ return {
 			},
 		},
 		config = function(_, opts)
+			local brazilPathCmd = {"brazil-path", "[JUnit5]all.classpath"}
+			local junitDeps = vim.split(vim.system(brazilPathCmd):wait().stdout, ":")
+			local junit_jar = nil
+			for _, jar in ipairs(junitDeps) do
+				if string.match(jar, "junit-platform-console") then
+					junit_jar = jar
+					break
+				end
+			end
+
 			opts.adapters = {
 				require("neotest-jest"),
 				require("neotest-haskell"),
-				require("neotest-java"),
+				require("neotest-java")({ junit_jar = junit_jar }),
 				require("neotest-bash"),
 				require("neotest-plenary"),
 				require("neotest-vim-test")({
