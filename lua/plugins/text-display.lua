@@ -15,6 +15,7 @@ return {
 		opts = {
 			highlight_group = "Comment",
 			cloak_length = 8,
+			cloak_telescope = true,
 			patterns = {
 				{
 					file_pattern = {
@@ -51,7 +52,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			signs = true, -- show icons in the signs column
-			sign_priority = 8, -- sign priority 
+			sign_priority = 8, -- sign priority
 			highlight = {
 				multiline = false,
 			},

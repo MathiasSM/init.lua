@@ -99,4 +99,6 @@ return {
 		ft = "lua",
 		config = true,
 	},
+
+	{ "Bilal2453/luvit-meta", lazy = true },
 }

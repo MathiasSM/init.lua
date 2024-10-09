@@ -11,7 +11,9 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = { "Harpoon" },
 		keys = {
-			"<C-e>", -- Defined in config
+ 			-- First few are defined in config
+			"<C-e>",
+			"<leader>0",
 			{
 				"<leader>=",
 				function() require("harpoon"):list():append() end,
@@ -69,7 +71,7 @@ return {
 				settings = {
 					save_on_toggle = true,
 					sync_on_ui_close = true,
-					key = vim.loop.cwd, -- Grouping key for lists,
+					key = vim.uv.cwd, -- Grouping key for lists,
 				},
 			})
 

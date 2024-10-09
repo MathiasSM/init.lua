@@ -20,7 +20,7 @@ return {
 	"json-lsp",                        -- JSON (Required for SchemaStore)
 	"jdtls",                           -- Java
 	"texlab",                          -- LaTeX
-	"lua-language-server",             -- Lua (Required for neodev)
+	"lua-language-server",             -- Lua
 	"remark-language-server",		   -- Markdown/commonmark
 	"mutt-language-server",            -- Mutt's muttrc
 	"perl-navigator",                  -- Perl
