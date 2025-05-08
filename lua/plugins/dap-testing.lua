@@ -4,10 +4,21 @@
 --
 -- @module testing
 
-return {
+return {{
+    "rcasia/neotest-java",
+    ft = "java",
+    dependencies = {
+      "mfussenegger/nvim-jdtls",
+      "mfussenegger/nvim-dap", -- for the debugger
+      "rcarriga/nvim-dap-ui", -- recommended
+      "theHamsta/nvim-dap-virtual-text", -- recommended
+    },
+  },
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
+			
+		  "nvim-neotest/nvim-nio",
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -93,9 +104,16 @@ return {
 			end
 
 			opts.adapters = {
-				require("neotest-jest"),
+				require("neotest-jest")({
+					jestCommand = "bb test --",
+					jestConfigFile = "jest.config.cjs",
+					jest_test_discovery = false,
+					env = { CI = true },
+					cwd = function(path)
+						return vim.fn.getcwd()
+					end,
+				}),
 				require("neotest-haskell"),
-				require("neotest-java")({ junit_jar = junit_jar }),
 				require("neotest-bash"),
 				require("neotest-plenary"),
 				require("neotest-vim-test")({
@@ -111,6 +129,7 @@ return {
 						"lua",
 					},
 				}),
+				["neotest-java"] = { junit_jar = junit_jar },
 			}
 
 			require("neotest").setup(opts)

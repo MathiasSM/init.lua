@@ -1,117 +1,104 @@
+--- @module "mason-lspconfig"
+--- @module "lspconfig"
+
+--- @alias Handlers MasonLspconfigSettings["handlers"]
+
 --- Builds the handlers for each LSP server
---
--- As required by mason-lspconfig.setup({handlers})
---
--- Requires (lazily?) lspconfig, schemastore, cmp_nvim_lsp
+---
+--- As required by mason-lspconfig.setup({handlers})
+--- @return Handlers
 local function get_handler_setups()
 	local completion_capabilities = require("cmp_nvim_lsp").default_capabilities()
-	return {
-		-- [1]: Default handler
-		function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-			})
-		end,
-		-- [*] Specific handlers
-		["jdtls"] = function() end, -- Set in private
-		["jsonls"] = function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
+
+	local default_handler = function(server_name)
+		require("lspconfig")[server_name].setup({
+			capabilities = completion_capabilities,
+		})
+	end
+
+	local handlers = { default_handler }
+
+	-- These are setup by a separate plugin
+	for _, ls in ipairs({"hls", "ts_ls", "jdtls"}) do
+		-- Return true to avoid duplicate servers 
+		handlers[ls] = function() return true end
+	end
+
+	function handlers.bashls(server_name)
+		require("lspconfig")[server_name].setup({
+			capabilities = completion_capabilities,
+			filetypes = { "sh", "bash", "zsh" },
+		})
+	end
+
+	function handlers.custom_elements_ls(server_name)
+		require("lspconfig")[server_name].setup({
+			capabilities = completion_capabilities,
+			settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
 				},
-			})
-		end,
-		["tsserver"] = function()
-			-- Handled by typescript-tools
-		end,
-		["bashls"] = function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-				filetypes = { "sh", "bash", "zsh" },
-			})
-		end,
-		["custom_elements_ls"] = function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
+			},
+			filetypes = {
+				"html",
+				"typescript",
+				"javascript",
+				"typescriptreact",
+				"javascriptreact",
+			},
+		})
+	end
+
+	function handlers.jsonls(server_name)
+		require("lspconfig")[server_name].setup({
+			capabilities = completion_capabilities,
+			settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
 				},
-				filetypes = {
-					"html",
-					"typescript",
-					"javascript",
-					"typescriptreact",
-					"javascriptreact",
-				},
-			})
-		end,
-		["hls"] = function()
-			-- Handled by haskell-tools
-            return true -- Avoid duplicate servers
-		end,
-		["jsonls"] = function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = completion_capabilities,
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
-				},
-			})
-		end,
-		["tsserver"] = function()
-			-- Handled by typescript-tools
-            return true -- Avoid duplicate servers
-		end,
-	}
+			},
+		})
+	end
+	return handlers
 end
 
+--- @type LazySpec
 return {
 	{
 		"neovim/nvim-lspconfig",
-		keys = {
-			{
-				"<space><cr>",
-				function()
-					vim.keymap.del("n", "<space><cr>") -- TODO: PR so whichkey can remove keys!
-					require("lsp-toggle").setup({ create_cmds = true, telescope = true })
-					vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
-					vim.notify("Loaded. Use `:ToggleLSP` to turn any client on/off on each buffer")
-				end,
-				desc = "[LSP] Turn on LSPs",
-			},
-		},
+        lazy = true,
 		dependencies = {
-			{ "j-hui/fidget.nvim", opts = {} },
+			"j-hui/fidget.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			-- For my custom logic:
-			{
-				"adoyle-h/lsp-toggle.nvim",
-				dependencies = {
-					"nvim-telescope/telescope.nvim",
-					"neovim/nvim-lspconfig",
-					"keyvchan/telescope-find-pickers.nvim",
-				},
-			},
 		},
 		config = function()
-			require("mason-lspconfig").setup({
-				handlers = get_handler_setups(),
-			})
+			require("mason-lspconfig").setup({ handlers = get_handler_setups() })
 		end,
 	},
 
 	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		config = true,
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                "luvit-meta/library",
+                "lazy.nvim"
+            },
+        },
+    },
+
+    { "Bilal2453/luvit-meta", lazy = true },
+
+	{ "j-hui/fidget.nvim", evetn = "VeryLazy", opts = {} },
+
+	{
+		"adoyle-h/lsp-toggle.nvim",
+        keys = {
+            { "<space><cr>", ":LspStart<cr>", desc = "[LSP] Start LSP(s)" }
+        },
+		dependencies = { "neovim/nvim-lspconfig" },
+		opts = { autostart = false, telescope = false, create_cmds = false }
 	},
 }

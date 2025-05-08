@@ -18,6 +18,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			"nvim-telescope/telescope-ui-select.nvim"
 		},
 		cmd = "Telescope",
 		keys = {
@@ -43,6 +44,8 @@ return {
 			require("telescope").load_extension("fzf")
 		end,
 	},
+
+	{ 'stevearc/dressing.nvim', event = "VeryLazy", opts = {} },
 
 	{
 		"kelly-lin/telescope-ag",

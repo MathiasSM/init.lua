@@ -56,7 +56,9 @@ return {
 						vim.notify(
 							"Formatting using LSP(s): " .. table.concat(active_client_names, ", ")
 						)
-						vim.lsp.buf.format()
+						vim.lsp.buf.format({
+							filter = function(client) return client.name ~= "tsserver" end
+						})
 					elseif has_normal_formatting then
 						vim.notify(
 							"Formatting using (Non-LSP): " .. table.concat(non_lsp_formatters, ", ")

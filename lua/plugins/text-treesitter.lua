@@ -36,7 +36,8 @@ local treesitter_grammars_to_install = {
 	-- Other
 	"html",  -- Required for luckasRanarison/nvim-devdocs
 	"http", "json", -- Both required for rest.nvim
-	"query" -- Recommended for playground
+	"query", -- Recommended for playground
+	"dap_repl"
 }
 
 return {

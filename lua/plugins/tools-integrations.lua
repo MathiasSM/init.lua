@@ -62,11 +62,6 @@ return {
 				desc = "[Yeet] Set cmd",
 			},
 			{
-				"<leader>\\",
-				function() require("yeet").execute() end,
-				desc = "[Yeet] Execute",
-			},
-			{
 				"<leader>9",
 				function()
 					local harpoon = require("harpoon")

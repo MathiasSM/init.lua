@@ -37,7 +37,7 @@ return {
 
 	-- Specific tools
 	"sonarlint-language-server", -- Java, JS, TS, CSS, HTML, Python, C#, PHP, Go, Ruby, VB, Kotlin
-	"harper-ls",                 -- Prose. Grammar checker Linter-as-LSP
+	--"harper-ls",                 -- Prose. Grammar checker Linter-as-LSP
 	"vale-ls",                   -- Prose. Style Linter-as-LSP
 	"typos-lsp", 				 -- Typos.
 	"autotools-language-server", -- Makefiles (make, automake, autoconf)

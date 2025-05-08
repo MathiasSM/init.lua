@@ -93,6 +93,19 @@ vim.opt.formatoptions = table.concat({
 vim.opt.spelllang = "en,es,fr,cjk"
 vim.opt.spelloptions = "camel" -- Separate words in camelCase
 
+
+local uv = vim.uv
+
+vim.api.nvim_create_autocmd({ 'VimEnter', 'VimLeave' }, {
+	callback = function()
+		if vim.env.TMUX_PLUGIN_MANAGER_PATH then
+			uv.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
+		end
+	end,
+})
+
+
+
 require("diagnostic")
 require("commands")
 require("mappings")
