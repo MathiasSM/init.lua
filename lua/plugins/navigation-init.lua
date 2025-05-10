@@ -3,8 +3,6 @@
 -- @module navigation
 
 return {
-	{ "mateuszwieloch/automkdir.nvim", event = "VeryLazy" },
-
 	{
 		"ThePrimeagen/harpoon", -- NOTE: Consider cbochs/grapple.nvim or desdic/marlin.nvim
 		branch = "harpoon2",
