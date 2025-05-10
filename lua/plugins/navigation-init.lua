@@ -57,11 +57,6 @@ return {
 			},
 		},
 		config = function()
-			local function refresh_neotree()
-				local neotree_sources_manager = package.loaded["neo-tree.sources.manager"]
-				if neotree_sources_manager ~= nil then neotree_sources_manager.refresh() end
-			end
-
 			local harpoon = require("harpoon")
 			local harpoon_default_list = require("harpoon.config").DEFAULT_LIST
 
@@ -86,13 +81,11 @@ return {
 				end,
 				ADD = function(ctx)
 					vim.notify(list_name(ctx.list.name) .. "  " .. ctx.item.value)
-					refresh_neotree()
 				end,
 				REMOVE = function(ctx)
 					vim.notify(list_name(ctx.list.name) .. " 󰍴 " .. ctx.item.value)
-					refresh_neotree()
 				end,
-				REORDER = function() refresh_neotree() end,
+				REORDER = function() end,
 			})
 
 			vim.keymap.set("n", "<leader>0", function()

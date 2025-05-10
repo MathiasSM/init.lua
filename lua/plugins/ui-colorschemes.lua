@@ -34,7 +34,7 @@ return {
 					markdown = true,
 					mason = true,
 					neotest = true,
-					neotree = true,
+					neotree = false,
 					treesitter_context = true,
 					which_key = true,
 					native_lsp = {
