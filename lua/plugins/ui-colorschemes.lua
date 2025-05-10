@@ -54,20 +54,6 @@ return {
 	},
 
 	{
-		"folke/tokyonight.nvim",
-		lazy = true,
-		opts = {
-			dim_inactive = true,
-			transparent = true,
-			styles = {
-				sidebars = "transparent",
-				floats = "transparent",
-				comments = { italic = true },
-			},
-		},
-	},
-
-	{
 		"nyngwang/nvimgelion",
 		lazy = true,
 		config = function()
