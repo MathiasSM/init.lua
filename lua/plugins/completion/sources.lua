@@ -3,7 +3,7 @@ local M = {}
 local function config_sources()
 	---@diagnostic disable-next-line: missing-fields
 	require("gitmoji").setup({ completion = { complete_as = "emoji" } })
-	require("cmp_git").setup()
+	require("cmp_git").setup({}) ---@diagnostic disable-line: missing-fields
 	require("cmp_pandoc").setup({ crossref = { enable_nabla = true } })
 	require("cmp_im").setup({
 		enable = true,
@@ -64,8 +64,7 @@ end
 
 
 --- Setup global and specifc sources
-function M.setup_sources()
-	local cmp = require("cmp")
+function M.setup_sources(cmp)
     config_sources()
     local lists = build_source_lists()
 
@@ -83,6 +82,11 @@ function M.setup_sources()
             {{ name = 'path' }},
             {{ name = 'cmdline' }}
         ),
+        matching = { disallow_symbol_nonprefix_matching = false }, ---@diagnostic disable-line: missing-fields
+        window = {
+          completion = cmp.config.window.bordered({ border = "none" }),
+          documentation = cmp.config.window.bordered(),
+        },
     })
 
     -- By filetype

@@ -10,4 +10,3 @@
 require("mappings.overrides")
 require("mappings.personal")
 require("mappings.lsp")
-require("mappings.diagnostic")

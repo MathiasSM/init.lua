@@ -1,79 +1,102 @@
+
+
+
+local encoding = {
+  "encoding",
+  cond = function()
+    return "utf-8" ~= vim.opt.fileencoding:get()
+  end,
+}
+
+local short_mode = {
+  "mode",
+  fmt = function(str) return str:sub(1, 1) end,
+}
+
+local filename = {
+  "filename",
+  newfile_status = true,
+  path = 1,
+  separator = "",
+}
+
+local treesitter_node = {
+  function()
+    local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
+    if node == nil then return nil end
+    return "[" .. node:type() .. "]"
+  end,
+  color = "lualine_c_inactive",
+}
+
 return {
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			local function is_not_unicode() return "utf-8" ~= vim.opt.fileencoding:get() end
-			local short_mode = { "mode", fmt = function(str) return str:sub(1, 1) end }
-			local filename = {
-				"filename",
-				newfile_status = true,
-				path = 1,
-				separator = "",
-			}
-			local encoding = { "encoding", cond = is_not_unicode }
-			local treesitter_node = {
-				function()
-					local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
-					if node == nil then return nil end
-					return "[" .. node:type() .. "]"
-				end,
-				color = "lualine_c_inactive",
-			}
-			require("lualine").setup({
-				options = {
-					theme = "auto",
-					icons_enabled = true,
-				},
-				sections = {
-					lualine_a = {
-						short_mode,
-					},
-					lualine_b = { "branch", "diff" },
-					lualine_c = {
-						filename,
-						treesitter_node,
-					},
-					lualine_x = {
-						"diagnostics",
-						"filetype",
-						encoding,
-						"fileformat",
-					},
-					lualine_y = { "selectioncount", "searchcount", "progress" },
-					lualine_z = { "location" },
-				},
-				inactive_sections = {
-					lualine_a = {},
-					lualine_b = { "branch", "diff" },
-					lualine_c = { filename, "diagnostics" },
-					lualine_x = {
-						{ "filetype", icons_enabled = false },
-						"encoding",
-						"fileformat",
-					},
-					lualine_y = { "progress" },
-					lualine_z = { "location" },
-				},
-				tabline = {
-					-- NOTE: If I ever need a tabbar:
-					-- lualine_b = {{ "tabs", mode = 2, path = 1, separator = {left='',right=''}}},
-				},
-				winbar = {},
-				inactive_winbar = {},
-				extensions = {
-					"fugitive",
-					"lazy",
-					"man",
-					"mason",
-					"neo-tree",
-					"nvim-dap-ui",
-					"oil",
-					"quickfix",
-					"trouble",
-				},
-			})
-		end,
-	},
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    config = function()
+      local lualine_a = { short_mode }
+      local inactive_a = { }
+      local lualine_b = { "branch", "diff" }
+      local inactive_b = lualine_b
+      local lualine_c = { filename, treesitter_node }
+      local inactive_c = { filename, "diagnostics" }
+
+      local lualine_x = {
+        "diagnostics",
+        "filetype",
+        "lsp_status",
+        encoding,
+        "fileformat",
+      }
+      local inactive_x = {
+        { "filetype", colored = false },
+        encoding,
+        "fileformat",
+      }
+      local lualine_y = { "selectioncount", "searchcount", "progress" }
+      local inactive_y = { "progress" }
+      local lualine_z = { "location" }
+      local inactive_z = lualine_z
+      require("lualine").setup({
+        options = {
+          theme = "auto",
+          icons_enabled = true,
+        },
+        sections = {
+          lualine_a = lualine_a,
+          lualine_b = lualine_b,
+          lualine_c = lualine_c,
+          lualine_x = lualine_x,
+          lualine_y = lualine_y,
+          lualine_z = lualine_z,
+        },
+        inactive_sections = {
+          lualine_a = inactive_a,
+          lualine_b = inactive_b,
+          lualine_c = inactive_c,
+          lualine_x = inactive_x,
+          lualine_y = inactive_y,
+          lualine_z = inactive_z,
+        },
+        tabline = {
+          -- NOTE: If I ever need a tabbar:
+          -- lualine_b = {{ "tabs", mode = 2, path = 1, separator = {left='',right=''}}},
+        },
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {
+          "fugitive",
+          "fzf",
+          "lazy",
+          "man",
+          "mason",
+          "nvim-dap-ui",
+          "oil",
+          "quickfix",
+          "trouble",
+        },
+      })
+    end,
+  },
 }

@@ -2,14 +2,18 @@
 -- This file sets the core/base options
 -- @script
 
+-- TODO: What was this for?
 vim.cmd("let g:python3_host_prog='" .. vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
+
+-- Leader
+vim.g.mapleader = "\\"
 
 -- Integration
 vim.opt_global.mouse = "a"
 
 -- UI
 vim.opt_global.confirm = true -- Ask instead of failing
-vim.opt_global.termguicolors = true -- Enable good colors -- TODO
+vim.opt_global.termguicolors = true -- Enable good colors
 vim.opt_global.cmdheight = 2 -- Command separated from output
 
 -- IO
@@ -94,6 +98,5 @@ vim.opt.spelllang = "en,es,fr,cjk"
 vim.opt.spelloptions = "camel" -- Separate words in camelCase
 
 require("diagnostic")
-require("commands")
 require("mappings")
 require("lazy_config")

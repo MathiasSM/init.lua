@@ -5,15 +5,15 @@ return {
 	-- Specific languages
 	"awk-language-server",             -- AWK
 	"bash-language-server",            -- Bash
-	"clangd",                          -- C++
+	-- "clangd",                          -- C++
 	"cmake-language-server",           -- CMake
 	"css-lsp",                         -- CSS, SCSS & LESS
-	"csharp-language-server",          -- Csharp
-	"dhall-lsp",                       -- Dhall
+	-- "csharp-language-server",          -- Csharp
+	-- "dhall-lsp",                       -- Dhall
 	"docker-compose-language-service", -- Docker compose
 	"dockerfile-language-server",      -- Dockerfiles
 	"dot-language-server",             -- Dot
-	"gopls",                           -- Go
+	-- "gopls",                           -- Go
 	"graphql-language-service-cli",    -- GraphQL
 	"html-lsp",                        -- HTML
 	"haskell-language-server",         -- Haskell (Required for haskell-tools)
@@ -22,15 +22,15 @@ return {
 	"texlab",                          -- LaTeX
 	"lua-language-server",             -- Lua
 	"remark-language-server",		   -- Markdown/commonmark
-	"mutt-language-server",            -- Mutt's muttrc
+	-- "mutt-language-server",            -- Mutt's muttrc
 	"perl-navigator",                  -- Perl
-	"purescript-language-server",      -- Purescript
+	-- "purescript-language-server",      -- Purescript
 	"python-lsp-server", 			   -- Python
-	"rust-analyzer",                   -- Rust
+	-- "rust-analyzer",                   -- Rust
 	"taplo",                           -- TOML
 	"typescript-language-server",      -- TypeScript (used only indirectly by typescript-tools)
 	"vim-language-server",             -- Vimscript
-	"custom-elements-languageserver",  -- WebComponents
+	-- "custom-elements-languageserver",  -- WebComponents
 	"lemminx",                         -- XML
 	"yaml-language-server",            -- YAML
 	"jsonnet-language-server",         -- jsonnet
