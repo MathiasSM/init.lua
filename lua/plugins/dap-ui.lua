@@ -1,3 +1,5 @@
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "rcarriga/nvim-dap-ui",
@@ -25,16 +27,6 @@ return {
       dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open({}) end
       dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close({}) end
       dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
-    end,
-  },
-
-  {
-    "LiadOz/nvim-dap-repl-highlights",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    ft = "dap-repl",
-    config = function()
-      require("nvim-dap-repl-highlights").setup()
-      vim.cmd("TSUpdate dap_repl")
     end,
   },
 

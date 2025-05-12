@@ -2,9 +2,9 @@
 --
 -- Insertions (manipulations that don't modify but are rather only inserting new text)
 -- are defined in a different file.
---
--- @module text-manipulation
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "numToStr/Comment.nvim",
@@ -39,10 +39,12 @@ return {
           decrement = "<C-x>",
         },
         additions = {
-          { "ERROR", "WARN", "INFO", "HINT", "DEBUG" },
         },
         allow_caps_additions = {
           { "enable", "disable" }, -- Enable → Disable, ENABLE → DISABLE, ...
+          { "error", "warn", "info", "hint", "debug" },
+          { "high", "low" },
+          { "left", "right" },
         },
       })
     end,

@@ -1,9 +1,9 @@
 --- Debugging configuration (`nvim-dap`)
 --
 -- Configuration and mappings subtly copied from lazyvim distro
---
--- @module debugging
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "mfussenegger/nvim-dap",

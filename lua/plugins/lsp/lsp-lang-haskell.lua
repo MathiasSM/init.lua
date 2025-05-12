@@ -1,3 +1,5 @@
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "mrcjkb/haskell-tools.nvim",
@@ -9,7 +11,6 @@ return {
         desc = "Attach haskell-language-server on haskell files",
         group = vim.api.nvim_create_augroup("UserLspConfigHaskell", {}),
         callback = function()
-          require("telescope").load_extension("ht")
           local ht = require("haskell-tools")
           local bufnr = vim.api.nvim_get_current_buf()
           local keyOpts = function(desc)

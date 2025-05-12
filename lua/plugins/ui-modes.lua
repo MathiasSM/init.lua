@@ -1,35 +1,6 @@
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
-  {
-    "folke/zen-mode.nvim",
-    cmd = { "ZenMode" },
-    keys = {
-      {
-        "<leader>z",
-        function() require("zen-mode").toggle() end,
-        desc = "[ZenMode] Toggle",
-      },
-    },
-    opts = {
-      window = {
-        options = {
-          signcolumn = "no",
-          number = false,
-          relativenumber = false,
-          cursorline = false,
-          cursorcolumn = false,
-          foldcolumn = "0",
-        },
-      },
-      plugins = {
-        gitsigns = { enabled = true },
-        todo = { enabled = false }, -- todo-comments
-
-      },
-      on_open = function(win) end,
-      on_close = function() end,
-    },
-  },
-
   {
     "nvim-treesitter/playground",
     dependencies = "nvim-treesitter/nvim-treesitter",

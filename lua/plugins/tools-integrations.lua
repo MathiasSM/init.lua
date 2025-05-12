@@ -1,7 +1,7 @@
 --- Integration with external tools
---
--- @module
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "aserowy/tmux.nvim",
@@ -13,18 +13,10 @@ return {
       { "<C-l>", function() require("tmux").move_right() end, desc = "[TMUX] Right" },
     },
     opts = {
-      copy_sync = {
-        redirect_to_clipboard = true,
-      },
-      navigation = {
-        enable_default_keybindings = false,
-      },
-      resize = {
-        enable_default_keybindings = false,
-      },
-      swap = {
-        enable_default_keybindings = false,
-      }
+      copy_sync = { redirect_to_clipboard = true },
+      navigation = { enable_default_keybindings = false },
+      resize = { enable_default_keybindings = false },
+      swap = { enable_default_keybindings = false }
     },
   },
 

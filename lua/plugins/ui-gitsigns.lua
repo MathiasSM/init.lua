@@ -1,3 +1,5 @@
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "lewis6991/gitsigns.nvim",
@@ -34,17 +36,18 @@ return {
       },
       {
         mode = "v",
-        "<leader>hs",
+        "<leader>ha",
         function()
           require("gitsigns").stage_hunk({
             vim.fn.line("."),
             vim.fn.line("v"),
           })
         end,
-        desc = "[Git] Stage hunk",
+        desc = "[Git] Add (Stage) hunk",
       },
 
       {
+        mode = "n",
         "<leader>hr",
         function() require("gitsigns").reset_hunk() end,
         desc = "[Git] Reset hunk",
@@ -64,18 +67,18 @@ return {
       {
         "<leader>hu",
         function() require("gitsigns").undo_stage_hunk() end,
-        desc = "[Git] Undo stage hunk",
+        desc = "[Git] Undo add (stage) hunk",
       },
 
       {
         "<leader>hS",
         function() require("gitsigns").stage_buffer() end,
-        desc = "[Git] Stage buffer",
+        desc = "[Git] Add (stage) buffer",
       },
       {
         "<leader>hR",
         function() require("gitsigns").reset_buffer() end,
-        desc = "[Git] Reset buffer",
+        desc = "[Git] Reset add (stage) buffer",
       },
 
       {
@@ -84,14 +87,7 @@ return {
         desc = "[Git] Preview hunk",
       },
 
-      {
-        "<leader>gB",
-        function()
-          require("gitsigns").blame_line({ full = true, ignore_whitespace = true })
-        end,
-        desc = "[Git] Full blame on float",
-      },
-      {
+      { -- TODO: TOGGLE
         "<leader>gb",
         function() require("gitsigns").toggle_current_line_blame() end,
         desc = "[Git] Blame (toggle)",

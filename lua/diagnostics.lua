@@ -27,7 +27,6 @@ local diagnostic_config = {
 		scope = "line",
 		header = "Diagnostics",
 		source = true,
-		severity = { min = vim.diagnostic.severity.INFO }
 	},
 	jump = {
 		wrap = true, -- loop around after last item
@@ -42,3 +41,4 @@ local goto_next = function() vim.diagnostic.jump({ count = 1 }) end
 vim.keymap.set("n", "<space>e", open_float, { desc = "[Diagnostics] Open float" })
 vim.keymap.set("n", "[d", goto_prev, { desc = "[Diagnostics] Previous" })
 vim.keymap.set("n", "]d", goto_next, { desc = "[Diagnostics] Next" })
+

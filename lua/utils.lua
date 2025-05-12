@@ -1,5 +1,4 @@
 --- Some utility functions to use across my nvim configuration
--- @module utils
 
 local M = {}
 

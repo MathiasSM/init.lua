@@ -1,7 +1,5 @@
 --- Central config for UI priority levels
 -- For virtual text, signcolumn, etc.
---
--- @module ui-priorities
 
 local M = {}
 

@@ -1,6 +1,4 @@
 --- Treesitter and textobjs
---
--- @module treesitter
 
 -- stylua: ignore
 local treesitter_grammars_to_install = {
@@ -39,6 +37,8 @@ local treesitter_grammars_to_install = {
   "query" -- Recommended for playground
 }
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "nvim-treesitter/nvim-treesitter",

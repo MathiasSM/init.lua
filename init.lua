@@ -2,9 +2,6 @@
 -- This file sets the core/base options
 -- @script
 
--- TODO: What was this for?
-vim.cmd("let g:python3_host_prog='" .. vim.env.HOME .. "/.pyenv/versions/py3nvim/bin/python'")
-
 -- Leader
 vim.g.mapleader = "\\"
 
@@ -16,6 +13,18 @@ vim.opt_global.confirm = true -- Ask instead of failing
 vim.opt_global.termguicolors = true -- Enable good colors
 vim.opt_global.cmdheight = 2 -- Command separated from output
 
+-- pumheight
+vim.opt_global.pumheight = 15 -- Initial max height (autocomplete)
+vim.api.nvim_create_augroup("my.config", {})
+vim.api.nvim_create_autocmd("VimResized", {
+  group = "my.config",
+  callback = function()
+    local pumheight_pct = .4
+    local win_height = vim.api.nvim_win_get_height(0)
+    vim.opt_global.pumheight = math.floor(win_height * pumheight_pct)
+  end,
+})
+
 -- IO
 vim.opt_global.fileformats = { "unix", "dos", "mac" } -- Use Unix even in Windows
 vim.opt_global.exrc = false -- Explicitly disallow project-specific config
@@ -24,6 +33,7 @@ vim.opt_global.exrc = false -- Explicitly disallow project-specific config
 vim.opt_global.splitbelow = true -- Predictable
 vim.opt_global.splitright = true -- Predictable
 
+
 -- Scrolling
 vim.opt_global.scrolljump = 5 -- Autoscroll when going out of screen
 vim.opt_global.sidescroll = 5 -- Autoscroll when going out of screen
@@ -31,13 +41,13 @@ vim.opt_global.sidescroll = 5 -- Autoscroll when going out of screen
 -- Wild*
 -- stylua: ignore
 vim.opt_global.wildignore:append({
-	"*/.DS_Store", "*/._*", -- macOS
-	"*/.git", "*/.hg", "*/.svn", -- Versioning
-	"*/node_modules", -- Big vendors
-	"*.png", "*.jpg", "*.jpeg", "*.webp", -- Images
-	"*.ttf", "*.otf", "*.woff", "*.woff2", "*.eot", -- Fonts
-	"*.class", "*.0", "*.pyc", "*.hi", "*.o", "*.stack-work", "*/__pycache__/", -- Compiled code
-	"*.pdf", -- Other binaries
+  "*/.DS_Store", "*/._*", -- macOS
+  "*/.git", "*/.hg", "*/.svn", -- Versioning
+  "*/node_modules", -- Big vendors
+  "*.png", "*.jpg", "*.jpeg", "*.webp", -- Images
+  "*.ttf", "*.otf", "*.woff", "*.woff2", "*.eot", -- Fonts
+  "*.class", "*.0", "*.pyc", "*.hi", "*.o", "*.stack-work", "*/__pycache__/", -- Compiled code
+  "*.pdf", -- Other binaries
 })
 -- vim.opt_global.wildmode = "longest:full,full"
 
@@ -50,11 +60,7 @@ vim.opt_global.smartcase = true
 vim.opt_global.virtualedit = "block" -- Allow editing past actual characters in VISUAL
 
 -- Non-printable characters
-if vim.opt.encoding == "utf-8" then
-	vim.opt_global.listchars = { tab = "▸ ", extends = "❯", precedes = "❮", nbsp = "±" }
-else
-	vim.opt_global.listchars = { tab = "> ", extends = ">", precedes = "<", nbsp = "." }
-end
+vim.opt_global.listchars = { tab = "▸ ", extends = "❯", precedes = "❮", nbsp = "±" }
 
 -- Special vim files
 vim.opt_global.backup = true
@@ -84,19 +90,19 @@ vim.opt.smartindent = true -- Insert or remove indentation autosmartically
 
 -- Format options
 vim.opt.formatoptions = table.concat({
-	"n", -- Recognize lists for formatting
-	"r", -- Add comment leader on enter
-	"o", -- Add comment leader on o/O
-	"/", -- Add comment leader on o/O when line is not 100% comment
-	"j", -- Remove comments on Joins
-	-- No auto-wrap of text with "t"
-	-- No auto-wrap of comments with "c"
+  "n", -- Recognize lists for formatting
+  "r", -- Add comment leader on enter
+  "o", -- Add comment leader on o/O
+  "/", -- Add comment leader on o/O when line is not 100% comment
+  "j", -- Remove comments on Joins
+  -- No auto-wrap of text with "t"
+  -- No auto-wrap of comments with "c"
 }, "")
 
 -- Spelling
 vim.opt.spelllang = "en,es,fr,cjk"
 vim.opt.spelloptions = "camel" -- Separate words in camelCase
 
-require("diagnostic")
+require("diagnostics")
 require("mappings")
 require("lazy_config")

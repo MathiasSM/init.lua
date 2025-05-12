@@ -2,9 +2,9 @@
 --
 -- I initially had each plugin spec define their own tree, but got into overwrites
 -- and decided to keep it all groups sync'd on one file (this one).
---
--- @module whichkey
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "folke/which-key.nvim",
@@ -16,7 +16,9 @@ return {
       })
       require("which-key").add({
         -- Personal (leader)
-        { "<leader>",  group = "[Personal]" },
+        { "<leader>",           group = "[Personal]" },
+        { "<leader>v",          group = "[Vim Toggle]" },
+        { "<leader><leader>",   group = "[My Toggles]" },
         { "<leader>d", group = "[Docs]",      icon = { icon = "󰈙", color = "cyan" } },
         { "<leader>b", group = "[Debug]" },
         { "<leader>f", group = "[Find]" },
@@ -32,10 +34,6 @@ return {
         { "<space>t",  group = "[Typescript]",  icon = "󰛦" },
         { "<space>ti", group = "[TS:Imports]",  icon = "󰛦" },
         { "<space>w",  group = "[Workspace]",   icon = "󰙅" },
-        -- Other
-        { "g",         group = "Go to" },
-        { "[",         group = "Previous" },
-        { "]",         group = "Next" },
       })
     end,
   },

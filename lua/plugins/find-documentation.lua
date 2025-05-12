@@ -3,9 +3,9 @@
 -- * Generation of documentation tags
 -- * Generation of HTML/other documentation pages from comment tags
 -- * Find documentation
---
--- @module documentation
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "Zeioth/dooku.nvim",
@@ -68,32 +68,5 @@ return {
       vim.schedule(function() vim.cmd("DevdocsFetch") end)
       vim.notify('You may update docs with `nvim --headless +"DevdocsUpdateAll"`')
     end,
-  },
-
-  {
-    "luc-tielen/telescope_hoogle",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    build = function()
-      if vim.fn.executable("hoogle") ~= 1 then
-        vim.notify(
-          "Did not find `hoogle` executable!\nInstall it with `cabal install hoogle`",
-          vim.log.levels.ERROR
-        )
-        return
-      end
-      vim.notify("Running `hoogle generate &`", vim.log.levels.INFO)
-      vim.fn.system("hoogle generate &")
-    end,
-    keys = { { "<leader>dh", "<cmd>Telescope hoogle<cr>", desc = "[Telescope] Hoogle" } },
-    config = function() require("telescope").load_extension("hoogle") end,
-  },
-
-  {
-    "barrett-ruth/http-codes.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    keys = {
-      { "<leader>fa", "<cmd>HTTPCodes<cr>", desc = "[Telescope] HTTP codes" },
-    },
-    config = true
   },
 }

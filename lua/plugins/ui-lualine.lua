@@ -29,6 +29,8 @@ local treesitter_node = {
   color = "lualine_c_inactive",
 }
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "nvim-lualine/lualine.nvim",

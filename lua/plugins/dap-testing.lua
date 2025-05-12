@@ -1,9 +1,9 @@
 --- Plugins for running tests
 --
 -- Some interact with the DAP
---
--- @module testing
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "nvim-neotest/neotest",

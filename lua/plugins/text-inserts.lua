@@ -1,8 +1,8 @@
 --- Special actions that insert text into the buffer
 --
 -- These do not manipulate the buffer in any other way.
---
--- @module text-inserts
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "danymat/neogen",

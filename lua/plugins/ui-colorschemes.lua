@@ -2,8 +2,9 @@
 -- The default one must have lazy=false, priority=1000
 -- The others should have lazy=true
 --
--- @module colorschemes
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "catppuccin/nvim",
@@ -23,7 +24,6 @@ return {
           cmp = true,
           dap = true,
           dap_ui = true,
-          fidget = true,
           gitgutter = true,
           gitsigns = true,
           harpoon = true,
@@ -32,10 +32,8 @@ return {
           markdown = true,
           mason = true,
           neotest = true,
-          neotree = false,
           notify = true,
-          nvimtree = false,
-          telescope = { enabled = true },
+          snacks = { enabled = true },
           treesitter = true,
           treesitter_context = true,
           which_key = true,

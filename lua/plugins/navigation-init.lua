@@ -1,7 +1,8 @@
 --- Navigation between files and across directories/projects
 -- Directories/file visualization definedin other files
--- @module navigation
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "ThePrimeagen/harpoon", -- NOTE: Consider cbochs/grapple.nvim or desdic/marlin.nvim
@@ -12,12 +13,16 @@ return {
        -- First few are defined in config
       "<C-e>",
       {
+        "<leader>9",
+        desc = "[Harpoon] Select List",
+      },
+      {
         "<leader>0",
         desc = "[Harpoon] Project Files",
       },
       {
         "<leader>=",
-        function() require("harpoon"):list():append() end,
+        function() require("harpoon"):list():add() end,
         desc = "[Harpoon] Add current to list",
       },
       {
@@ -61,8 +66,7 @@ return {
     },
     config = function()
       local harpoon = require("harpoon")
-      local harpoon_default_list = require("harpoon.config").DEFAULT_LIST
-
+      local harpoon_default_list = require("harpoon"):info().default_list_name
       harpoon:setup({
         settings = {
           save_on_toggle = true,
@@ -70,31 +74,40 @@ return {
           key = vim.uv.cwd, -- Grouping key for lists,
         },
       })
-
-      local list_name = function(name)
+      local get_list_name = function(name)
         if name == harpoon_default_list then return "" end
         return "[" .. name .. "]"
       end
-
       harpoon:extend({
         SELECT = function(ctx)
           vim.notify(
-            list_name(ctx.list.name) .. " ⥤  " .. ctx.idx .. ": " .. ctx.item.value
+            get_list_name(ctx.list.name) .. " ⥤  " .. ctx.idx .. ": " .. ctx.item.value
           )
         end,
         ADD = function(ctx)
-          vim.notify(list_name(ctx.list.name) .. "  " .. ctx.item.value)
+          vim.notify(get_list_name(ctx.list.name) .. "  " .. ctx.item.value)
         end,
         REMOVE = function(ctx)
-          vim.notify(list_name(ctx.list.name) .. " 󰍴 " .. ctx.item.value)
+          vim.notify(get_list_name(ctx.list.name) .. " 󰍴 " .. ctx.item.value)
         end,
         REORDER = function() end,
       })
+
+
+      local harpoon_extensions = require("harpoon.extensions")
+      harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
 
       vim.keymap.set("n", "<leader>0", function()
         local title = "Harpoon ⥤ " .. harpoon.config.settings.key()
         harpoon.ui:toggle_quick_menu(harpoon:list(), { title = title })
       end, { desc = "[Harpoon] Project files" })
+
+
+      local lists_list = harpoon:list("LISTS")
+
+      vim.keymap.set("n", "<leader>9", function()
+        vim.notify("Not implemented!", vim.diagnostic.severity.ERROR)
+      end)
     end,
   },
 }
