@@ -1,8 +1,3 @@
---- WhichKey configuration for "nested" keymaps
---
--- I initially had each plugin spec define their own tree, but got into overwrites
--- and decided to keep it all groups sync'd on one file (this one).
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
@@ -12,7 +7,6 @@ return {
     config = function()
       require("which-key").setup({
         preset = "modern",
-        expand = 2, -- Expand groups if less than n items
       })
       require("which-key").add({
         -- Personal (leader)

@@ -1,9 +1,3 @@
---- Documentation-related plugins
---
--- * Generation of documentation tags
--- * Generation of HTML/other documentation pages from comment tags
--- * Find documentation
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
@@ -68,5 +62,15 @@ return {
       vim.schedule(function() vim.cmd("DevdocsFetch") end)
       vim.notify('You may update docs with `nvim --headless +"DevdocsUpdateAll"`')
     end,
+  },
+
+  {
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true,
+    cmd = { "Neogen" },
+    keys = {
+      { "<leader>da", "<cmd>Neogen<cr>", desc = "[Neogen] Add docstrings" },
+    },
   },
 }

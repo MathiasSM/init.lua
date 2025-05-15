@@ -5,13 +5,6 @@
 return {
   {
     "folke/snacks.nvim",
-    lazy = false,
-    ---@type snacks.Config
-    opts = { quickfile = { enabled = true } },
-  },
-
-  {
-    "folke/snacks.nvim",
     keys = {
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>,",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
@@ -66,13 +59,13 @@ return {
       { '<leader>f"', function() Snacks.picker.registers() end,          desc = "Registers" },
       { '<leader>f/', function() Snacks.picker.search_history() end,     desc = "Search History" },
       -- LSP
-      -- { "<space>fd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
-      -- { "<space>fD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-      -- { "<space>fr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-      -- { "<space>fI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
-      -- { "<space>fy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
-      { "<space>fs", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-      { "<space>fS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+      { "<leader>ld", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+      { "<leader>lD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
+      { "<leader>lr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
+      { "<leader>lI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
+      { "<leader>ly", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
+      { "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+      { "<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
       -- Toggles
       { "<leader>z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
       { "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
@@ -119,13 +112,19 @@ return {
           Snacks.toggle.option("relativenumber")              :map("<leader>vL")
           Snacks.toggle.option("conceallevel", conceal_opts)  :map("<leader>vc")
           Snacks.toggle.option("background", background_opts) :map("<leader>vb")
-          Snacks.toggle.diagnostics()                         :map("<leader>vd")
-          Snacks.toggle.inlay_hints()                         :map("<leader>vh")
-          Snacks.toggle.dim()                                 :map("<leader><leader>d")
+          Snacks.toggle.diagnostics()                         :map("<leader><leader>d")
+          Snacks.toggle.dim()                                 :map("<leader><leader>D")
+          Snacks.toggle.inlay_hints()                         :map("<leader><leader>h")
           Snacks.toggle.indent()                              :map("<leader><leader>i")
           Snacks.toggle.treesitter()                          :map("<leader><leader>t")
-        end,
-      })
+
+          Snacks.toggle({
+            name = "TS Context",
+            set = function() vim.cmd("TSContextToggle") end,
+            get = require("treesitter-context").enabled,
+          }):map("<leader><leader>c")
+          end,
+        })
     end
   }
 }

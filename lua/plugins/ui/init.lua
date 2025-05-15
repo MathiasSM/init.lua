@@ -1,13 +1,3 @@
---- Plugins that change the way the buffer text is displayed
---
--- * Hide secrets
--- * Indentation guides
--- * Colorcolumn guide
--- * Spelling
--- * Extra highlighting (color codes, etc.)
-
----@module "lazy"
----@type LazyPluginSpec[]
 return {
   {
     "laytan/cloak.nvim",
@@ -25,25 +15,6 @@ return {
         },
       },
     },
-  },
-
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    cmd = { "TSContextToggle" },
-    config = function()
-      local tsc = require("treesitter-context")
-      tsc.setup({
-        min_window_height = 30,
-      })
-      vim.keymap.set(
-        "n",
-        "[u", -- TODO: Not a fan of using the prev [ for this
-        function() tsc.go_to_context(vim.v.count1) end,
-        { desc = "[Treesitter] Jump Up to scope context start" }
-      )
-      vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
-      vim.cmd([[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]])
-    end,
   },
 
   {
@@ -113,13 +84,6 @@ return {
         "oil"
       },
     },
-  },
-
-  {
-    "psliwka/vim-dirtytalk",
-    build = ":DirtytalkUpdate",
-    event = "VeryLazy",
-    config = function() vim.cmd("set spelllang+=programming") end,
   },
 
   {

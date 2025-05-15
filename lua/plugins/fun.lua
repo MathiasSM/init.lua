@@ -1,7 +1,3 @@
---- A few funny or fun plugins, including games and jokes
---
--- No custom keymaps or anything, all lazy loaded **only** if requested.
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {

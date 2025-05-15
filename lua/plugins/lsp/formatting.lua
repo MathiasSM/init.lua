@@ -16,8 +16,6 @@ local FORMATTERS_BY_FT = {
 -- All formatter configurations are opt-in (and so must be included here)
 -- For each ft, formatters are applied in order.
 -- The `*` applies to all filetypes.
----@module "
----@return table<string, >
 function M.get_formatters_by_ft()
   local registered_formatters = {}
   for ft, formatters in pairs(FORMATTERS_BY_FT) do

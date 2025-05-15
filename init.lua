@@ -12,6 +12,7 @@ vim.opt_global.mouse = "a"
 vim.opt_global.confirm = true -- Ask instead of failing
 vim.opt_global.termguicolors = true -- Enable good colors
 vim.opt_global.cmdheight = 2 -- Command separated from output
+vim.opt_global.foldlevelstart = 5
 
 -- pumheight
 vim.opt_global.pumheight = 15 -- Initial max height (autocomplete)

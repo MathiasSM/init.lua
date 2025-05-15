@@ -1,6 +1,3 @@
-
-
-
 local encoding = {
   "encoding",
   cond = function()
@@ -93,7 +90,7 @@ return {
           "lazy",
           "man",
           "mason",
-          "nvim-dap-ui",
+          --"nvim-dap-ui",
           "oil",
           "quickfix",
           "trouble",

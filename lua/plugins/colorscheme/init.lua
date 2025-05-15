@@ -1,8 +1,3 @@
---- Colorschemes I like
--- The default one must have lazy=false, priority=1000
--- The others should have lazy=true
---
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
@@ -31,7 +26,6 @@ return {
           lsp_trouble = true,
           markdown = true,
           mason = true,
-          neotest = true,
           notify = true,
           snacks = { enabled = true },
           treesitter = true,
@@ -39,13 +33,6 @@ return {
           which_key = true,
           native_lsp = {
             enabled = true,
-            underlines = {
-              errors = { "underline" },
-              warnings = { "underline" },
-              -- Disabling the following
-              hints = {},
-              information = {},
-            },
           },
         },
       })

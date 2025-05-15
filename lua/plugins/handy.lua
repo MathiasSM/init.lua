@@ -1,8 +1,3 @@
---- Special actions to manipulate the current buffer
---
--- Insertions (manipulations that don't modify but are rather only inserting new text)
--- are defined in a different file.
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {

@@ -1,5 +1,3 @@
---- (Auto)completion configuration (`nvim-cmp`)
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {

@@ -1,7 +1,3 @@
---- Plugins for running tests
---
--- Some interact with the DAP
-
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {

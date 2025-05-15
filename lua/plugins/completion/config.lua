@@ -22,7 +22,7 @@ local function setup()
       completion = cmp.config.window.bordered({border = "rounded"}),
       documentation = {border = "single"},
     },
-    completion = { autocomplete = false },
+    completion = { autocomplete = { 'InsertEnter', 'TextChanged' }  },
     mapping = mappings.global,
     sources = sources.global
   })
