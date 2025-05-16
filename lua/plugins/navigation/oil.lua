@@ -1,5 +1,7 @@
 local M = {}
 
+---@module "oil"
+---@type oil.Config
 M.opts = {
   default_file_explorer = true,
   skip_confirm_for_simple_edits = true,
@@ -10,8 +12,8 @@ M.opts = {
     { "permissions", highlight = "Comment" },
   },
   float = {
-    max_width = .8,
-    max_height = .8,
+    max_width = 0.8,
+    max_height = 0.8,
   },
   view_options = {
     show_hidden = true,

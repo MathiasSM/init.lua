@@ -1,12 +1,13 @@
 --- Copies the list and appends each xarg to the copy
 local function extend(list, ...)
   local res = vim.deepcopy(list)
-  vim.list_extend(res, ({ ... }))
+  vim.list_extend(res, { ... })
   return res
 end
 
 --- Source definitions for reuse
 ---@type table<string, cmp.SourceConfig>
+-- stylua: ignore
 local S = {
   buffer                  = { name = "buffer" },
   calc                    = { name = "calc" },
@@ -46,33 +47,18 @@ local MARKUP_FILETYPES = {
 local BASE_VIM_SOURCES = { S.buffer, S.path, S.calc }
 
 --- Basic sources plus native lsp
-local LSP_SOURCES = extend(
-  BASE_VIM_SOURCES,
-  S.nvim_lsp,
-  S.nvim_lsp_signature_help
-)
+local LSP_SOURCES = extend(BASE_VIM_SOURCES, S.nvim_lsp, S.nvim_lsp_signature_help)
 
 --- Lsp sources with extra sources for markup/prose
-local MARKUP_SOURCES = extend(
-  LSP_SOURCES,
-  S.spell,
-  S.emoji,
-  S.greek,
-  S.pandoc,
-  S.cjk
-)
+local MARKUP_SOURCES = extend(LSP_SOURCES, S.spell, S.emoji, S.greek, S.pandoc, S.cjk)
 
 --- Lsp sources with extra sources for non-markup/prose
-local NON_MARKUP_SOURCES = extend(
-  LSP_SOURCES,
-  S.spell__comments_only
-)
+local NON_MARKUP_SOURCES = extend(LSP_SOURCES, S.spell__comments_only)
 
 ---@class SourcesConfigMap
 ---@field global cmp.SourceConfig[]
 ---@field cmdline table<":" | "/" | "?", cmp.SourceConfig[]>
 ---@field ft table<string, cmp.SourceConfig[]>
-
 
 ---@return SourcesConfigMap
 local DEFAULT_BASE_SOURCES_CONFIG = {
@@ -91,30 +77,17 @@ local function add_markup_defaults(sources_per_ft)
   end
 end
 
-
 local function add_ft_overrides(sources_per_ft)
   local function extend_ft(default_sources, ft, ...)
     local prev = sources_per_ft[ft]
     local base = prev and prev or default_sources
     sources_per_ft[ft] = extend(base, ...)
   end
-  extend_ft(MARKUP_SOURCES, "gitcommit",
-    { name = "conventionalcommits" },
-    { name = "gitmoji" },
-    { name = "git" }
-  )
-  extend_ft(NON_MARKUP_SOURCES, "tex",
-    { name = "latex_symbols" }
-  )
-  extend_ft(NON_MARKUP_SOURCES, "vim",
-    { name = "nerdfont" }
-  )
-  extend_ft(NON_MARKUP_SOURCES, "lua",
-    { name = "nerdfont" },
-    { name = "lazydev", group_index = 0 }
-  )
+  extend_ft(MARKUP_SOURCES, "gitcommit", { name = "conventionalcommits" }, { name = "gitmoji" }, { name = "git" })
+  extend_ft(NON_MARKUP_SOURCES, "tex", { name = "latex_symbols" })
+  extend_ft(NON_MARKUP_SOURCES, "vim", { name = "nerdfont" })
+  extend_ft(NON_MARKUP_SOURCES, "lua", { name = "nerdfont" }, { name = "lazydev", group_index = 0 })
 end
-
 
 local M = {}
 
@@ -140,7 +113,7 @@ function M.get_sources()
   return {
     global = cmp.config.sources(sources_config.global, fallback),
     cmdline = map(sources_config.cmdline),
-    ft = map(sources_config.ft)
+    ft = map(sources_config.ft),
   }
 end
 

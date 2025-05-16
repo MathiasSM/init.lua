@@ -24,29 +24,22 @@ end
 
 function M.merge_tables(...)
   local result = {}
-
   for _, tbl in ipairs({ ... }) do
     M.absorb_object(result, tbl)
   end
-
   return result
 end
 
 function M.concat_tables(...)
   local result = {}
-
   for _, tbl in ipairs({ ... }) do
     for k, v in pairs(tbl) do
       if type(k) ~= "number" then
-        vim.notify_once(
-          "Found table member with non-number key, ignoring.",
-          vim.log.levels.WARN
-        )
+        vim.notify_once("Found table member with non-number key, ignoring.", vim.log.levels.WARN)
       end
       table.insert(result, v)
     end
   end
-
   return result
 end
 

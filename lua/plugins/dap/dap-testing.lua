@@ -1,4 +1,3 @@
----@module "lazy"
 ---@type LazyPluginSpec[]
 return {
   {
@@ -78,7 +77,7 @@ return {
       },
     },
     config = function(_, opts)
-      local brazilPathCmd = {"brazil-path", "[JUnit5]all.classpath"}
+      local brazilPathCmd = { "brazil-path", "[JUnit5]all.classpath" }
       local junitDeps = vim.split(vim.system(brazilPathCmd):wait().stdout, ":")
       local junit_jar = nil
       for _, jar in ipairs(junitDeps) do

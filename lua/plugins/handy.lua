@@ -3,17 +3,17 @@
 return {
   {
     "numToStr/Comment.nvim",
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     event = "InsertEnter",
-    config = function ()
-      require('ts_context_commentstring').setup({
+    config = function()
+      require("ts_context_commentstring").setup({
         enable_autocmd = false,
       })
       ---@diagnostic disable-next-line: missing-fields
-      require('Comment').setup({
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
-    end
+    end,
   },
 
   {
@@ -33,8 +33,7 @@ return {
           increment = "<C-a>",
           decrement = "<C-x>",
         },
-        additions = {
-        },
+        additions = {},
         allow_caps_additions = {
           { "enable", "disable" }, -- Enable → Disable, ENABLE → DISABLE, ...
           { "error", "warn", "info", "hint", "debug" },

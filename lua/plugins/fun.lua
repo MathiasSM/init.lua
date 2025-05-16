@@ -35,5 +35,4 @@ return {
     cmd = "SnakeStart",
     opts = {},
   },
-
 }

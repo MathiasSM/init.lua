@@ -1,7 +1,8 @@
-local dap = require('plugins.dap.dap')
-local dap_ui = require('plugins.dap.dap-ui')
-local dap_testing = require('plugins.dap.dap-testing')
+local dap = require("plugins.dap.dap")
+local dap_ui = require("plugins.dap.dap-ui")
+local dap_testing = require("plugins.dap.dap-testing")
 
+---@type LazyPluginSpec[]
 local M = {}
 for _, plugin_list in ipairs({ dap, dap_ui, dap_testing }) do
   for _, plugin in ipairs(plugin_list) do

@@ -7,4 +7,3 @@ vim.keymap.set("n", "N", "Nzzzv", { desc = "[Override] Search back and center cu
 
 -- Keep cursor position on edits
 vim.keymap.set("n", "J", "mzJ`z", { desc = "[Override] J but keep cursor in place" })
-

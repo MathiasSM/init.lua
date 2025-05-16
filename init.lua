@@ -20,7 +20,7 @@ vim.api.nvim_create_augroup("my.config", {})
 vim.api.nvim_create_autocmd("VimResized", {
   group = "my.config",
   callback = function()
-    local pumheight_pct = .4
+    local pumheight_pct = 0.4
     local win_height = vim.api.nvim_win_get_height(0)
     vim.opt_global.pumheight = math.floor(win_height * pumheight_pct)
   end,
@@ -33,7 +33,6 @@ vim.opt_global.exrc = false -- Explicitly disallow project-specific config
 -- Splits
 vim.opt_global.splitbelow = true -- Predictable
 vim.opt_global.splitright = true -- Predictable
-
 
 -- Scrolling
 vim.opt_global.scrolljump = 5 -- Autoscroll when going out of screen
@@ -104,6 +103,7 @@ vim.opt.formatoptions = table.concat({
 vim.opt.spelllang = "en,es,fr,cjk"
 vim.opt.spelloptions = "camel" -- Separate words in camelCase
 
-require("diagnostics")
+vim.diagnostic.config(require("diagnostics").opts)
+
 require("mappings")
 require("lazy_config")

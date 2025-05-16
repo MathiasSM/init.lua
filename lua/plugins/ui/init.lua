@@ -35,11 +35,15 @@ return {
         -- PERF: perf
         -- NOTE: note
         -- TEST: test
-        FIX  = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
         TODO = { icon = " ", color = "info" },
         HACK = { icon = "󰶯 ", color = "warning" },
         WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = "󰑮 ", color = "hint", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        PERF = {
+          icon = "󰑮 ",
+          color = "hint",
+          alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" },
+        },
         NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
         TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
       },
@@ -68,7 +72,7 @@ return {
       custom_colorcolumn = {
         java = "120",
         lua = "100",
-        haskell = "100"
+        haskell = "100",
       },
     },
   },
@@ -81,7 +85,7 @@ return {
         "netrw",
         "tutor",
         "neo-tree",
-        "oil"
+        "oil",
       },
     },
   },

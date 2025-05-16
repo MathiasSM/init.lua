@@ -21,10 +21,7 @@ function M.get_formatters_by_ft()
   for ft, formatters in pairs(FORMATTERS_BY_FT) do
     registered_formatters[ft] = {}
     for _, formatter_name in ipairs(formatters) do
-      table.insert(
-        registered_formatters[ft],
-        require("formatter.filetypes." .. ft)[formatter_name]
-      )
+      table.insert(registered_formatters[ft], require("formatter.filetypes." .. ft)[formatter_name])
     end
   end
   registered_formatters["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace }
@@ -76,18 +73,12 @@ function M.format_buffer()
     return nil
   end
 
-  if #formatters == 1 then
-    return format_using(formatters[1])
-  end
+  if #formatters == 1 then return format_using(formatters[1]) end
 
-  vim.ui.select(
-    formatters,
-    {
-      prompt = "Select a formatter",
-      format_item = function(item) return "[" .. item.type .. "] " .. item.name end
-    },
-    select_formatter_action
-  )
+  vim.ui.select(formatters, {
+    prompt = "Select a formatter",
+    format_item = function(item) return "[" .. item.type .. "] " .. item.name end,
+  }, select_formatter_action)
 end
 
 return M

@@ -1,24 +1,24 @@
 local sources = {
   -- Snippets
-  "saadparwaiz1/cmp_luasnip",   -- snippets
+  "saadparwaiz1/cmp_luasnip", -- snippets
 
   -- Buffers / Built-in
-  "hrsh7th/cmp-buffer",         -- buffer
-  "f3fora/cmp-spell",           -- Vim's spellsuggest
-  "hrsh7th/cmp-calc",           -- calc
+  "hrsh7th/cmp-buffer", -- buffer
+  "f3fora/cmp-spell", -- Vim's spellsuggest
+  "hrsh7th/cmp-calc", -- calc
 
   -- LSP
-  "hrsh7th/cmp-nvim-lsp",       -- LSP
+  "hrsh7th/cmp-nvim-lsp", -- LSP
   "hrsh7th/cmp-nvim-lsp-signature-help",
   "hrsh7th/cmp-nvim-lsp-document-symbol",
 
   -- Filesystem
-  "hrsh7th/cmp-path",           -- Path
+  "hrsh7th/cmp-path", -- Path
 
   -- Git
   { "petertriho/cmp-git", opts = {} }, -- git (commits, issues, PRs...)
   { "Dynge/gitmoji.nvim", opts = {} }, -- gitmoji
-  "davidsierradz/cmp-conventionalcommits", 
+  "davidsierradz/cmp-conventionalcommits",
 
   -- Command Line
   "hrsh7th/cmp-cmdline",
@@ -30,9 +30,9 @@ local sources = {
   "andersevenrud/cmp-tmux",
 
   -- Icons, Symbols and Emoji
-  "hrsh7th/cmp-emoji",          -- emoji
-  "max397574/cmp-greek",        -- greek
-  "chrisgrieser/cmp-nerdfont",  -- nerdfont
+  "hrsh7th/cmp-emoji", -- emoji
+  "max397574/cmp-greek", -- greek
+  "chrisgrieser/cmp-nerdfont", -- nerdfont
 
   -- AI
   -- - nope
@@ -44,32 +44,32 @@ local sources = {
   {
     "aspeddro/cmp-pandoc.nvim", -- cmp_pandoc
     dependencies = "jbyuki/nabla.nvim",
-    opts = { crossref = { enable_nabla = true } }
+    opts = { crossref = { enable_nabla = true } },
   },
   "kdheepak/cmp-latex-symbols", -- latex_symbols
 
   -- Miscellaneus
   "rcarriga/cmp-dap",
   {
-    "yehuohan/cmp-im",        -- IM
+    "yehuohan/cmp-im", -- IM
     dependencies = "MathiasSM/ZFVimIM_japanese_base",
     opts = {
       enable = true,
       tables = {
         vim.fn.stdpath("data") .. "/lazy/ZFVimIM_japanese_base/misc/japanese.txt",
       },
-    }
+    },
   },
 }
 
 local M = {
   -- Base
-  "L3MON4D3/LuaSnip",           -- Engine
+  "L3MON4D3/LuaSnip", -- Engine
 }
 
 -- Sources
 for _, source in ipairs(sources) do
-    table.insert(M, source)
+  table.insert(M, source)
 end
 
 -- Nice to haves

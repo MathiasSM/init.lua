@@ -1,62 +1,43 @@
-local formatting_utils = require('plugins.lsp.formatting')
+local formatting_utils = require("plugins.lsp.formatting")
 
----@module "lazy"
+vim.keymap.set("n", "<space>", function()
+  vim.notify("Enabling LSPs!")
+  require("lsp-toggle").setup({ create_cmds = true, telescope = false })
+  -- Defaults
+  vim.lsp.config("*", {
+    root_markers = { ".git", ".hg" },
+    capabilities = require("plugins.lsp.configs").get_capabilities(),
+  })
+  for ls_name, ls_config in pairs(require("plugins.lsp.configs").get()) do
+    vim.lsp.config(ls_name, ls_config)
+  end
+  require("mason-lspconfig").setup({})
+  vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
+end, { desc = "[LSP] Turn on LSPs" })
+
 ---@type LazyPluginSpec[]
-return {
+local BASE = {
   {
     "neovim/nvim-lspconfig",
-    keys = {
-      {
-        "<space><cr>",
-        function() end,
-        desc = "[LSP] Turn on LSPs",
-      },
-    },
-    dependencies = { "adoyle-h/lsp-toggle.nvim" },
-    config = function()
-      require("lsp-toggle").setup({ create_cmds = true, telescope = false })
-
-      local capabilities = vim.tbl_deep_extend("force",
-        vim.lsp.protocol.make_client_capabilities(),
-        require('cmp_nvim_lsp').default_capabilities()
-      )
-
-      -- Defaults
-      vim.lsp.config('*', {
-        root_markers = { '.git', '.hg' },
-        capabilities = capabilities
-      })
-
-      for ls_name, ls_config in pairs(require('plugins.lsp.configs').get()) do
-        vim.lsp.config(ls_name, ls_config)
-      end
-
-      require("mason-lspconfig")
-
-      vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
-    end,
+    lazy = false,
   },
+
+  { "adoyle-h/lsp-toggle.nvim", lazy = true },
 
   {
     "mason-org/mason-lspconfig.nvim",
     lazy = true,
-    opts = {
-      automatic_enable = true
-    }
+    opts = { automatic_enable = true },
   },
-
-  { "folke/lazydev.nvim", ft = "lua", config = true },
-  { "Bilal2453/luvit-meta", ft = "lua" },
-  { "b0o/schemastore.nvim", ft = { "json", "jsonc", "yaml" } },
-  { "mfussenegger/nvim-jdtls", ft = "java" },
 
   {
     "mhartington/formatter.nvim",
     keys = {
       {
         "<leader>p",
-        formatting_utils.format_buffer,
+        formatting_utils.format_buffer, -- TODO: Move, since this uses LSP as well
         desc = "[Format] Run",
+        mode = { "n", "v" },
       },
     },
     config = function()
@@ -69,3 +50,8 @@ return {
   },
 }
 
+return require("utils").concat_tables(
+  BASE, --
+  require("plugins.lsp.servers"),
+  require("plugins.lsp.fallback")
+)

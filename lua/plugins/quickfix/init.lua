@@ -48,6 +48,6 @@ return {
         desc = "[Trouble] Quickfix List",
       },
     },
-    opts = {}
+    opts = {},
   },
 }

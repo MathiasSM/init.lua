@@ -3,9 +3,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    build = function()
-      require("nvim-treesitter.install").update({ with_sync = true })()
-    end,
+    build = function() require("nvim-treesitter.install").update({ with_sync = true })() end,
     config = function()
       local configs = require("nvim-treesitter.configs")
 
@@ -30,13 +28,13 @@ return {
       {
         "[u",
         function() require("treesitter-context").go_to_context(vim.v.count1) end,
-        desc = "[TS] Go to scope start"
-      }
+        desc = "[TS] Go to scope start",
+      },
     },
     config = function()
       require("treesitter-context").setup({
         min_window_height = 30,
-        multiline_threshold = 5
+        multiline_threshold = 5,
       })
       vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
       vim.cmd([[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]])
@@ -69,7 +67,7 @@ return {
     opts = {
       keymaps = {
         useDefaults = true,
-        disabledDefaults = { ".", ";", "i;", "," }
+        disabledDefaults = { ".", ";", "i;", "," },
       },
     },
   },
@@ -85,7 +83,7 @@ return {
         keymaps = {
           ["."] = {
             "textsubjects-smart",
-            desc = "Select Smart"
+            desc = "Select Smart",
           },
           [";"] = {
             "textsubjects-container-outer",

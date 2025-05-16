@@ -1,9 +1,8 @@
----@module "lazy"
 ---@type LazyPluginSpec[]
 return {
   {
     "mfussenegger/nvim-dap",
-    dependencies = {"rcarriga/nvim-dap-ui"},
+    dependencies = { "rcarriga/nvim-dap-ui" },
     keys = {
       {
         "<leader>bB",
@@ -18,10 +17,22 @@ return {
         end,
         desc = "[Debug] Set Breakpoint",
       },
-      { "<leader>bb", function() require("dap").toggle_breakpoint() end, desc = "[Debug] Toggle Breakpoint" },
+      {
+        "<leader>bb",
+        function() require("dap").toggle_breakpoint() end,
+        desc = "[Debug] Toggle Breakpoint",
+      },
       { "<leader>bc", function() require("dap").continue() end, desc = "[Debug] Continue" },
-      { "<leader>bC", function() require("dap").run_to_cursor() end, desc = "[Debug] Run to Cursor" },
-      { "<leader>bg", function() require("dap").goto_() end, desc = "[Debug] Go to line (no execute)" },
+      {
+        "<leader>bC",
+        function() require("dap").run_to_cursor() end,
+        desc = "[Debug] Run to Cursor",
+      },
+      {
+        "<leader>bg",
+        function() require("dap").goto_() end,
+        desc = "[Debug] Go to line (no execute)",
+      },
       { "<leader>bi", function() require("dap").step_into() end, desc = "[Debug] Step Into" },
       { "<leader>bj", function() require("dap").down() end, desc = "[Debug] Down" },
       { "<leader>bk", function() require("dap").up() end, desc = "[Debug] Up" },
@@ -29,10 +40,18 @@ return {
       { "<leader>bo", function() require("dap").step_out() end, desc = "[Debug] Step Out" },
       { "<leader>bO", function() require("dap").step_over() end, desc = "[Debug] Step Over" },
       { "<leader>bp", function() require("dap").pause() end, desc = "[Debug] Pause" },
-      { "<leader>br", function() require("dap").repl.toggle() end, desc = "[Debug] Toggle REPL" },
+      {
+        "<leader>br",
+        function() require("dap").repl.toggle() end,
+        desc = "[Debug] Toggle REPL",
+      },
       { "<leader>bs", function() require("dap").session() end, desc = "[Debug] Session" },
       { "<leader>bt", function() require("dap").terminate() end, desc = "[Debug] Terminate" },
-      { "<leader>bw", function() require("dap.ui.widgets").hover() end, desc = "[Debug] Widgets" },
+      {
+        "<leader>bw",
+        function() require("dap.ui.widgets").hover() end,
+        desc = "[Debug] Widgets",
+      },
     },
     config = function(_, opts)
       local dap = require("dap")

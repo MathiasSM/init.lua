@@ -1,8 +1,6 @@
 local encoding = {
   "encoding",
-  cond = function()
-    return "utf-8" ~= vim.opt.fileencoding:get()
-  end,
+  cond = function() return "utf-8" ~= vim.opt.fileencoding:get() end,
 }
 
 local short_mode = {
@@ -35,7 +33,7 @@ return {
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
       local lualine_a = { short_mode }
-      local inactive_a = { }
+      local inactive_a = {}
       local lualine_b = { "branch", "diff" }
       local inactive_b = lualine_b
       local lualine_c = { filename, treesitter_node }

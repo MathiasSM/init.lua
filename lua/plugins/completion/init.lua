@@ -1,11 +1,10 @@
----@module "lazy"
 ---@type LazyPluginSpec[]
 return {
   {
     "hrsh7th/nvim-cmp",
-    event = { "InsertEnter", "CmdlineEnter" },
-    dependencies = require('plugins.completion.dependencies'),
-    config = require('plugins.completion.config'),
+    event = { "InsertEnter" },
+    dependencies = require("plugins.completion.dependencies"),
+    config = require("plugins.completion.config"),
   },
 
   {
@@ -22,17 +21,4 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
-
-  {
-    "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
 }
-

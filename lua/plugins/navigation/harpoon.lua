@@ -10,22 +10,19 @@ function M.setup()
       key = vim.uv.cwd, -- Grouping key for lists,
     },
   })
-  local get_list_name = function(name)
-    if name == harpoon_default_list then return "" end
-    return "[" .. name .. "]"
+
+  ---@param action "⥤" | "" | "󰍴"
+  local function get_notification(action)
+    return function(ctx)
+      local name = ctx.list.name == harpoon_default_list and "" or string.format("[%s] ", ctx.list.name)
+      vim.notify(string.format("%s(%s) %s %s", name, ctx.idx, action, ctx.item.value))
+    end
   end
+
   harpoon:extend({
-    SELECT = function(ctx)
-      vim.notify(
-        get_list_name(ctx.list.name) .. " ⥤  " .. ctx.idx .. ": " .. ctx.item.value
-      )
-    end,
-    ADD = function(ctx)
-      vim.notify(get_list_name(ctx.list.name) .. "  " .. ctx.item.value)
-    end,
-    REMOVE = function(ctx)
-      vim.notify(get_list_name(ctx.list.name) .. " 󰍴 " .. ctx.item.value)
-    end,
+    SELECT = get_notification("⥤"),
+    ADD = get_notification(""),
+    REMOVE = get_notification("󰍴"),
     REORDER = function() end,
   })
 
@@ -37,10 +34,7 @@ function M.setup()
     harpoon.ui:toggle_quick_menu(harpoon:list(), { title = title })
   end, { desc = "[Harpoon] Project files" })
 
-
-  vim.keymap.set("n", "<leader>9", function()
-    vim.notify("Not implemented!", vim.diagnostic.severity.ERROR)
-  end)
+  vim.keymap.set("n", "<leader>9", function() vim.notify("Not implemented!", vim.diagnostic.severity.ERROR) end)
 end
 
 return M

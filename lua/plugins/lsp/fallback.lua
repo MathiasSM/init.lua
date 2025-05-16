@@ -1,4 +1,3 @@
----@module "lazy"
 ---@type LazyPluginSpec[]
 return {
   {
@@ -7,22 +6,22 @@ return {
     event = { "BufWritePost", "BufRead" },
     config = function()
       require("lint").linters_by_ft = {
-        bash =       { "shellcheck" },
-        cfn =        { "cfn_lint", "cfn_nag" },
-        css =        { "stylelint" },
-        dotenv =     { "dotenv_linter" },
-        gitcommit =  { "commitlint", "gitlint" },
-        help =       { },
-        html =       { "htmlhint" },
-        java =       { "checkstyle" },
-        javascript = { },
-        latex =      { "chktex" },
-        markdown =   { "alex", "proselint", "vale", "write_good" },
-        sql =        { "sqlfluff" },
-        typescript = { },
-        vim =        { "vint" },
-        zsh =        { "zsh" },
-        ["*"] =      { "blocklint", "typos", "woke" },
+        bash = { "shellcheck" },
+        cfn = { "cfn_lint", "cfn_nag" },
+        css = { "stylelint" },
+        dotenv = { "dotenv_linter" },
+        gitcommit = { "commitlint", "gitlint" },
+        help = {},
+        html = { "htmlhint" },
+        java = { "checkstyle" },
+        javascript = {},
+        latex = { "chktex" },
+        markdown = { "alex", "proselint", "vale", "write_good" },
+        sql = { "sqlfluff" },
+        typescript = {},
+        vim = { "vint" },
+        zsh = { "zsh" },
+        ["*"] = { "blocklint", "typos", "woke" },
       }
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufRead" }, {
         callback = function() require("lint").try_lint() end,

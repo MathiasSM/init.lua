@@ -1,11 +1,10 @@
----@module "lazy"
 ---@type LazyPluginSpec[]
 return {
   {
     "mason-org/mason.nvim",
     lazy = false, -- So path is up to date
     build = ":MasonUpdate",
-    opts = {}
+    opts = {},
   },
 
   { "neovim/nvim-lspconfig", lazy = true },
@@ -23,7 +22,7 @@ return {
       copy_sync = { redirect_to_clipboard = true },
       navigation = { enable_default_keybindings = false },
       resize = { enable_default_keybindings = false },
-      swap = { enable_default_keybindings = false }
+      swap = { enable_default_keybindings = false },
     },
   },
 
@@ -155,7 +154,6 @@ return {
         }
       end,
       current_line_blame_opts = {
-        virt_text_priority = require("ui_priorities").virtual_text.git_blame,
         ignore_whitespace = true,
       },
     },

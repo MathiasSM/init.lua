@@ -4,8 +4,8 @@ local M = {}
 -- Adds the item type icon and source name. Requires lspkind.
 function M.format_completion_popup(entry, vim_item)
   -- Add filetype icons to path
-  if vim.tbl_contains({ 'path' }, entry.source.name) then
-    local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
+  if vim.tbl_contains({ "path" }, entry.source.name) then
+    local icon, hl_group = require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
     if icon then
       vim_item.kind = icon
       vim_item.kind_hl_group = hl_group
