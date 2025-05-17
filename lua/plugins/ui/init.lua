@@ -1,5 +1,12 @@
 return {
   {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      lazy = false,
+      priority = 1000,
+      opts = require('plugins.ui.colorscheme').catppuccin
+  },
+  {
     "laytan/cloak.nvim",
     lazy = false, -- Plugin loads before text file is displayed
     opts = {
@@ -8,9 +15,7 @@ return {
       cloak_telescope = true,
       patterns = {
         {
-          file_pattern = {
-            ".env*",
-          },
+          file_pattern = { ".env*" },
           cloak_pattern = { "=.+", ":.+" },
         },
       },
