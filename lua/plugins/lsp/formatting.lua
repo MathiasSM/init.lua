@@ -18,11 +18,25 @@ local FORMATTERS_BY_FT = {
 -- The `*` applies to all filetypes.
 function M.get_formatters_by_ft()
   local registered_formatters = {}
+  local missing = nil
   for ft, formatters in pairs(FORMATTERS_BY_FT) do
     registered_formatters[ft] = {}
     for _, formatter_name in ipairs(formatters) do
-      table.insert(registered_formatters[ft], require("formatter.filetypes." .. ft)[formatter_name])
+      if require("mason-registry").is_installed(formatter_name) then
+        table.insert(registered_formatters[ft], require("formatter.filetypes." .. ft)[formatter_name])
+      else
+        missing = missing or {}
+        missing[ft] = missing[ft] or {}
+        table.insert(missing[ft], formatter_name)
+      end
     end
+  end
+  if missing ~= nil then
+    local msg = "While setting up format, skipped missing formatters:"
+    for ft, missing_formatters in pairs(missing) do
+      msg = string.format("%s\n- %s:\t%s", msg, ft, table.concat(missing_formatters, ", "))
+    end
+    vim.notify(msg, vim.log.levels.WARN)
   end
   registered_formatters["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace }
   return registered_formatters
@@ -63,7 +77,7 @@ function M.format_buffer()
     end
   end
 
-  local non_lsp_formatters = FORMATTERS_BY_FT[vim.bo.filetype]
+  local non_lsp_formatters = FORMATTERS_BY_FT[vim.bo.filetype] or {}
   for _, name in pairs(non_lsp_formatters) do
     table.insert(formatters, { name = name, type = "Non-LSP" })
   end

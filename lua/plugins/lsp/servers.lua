@@ -4,7 +4,7 @@ return {
   { "Bilal2453/luvit-meta", ft = "lua", lazy = true },
   {
     "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
+    ft = "lua",
     opts = { library = { "lazy.nvim", "luvit-meta/library" } },
   },
   -- Haskell
