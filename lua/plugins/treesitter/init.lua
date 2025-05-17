@@ -17,6 +17,23 @@ return {
         incremental_selection = { enable = true },
         indent = { enable = true },
         highlight = { enable = true },
+        ensure_installed = {
+          -- Snacks image
+          "css",
+          "html",
+          "javascript",
+          "latex",
+          "norg",
+          "scss",
+          "svelte",
+          "tsx",
+          "typst",
+          "vue",
+          -- Snacks picker
+          "markdown_inline",
+          "markdown",
+          "regex",
+        }
       })
     end,
   },
