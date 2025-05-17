@@ -22,18 +22,19 @@ local function setup()
       documentation = { border = "single" },
     },
     completion = { autocomplete = { "InsertEnter", "TextChanged" } },
-    mapping = mappings.global,
+    mapping = mappings.get_global(),
     sources = sources.global,
   })
 
   -- Command line configuration
+  ---@type cmp.ConfigSchema
   local common_cmdline = {
-    matching = { disallow_symbol_nonprefix_matching = false },
+    matching = { diallow_symbol_nonprefix_matching = true }, ---@diagnostic disable-line: missing-fields
     window = { completion = cmp.config.window.bordered() },
   }
   for _, t in ipairs({ ":", "/", "?" }) do
     local props = vim.tbl_deep_extend("force", {}, common_cmdline, {
-      mapping = mappings.cmdline,
+      mapping = mappings.get_cmdline(),
       sources = sources.cmdline[t],
     })
     cmp.setup.cmdline(t, props)
