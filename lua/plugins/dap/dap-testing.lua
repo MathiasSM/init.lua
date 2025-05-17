@@ -8,7 +8,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       -- Used adapters
       "nvim-neotest/neotest-jest",
-      "mrcjkb/neotest-haskell",
+      { "mrcjkb/neotest-haskell", lazy = true }, -- No idea why, this is needed
       "rcasia/neotest-java",
       "rcasia/neotest-bash",
       "nvim-neotest/neotest-plenary",
