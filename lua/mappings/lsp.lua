@@ -1,18 +1,6 @@
---- Mappings for LSP actions
---
--- Mostly prefixed with `<space>`
---
--- @script
 
---- Sets all the LSP mappings; meant to be used on an autocmd
---
--- Includes:
--- - (Unprefixed) `g*`: "Go to" commands; some of which open a quickfix list to pick
--- - `k` and `K`: Hover/hover-like info pop-ups
--- - `s*`: Show/highlight/list symbols in file/project
--- - `w*`: Workspace-related commands
--- - Single-letter for text-manipulation commands
 local function set_lsp_mappings(event)
+  vim.notify("Enabled LSP mappings")
   local nmap = function(lhs, rhs, desc) vim.keymap.set("n", lhs, rhs, { buffer = event.buf, desc = desc }) end
   local nvmap = function(lhs, rhs, desc) vim.keymap.set({ "n", "v" }, lhs, rhs, { buffer = event.buf, desc = desc }) end
 

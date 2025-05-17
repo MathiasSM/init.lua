@@ -105,5 +105,7 @@ vim.opt.spelloptions = "camel" -- Separate words in camelCase
 
 vim.diagnostic.config(require("diagnostics").opts)
 
-require("mappings")
+require("mappings.overrides")
+require("mappings.personal")
+require("mappings.lsp")
 require("lazy_config")
