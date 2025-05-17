@@ -19,7 +19,8 @@ return {
 
   {
     "folke/snacks.nvim",
-    event = "VeryLazy",
+    lazy = false,
+    priority = 1001,
     ---@type snacks.Config
     opts = {
       -- Overwrite vim UI defaults
