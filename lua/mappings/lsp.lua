@@ -1,6 +1,6 @@
 
 local function set_lsp_mappings(event)
-  vim.notify("Enabled LSP mappings")
+  vim.notify_once("Enabled LSP mappings")
   local nmap = function(lhs, rhs, desc) vim.keymap.set("n", lhs, rhs, { buffer = event.buf, desc = desc }) end
   local nvmap = function(lhs, rhs, desc) vim.keymap.set({ "n", "v" }, lhs, rhs, { buffer = event.buf, desc = desc }) end
 
