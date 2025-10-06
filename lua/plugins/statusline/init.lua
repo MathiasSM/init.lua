@@ -15,6 +15,14 @@ local filename = {
   separator = "",
 }
 
+local get_lsp_status = function()
+  return {
+    require('plugins.statusline.lsp_status_simple'),
+    display_mode = 'count'
+  }
+end
+
+
 local treesitter_node = {
   function()
     local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
@@ -42,7 +50,7 @@ return {
       local lualine_x = {
         "diagnostics",
         "filetype",
-        "lsp_status",
+        get_lsp_status(),
         encoding,
         "fileformat",
       }
@@ -84,11 +92,12 @@ return {
         inactive_winbar = {},
         extensions = {
           "fugitive",
-          "fzf",
+          --"fzf",
           "lazy",
           "man",
           "mason",
           --"nvim-dap-ui",
+          "symbols-outline",
           "oil",
           "quickfix",
           "trouble",
