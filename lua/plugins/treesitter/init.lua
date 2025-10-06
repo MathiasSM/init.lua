@@ -41,7 +41,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter-context",
-    cmd = "TSContextToggle",
+    cmd = "TSContext",
     keys = {
       {
         "[u",

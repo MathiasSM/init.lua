@@ -230,7 +230,7 @@ return {
 
           Snacks.toggle({
             name = "TS Context",
-            set = function() vim.cmd("TSContextToggle") end,
+            set = function() vim.cmd("TSContext toggle") end,
             get = require("treesitter-context").enabled,
           }):map("<leader><leader>c")
         end,
