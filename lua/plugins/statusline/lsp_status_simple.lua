@@ -101,11 +101,15 @@ function M:update_status()
     merged_status = self.symbols.done
   end
   if self.options.display_mode == 'count' then
-    table.insert(result, done_count .. '/' .. clients_count - silent_count)
+    if clients_count - silent_count > 0 then
+      table.insert(result, done_count .. '/' .. clients_count - silent_count)
+    else
+      table.insert(result, '0')
+    end
+    table.insert(result, ((merged_status and merged_status ~= '') and merged_status or ''))
     if silent_count > 0 then
       table.insert(result, '(+' .. silent_count .. ')')
     end
-    table.insert(result, ((merged_status and merged_status ~= '') and merged_status or ''))
   end
   return table.concat(result, self.symbols.separator)
 end
