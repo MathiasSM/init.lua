@@ -2,6 +2,10 @@ local M = {}
 
 ---@type CatppuccinOptions
 local catppuccin_opts = {
+  float = {
+    transparent = true,
+    solid = false,
+  },
   styles = {
     conditionals = {}, -- I don't like the default (italics)
   },
