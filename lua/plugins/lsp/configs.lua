@@ -35,6 +35,7 @@ function M.get()
         client.server_capabilities.documentRangeFormattingProvider = false
       end,
     },
+    ["ts_ls"] = {}
   }
 end
 

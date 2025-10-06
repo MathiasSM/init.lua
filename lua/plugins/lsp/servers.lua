@@ -44,4 +44,24 @@ return {
   },
   -- Schemastore
   { "b0o/schemastore.nvim", ft = { "json", "jsonc", "yaml" } },
+  -- Typescript
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    config = function()
+      require("typescript-tools").setup {
+        settings = {
+          publish_diagnostic_on = "insert_leave", -- or "change"
+          expose_as_code_action = "all",
+          complete_function_calls = false,
+          include_completions_with_insert_text = true,
+          -- WARNING: CodeLens are Experimental
+          -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+          code_lens = "off",
+          disable_member_code_lens = true, -- Enabled for performance
+        },
+      }
+    end
+  }
 }

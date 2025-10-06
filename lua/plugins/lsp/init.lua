@@ -13,6 +13,7 @@ local BASE = {
       automatic_enable = {
         exclude = {
           "jdtls", -- nvim-jdtls triggers the start already
+          "ts_ls" -- typescript-tools takes priority
         }
       }
     }
