@@ -44,10 +44,11 @@ return {
       local inactive_a = {}
       local lualine_b = { "branch", "diff" }
       local inactive_b = lualine_b
-      local lualine_c = { filename, treesitter_node }
-      local inactive_c = { filename, "diagnostics" }
+      local lualine_c = { filename }
+      local inactive_c = { filename }
 
       local lualine_x = {
+        treesitter_node,
         "diagnostics",
         "filetype",
         get_lsp_status(),
@@ -55,6 +56,7 @@ return {
         "fileformat",
       }
       local inactive_x = {
+        "diagnostics",
         { "filetype", colored = false },
         encoding,
         "fileformat",
