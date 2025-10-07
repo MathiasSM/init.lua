@@ -8,6 +8,7 @@ local M = {}
 ---@type table<string, string[]>
 local FORMATTERS_BY_FT = {
   lua = { "stylua" },
+  python = { "black", "isort" },
   sh = { "shfmt" },
   sql = { "pgformat", "sqlfluff" },
 }
