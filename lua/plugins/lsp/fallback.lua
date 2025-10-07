@@ -75,12 +75,12 @@ local function setup_linters()
   lint.linters_by_ft.help       = { }
   lint.linters_by_ft.hledger    = { "hledger" }
   lint.linters_by_ft.java       = { } -- Checkstyle is too annoying to configure
-  lint.linters_by_ft.javascript = { "eslint_d" }
+  lint.linters_by_ft.javascript = { }
   lint.linters_by_ft.latex      = { "chktex" }
   lint.linters_by_ft.make       = { "checkmake" }
   lint.linters_by_ft.sql        = { "sqlfluff" }
   lint.linters_by_ft.systemd    = { "systemdlint" }
-  lint.linters_by_ft.typescript = { "eslint_d" }
+  lint.linters_by_ft.typescript = { }
   lint.linters_by_ft.vim        = { "vint" }
   lint.linters_by_ft.zsh        = { "zsh" } -- ShellCheck doesn't work with zsh
   -- Markup/prose
