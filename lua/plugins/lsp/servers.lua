@@ -10,8 +10,8 @@ return {
   -- Haskell
   {
     "mrcjkb/haskell-tools.nvim",
-    version = "^3", -- Recommended
-    ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
+    version = "^6", -- Recommended
+    lazy = false,
     config = function()
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "haskell", "lhaskell", "cabal", "cabalproject" },
@@ -28,6 +28,7 @@ return {
               desc = desc,
             }
           end
+          vim.keymap.set("n", "<space>hl", vim.lsp.codelens.run, keyOpts("[LSP] Haskell: Run codelens"))
           vim.keymap.set("n", "<space>hs", ht.hoogle.hoogle_signature, keyOpts("[LSP] Haskell: Show hoogle signature"))
           vim.keymap.set("n", "<space>he", ht.lsp.buf_eval_all, keyOpts("[LSP] Haskell: Evaluate all"))
           vim.keymap.set("n", "<leader>hp", ht.repl.toggle, keyOpts("[LSP] Haskell: Toggle REPL for package"))
@@ -37,7 +38,7 @@ return {
             function() ht.repl.toggle(vim.api.nvim_buf_get_name(0)) end,
             keyOpts("[LSP] Haskell: Toggle REPL for buffer")
           )
-          vim.keymap.set("n", "<leader>hR", ht.repl.quit, keyOpts("[LSP] Haskell: Quit REPL"))
+          vim.keymap.set("n", "<leader>hq", ht.repl.quit, keyOpts("[LSP] Haskell: Quit REPL"))
         end,
       })
     end,

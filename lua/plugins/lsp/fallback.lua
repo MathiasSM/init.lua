@@ -103,7 +103,7 @@ end
 ---@type LazyPluginSpec[]
 return {
   {
-    -- These are supposed to be fallbacks to LSPs for the most part
+    -- Only if no (good) language servers available
     "mfussenegger/nvim-lint",
     event = { "BufWritePost", "BufRead" },
     cmd = { "Lint", "LintProgress" },
