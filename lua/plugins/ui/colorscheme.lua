@@ -13,24 +13,6 @@ local catppuccin_opts = {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
-  integrations = {
-    cmp = true,
-    dap = true,
-    dap_ui = true,
-    gitgutter = true,
-    gitsigns = true,
-    harpoon = true,
-    headlines = true,
-    lsp_trouble = true,
-    markdown = true,
-    mason = true,
-    notify = true,
-    snacks = true,
-    treesitter = true,
-    treesitter_context = true,
-    which_key = true,
-    native_lsp = true,
-  },
   custom_highlights = function(colors)
     local utils = require('catppuccin.utils.colors')
     local dim = function(fg, bg)
@@ -46,7 +28,13 @@ local catppuccin_opts = {
       DiagnosticVirtualTextWarn = dim(colors.yellow, colors.base),
       DiagnosticVirtualTextError = dim(colors.red, colors.base)
     }
-  end
+  end,
+  transparent_background = true,
+  float = {
+    transparent = true
+  },
+  term_colors = true,
+  auto_integrations = true
 }
 function M.catppuccin()
   require("catppuccin").setup(catppuccin_opts)
