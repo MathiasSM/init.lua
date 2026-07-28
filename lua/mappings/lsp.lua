@@ -31,7 +31,6 @@ local function set_lsp_mappings(event)
   nmap("<space>l", vim.lsp.codelens.run, "[LSP] Codelens")
 
   -- Diagnostics/hover
-  nmap("<space>e", vim.diagnostic.open_float, "[Diagnostics] Open float")
   nmap("<space>k", function() vim.lsp.buf.hover({ border = "rounded" }) end, "[LSP] Show hover information")
   nmap("<space>K", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "[LSP] Show signature help")
 end

@@ -7,3 +7,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "[Personal] Move selection
 
 -- Clipboard/registers
 vim.keymap.set("n", "<leader>P", '"_dP', { desc = "[Personal] Paste preserving register" })
+
+-- Diagnostics
+vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "[Diagnostics] Open float" })
