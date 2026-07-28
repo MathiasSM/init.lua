@@ -28,7 +28,11 @@ local function set_lsp_mappings(event)
   -- (r)ename, (c)ode action, (f)ormat
   nmap("<space>r", vim.lsp.buf.rename, "[LSP] Rename all references")
   nvmap("<space>a", vim.lsp.buf.code_action, "[LSP] Select code action to execute")
-  nmap("<space>l", vim.lsp.codelens.run, "[LSP] Codelens")
+  nmap("<space>L", function()
+    local filter = { bufnr = 0 }
+    vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled(filter), filter)
+  end, "[LSP] Toggle codelens (current buffer)")
+  nmap("<space>l", vim.lsp.codelens.run, "[LSP] Run codelens here")
 
   -- Diagnostics/hover
   nmap("<space>k", function() vim.lsp.buf.hover({ border = "rounded" }) end, "[LSP] Show hover information")
@@ -40,10 +44,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
   desc = "Enable mappings for LSP functionality",
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(event) set_lsp_mappings(event) end,
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-  desc = "Refresh CodeLens",
-  group = vim.api.nvim_create_augroup("UserLspCodeLens", {}),
-  callback = function(event) vim.lsp.codelens.refresh({ bufnr = event.buf }) end,
 })
