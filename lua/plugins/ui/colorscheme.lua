@@ -38,7 +38,7 @@ local catppuccin_opts = {
 }
 function M.catppuccin()
   require("catppuccin").setup(catppuccin_opts)
-  vim.cmd([[colorscheme catppuccin]])
+  vim.cmd.colorscheme("catppuccin-nvim")
 end
 
 return M
