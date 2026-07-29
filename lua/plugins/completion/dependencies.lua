@@ -10,14 +10,17 @@ local sources = {
   -- LSP
   "hrsh7th/cmp-nvim-lsp", -- LSP
   "hrsh7th/cmp-nvim-lsp-signature-help",
-  "hrsh7th/cmp-nvim-lsp-document-symbol",
 
   -- Filesystem
   "hrsh7th/cmp-path", -- Path
 
   -- Git
   { "petertriho/cmp-git", opts = {} }, -- git (commits, issues, PRs...)
-  { "Dynge/gitmoji.nvim", opts = {} }, -- gitmoji
+  {
+    "Dynge/gitmoji.nvim",
+    ft = "gitcommit",
+    opts = { dependencies = { "hrsh7th/nvim-cmp" } },
+  }, -- gitmoji
   "davidsierradz/cmp-conventionalcommits",
 
   -- Command Line

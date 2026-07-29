@@ -1,26 +1,14 @@
---- Copies the list and appends each xarg to the copy
-local function extend(list, ...)
-  local res = vim.deepcopy(list)
-  vim.list_extend(res, { ... })
-  return res
-end
-
 --- Source definitions for reuse
 ---@type table<string, cmp.SourceConfig>
 -- stylua: ignore
 local S = {
+  -- NOTE: Sources sorted by https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
+  -- Snippets
+  -- -
+  -- Builtin vim functionality
   buffer                  = { name = "buffer" },
   calc                    = { name = "calc" },
-  cmdline                 = { name = "cmdline" },
-  path                    = { name = "path", options = { trailing_slash = true } },
-  nvim_lsp                = { name = "nvim_lsp" },
-  nvim_lsp_signature_help = { name = "nvim_lsp_signature_help" },
   spell                   = { name = "spell" },
-  emoji                   = { name = "emoji" },
-  greek                   = { name = "greek" },
-  pandoc                  = { name = "cmp_pandoc" },
-  cjk                     = { name = "IM" },
-  -- Alternatives
   spell__comments_only    = {
     name = "spell",
     option = {
@@ -30,7 +18,63 @@ local S = {
       end,
     },
   },
+  -- LSP
+  nvim_lsp                = { name = "nvim_lsp", priority = 999 },
+  nvim_lsp_signature_help = { name = "nvim_lsp_signature_help" },
+  -- Filesystem
+  path                    = { name = "path", options = { trailing_slash = true } },
+  -- Git
+  git                     = { name = "git" },
+  gitmoji                 = { name = "gitmoji" },
+  conventionalcommits     = { name = "conventionalcommits" },
+  -- Command line
+  cmdline                 = { name = "cmdline" },
+  -- Fuzzy
+  -- -
+  -- Shell
+  tmux                    = {
+    name = 'tmux',
+    option = {
+      all_panes = false,
+      trigger_characters = { '.' },
+      trigger_characters_ft = {},
+      keyword_pattern = [[\w\+]],
+      capture_history = false,
+    },
+    priority = -9999
+  },
+  -- -
+  -- Symbols and Icons
+  emoji                   = { name = "emoji" },
+  greek                   = { name = "greek" },
+  latex_symbols           = { name = "latex_symbols" },
+  nerdfont                = { name = "nerdfont" },
+  -- AI
+  -- -
+  -- CSS, Colors and Font
+  color_names             = { name = 'color_names'},
+  -- Dependencies
+  -- -
+  -- Note-taking and academic writing
+  pandoc                  = { name = "cmp_pandoc" },
+  -- -
+  -- Ruby on Rails
+  -- -
+  -- Miscellaneous
+  im                      = { name = "IM" },
+  dap                     = { name = "dap" },
+  -- Other (not in list)
+  lazydev                 = { name = "lazydev", group_index = 0 },
 }
+
+local function custom(source, extra_opts) return vim.tbl_extend("force", {}, source, extra_opts or {}) end
+
+--- Copies the list and appends each xarg to the copy
+local function extend(list, ...)
+  local res = vim.deepcopy(list)
+  vim.list_extend(res, { ... })
+  return res
+end
 
 --- Config: filetypes to add markup-specific sources
 local MARKUP_FILETYPES = {
@@ -50,10 +94,10 @@ local BASE_VIM_SOURCES = { S.buffer, S.path, S.calc }
 local LSP_SOURCES = extend(BASE_VIM_SOURCES, S.nvim_lsp, S.nvim_lsp_signature_help)
 
 --- Lsp sources with extra sources for markup/prose
-local MARKUP_SOURCES = extend(LSP_SOURCES, S.spell, S.emoji, S.greek, S.pandoc, S.cjk)
+local MARKUP_SOURCES = extend(LSP_SOURCES, S.tmux, S.spell, S.emoji, S.greek, S.pandoc, S.im)
 
 --- Lsp sources with extra sources for non-markup/prose
-local NON_MARKUP_SOURCES = extend(LSP_SOURCES, S.spell__comments_only)
+local NON_MARKUP_SOURCES = extend(LSP_SOURCES, S.tmux, S.spell__comments_only)
 
 ---@class SourcesConfigMap
 ---@field global cmp.SourceConfig[]
@@ -62,7 +106,7 @@ local NON_MARKUP_SOURCES = extend(LSP_SOURCES, S.spell__comments_only)
 
 ---@return SourcesConfigMap
 local DEFAULT_BASE_SOURCES_CONFIG = {
-  global = NON_MARKUP_SOURCES,
+  global = NON_MARKUP_SOURCES, 
   ft = {},
   cmdline = {
     [":"] = { S.path, S.cmdline },
@@ -79,14 +123,26 @@ end
 
 local function add_ft_overrides(sources_per_ft)
   local function extend_ft(default_sources, ft, ...)
-    local prev = sources_per_ft[ft]
-    local base = prev and prev or default_sources
-    sources_per_ft[ft] = extend(base, ...)
+    if type(ft) == "string" then ft = { ft } end
+    for _, filetype in ipairs(ft) do
+      local prev = sources_per_ft[filetype]
+      local base = prev and prev or default_sources
+      sources_per_ft[filetype] = extend(base, ...)
+    end
   end
-  extend_ft(MARKUP_SOURCES, "gitcommit", { name = "conventionalcommits" }, { name = "gitmoji" }, { name = "git" })
-  extend_ft(NON_MARKUP_SOURCES, "tex", { name = "latex_symbols" })
-  extend_ft(NON_MARKUP_SOURCES, "vim", { name = "nerdfont" })
-  extend_ft(NON_MARKUP_SOURCES, "lua", { name = "nerdfont" }, { name = "lazydev", group_index = 0 })
+  -- Extras:
+  -- Commits
+  extend_ft(MARKUP_SOURCES, "gitcommit", S.conventionalcommits, S.gitmoji, S.git)
+  -- Latex symbols (should I add them to pandoc?)
+  extend_ft(NON_MARKUP_SOURCES, "tex", S.latex_symbols)
+  -- Lua
+  extend_ft(NON_MARKUP_SOURCES, "lua", S.lazydev)
+  -- Nerdfonts: Only when configuring (n)vim UI
+  extend_ft(NON_MARKUP_SOURCES, { "lua", "vim" }, S.nerdfont, S.emoji)
+  -- Web colors: Only while editing stylesheets
+  extend_ft(NON_MARKUP_SOURCES, { "css", "scss", "sass" }, S.color_names)
+  -- DAP: Only in dap windows
+  extend_ft(BASE_VIM_SOURCES, { "dap-repl", "dapui_watches", "dapui_hover" }, S.dap)
 end
 
 local M = {}

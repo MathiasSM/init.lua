@@ -13,7 +13,7 @@ local function setup()
   -- Global configuration
   cmp.setup.global({
     formatting = {
-      fields = { "kind", "abbr", "menu" },
+      fields = { "icon", "abbr", "menu" },
       format = require("plugins.completion.format").format_completion_popup,
       expandable_indicator = true,
     },
