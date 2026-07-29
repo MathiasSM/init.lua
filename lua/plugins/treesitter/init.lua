@@ -3,39 +3,30 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    branch = "master", -- Not ready to move to 'main' branch
+    branch = "main",
     lazy = false,
+    main = "nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      local configs = require("nvim-treesitter.configs")
-
-      vim.o.foldmethod = "expr"
-      vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
-      ---@diagnostic disable-next-line missing-fields
-      configs.setup({
-        auto_install = true,
-        sync_install = false,
-        incremental_selection = { enable = true },
-        indent = { enable = true },
-        highlight = { enable = true },
-        ensure_installed = {
-          -- Snacks image
-          "css",
-          "html",
-          "javascript",
-          "latex",
-          "norg",
-          "scss",
-          "svelte",
-          "tsx",
-          "typst",
-          "vue",
-          -- Snacks picker
-          "markdown_inline",
-          "markdown",
-          "regex",
-        }
+    init = function()
+      local ok, ts = pcall(require, "nvim-treesitter")
+      if not ok then
+        print("Treesitter is not available!")
+        return
+      end
+      -- Install everything...
+      all_available = ts.get_available()
+      -- ts.install(all_available, { summary=true }):wait(300000)
+      -- Enable features for available languages
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = all_available,
+        callback = function(args)
+          -- Enable treesitter highlighting and disable regex syntax
+          vim.treesitter.start()
+          -- Enable treesitter-based folding
+          vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   },
@@ -49,71 +40,38 @@ return {
         function() require("treesitter-context").go_to_context(vim.v.count1) end,
         desc = "[TS] Go to scope start",
       },
+      {
+        "<leader>c",
+        ":TSContext toggle<CR>",
+        desc = "[TS] Toggle TS Context",
+      },
     },
     config = function()
       require("treesitter-context").setup({
         min_window_height = 30,
         multiline_threshold = 5,
       })
-      vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
-      vim.cmd([[hi TreesitterContextLineNumberBottom gui=underline guisp=Grey]])
     end,
   },
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    main = "nvim-treesitter-textobjects",
+    branch = "main",
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("nvim-treesitter.configs").setup({
-        textobjects = {
-          select = { enable = true },
-          move = { enable = true },
-          swap = { enable = true },
-          lsp_interop = { enable = true },
-        },
-      })
+    init = function()
+      -- Disable entire built-in ftplugin mappings to avoid conflicts.
+      -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+      vim.g.no_plugin_maps = true
     end,
-  },
-
-  {
-    "chrisgrieser/nvim-various-textobjs",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    event = "VeryLazy",
-    ---@module "various-textobjs"
-    ---@type VariousTextobjs.Config
-    opts = {
-      keymaps = {
-        useDefaults = true,
-        disabledDefaults = { ".", ";", "i;", "," },
-      },
-    },
-  },
-
-  {
-    "RRethy/nvim-treesitter-textsubjects",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
     config = function()
-      require("nvim-treesitter-textsubjects").configure({
-        enable = true,
-        prev_selection = ",",
-        keymaps = {
-          ["."] = {
-            "textsubjects-smart",
-            desc = "Select Smart",
-          },
-          [";"] = {
-            "textsubjects-container-outer",
-            desc = "Select outside containers (classes, functions, etc.)",
-          },
-          ["i;"] = {
-            "textsubjects-container-inner",
-            desc = "Select inside containers (classes, functions, etc.)",
-          },
+      require("nvim-treesitter-textobjects").setup({
+        select = {
+          lookahead = true,
         },
       })
+      require("plugins.treesitter.textobjects")
     end,
   },
 }
