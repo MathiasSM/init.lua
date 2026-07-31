@@ -2,7 +2,7 @@ local M = {}
 
 ---@module "oil"
 ---@type oil.Config
-M.opts = {
+M.opts = { ---@diagnostic disable-line: missing-fields
   default_file_explorer = true,
   skip_confirm_for_simple_edits = true,
   constrain_cursor = "editable",
@@ -11,11 +11,36 @@ M.opts = {
     { "size", highlight = "Special" },
     { "permissions", highlight = "Comment" },
   },
-  float = {
+  lsp_file_methods = { ---@diagnostic disable-line: missing-fields
+    -- Autosaved unmodified buffers after a LSP rename action
+    autosave_changes = "unmodified",
+  },
+  float = { ---@diagnostic disable-line: missing-fields
     max_width = 0.8,
     max_height = 0.8,
+    preview_split = "below",
+    border = "rounded",
   },
-  view_options = {
+  confirmation = { ---@diagnostic disable-line: missing-fields
+    border = "rounded"
+  },
+  progress = { ---@diagnostic disable-line: missing-fields
+    border = "rounded"
+  },
+  ssh = { ---@diagnostic disable-line: missing-fields
+    border = "rounded"
+  },
+  keymaps_help = { ---@diagnostic disable-line: missing-fields
+    border = "rounded"
+  },
+  preview_win = { ---@diagnostic disable-line: missing-fields
+    disable_preview = function(filename)
+      -- stylua: ignore
+      return (filename:find("secret", 1, true) ~= nil)
+          or (filename:find(".env", 1, true) ~= nil)
+    end,
+  },
+  view_options = { ---@diagnostic disable-line: missing-fields
     show_hidden = true,
   },
   keymaps = {
