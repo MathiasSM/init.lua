@@ -1,15 +1,18 @@
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
-  {
-    "vladdoster/remember.nvim",
-    lazy = false,
-    config = true,
-  },
+  -- Reopen files on their last edit position
+  { "vladdoster/remember.nvim", lazy = false, config = true },
 
+  -- Add actions
   { "kevinhwang91/nvim-bqf", ft = "qf" },
 
-  { "yorickpeterse/nvim-pqf", ft = "qf", opts = {} },
+  -- Add formatting
+  {
+    "yorickpeterse/nvim-pqf",
+    config = true,
+    lazy = false, -- Non-lazy so it works on the first quickfix I open
+  },
 
   {
     "folke/trouble.nvim",
