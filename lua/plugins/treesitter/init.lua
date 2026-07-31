@@ -13,9 +13,11 @@ return {
         print("Treesitter is not available!")
         return
       end
-      -- Install everything...
+      -- Install/update everything...
       all_available = ts.get_available()
-      -- ts.install(all_available, { summary=true }):wait(300000)
+      vim.cmd("TSInstall stable")
+      vim.cmd("TSInstall unstable")
+      vim.cmd("TSUpdate")
       -- Enable features for available languages
       vim.api.nvim_create_autocmd("FileType", {
         pattern = all_available,
