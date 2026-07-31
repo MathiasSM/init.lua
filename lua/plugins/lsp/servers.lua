@@ -28,7 +28,6 @@ return {
               desc = desc,
             }
           end
-          vim.keymap.set("n", "<space>hl", vim.lsp.codelens.run, keyOpts("[LSP] Haskell: Run codelens"))
           vim.keymap.set("n", "<space>hs", ht.hoogle.hoogle_signature, keyOpts("[LSP] Haskell: Show hoogle signature"))
           vim.keymap.set("n", "<space>he", ht.lsp.buf_eval_all, keyOpts("[LSP] Haskell: Evaluate all"))
           vim.keymap.set("n", "<leader>hp", ht.repl.toggle, keyOpts("[LSP] Haskell: Toggle REPL for package"))

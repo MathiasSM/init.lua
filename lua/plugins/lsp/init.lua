@@ -40,19 +40,6 @@ local BASE = {
   },
 }
 
-vim.keymap.set("n", "<space><space>", function()
-  -- Defaults
-  vim.lsp.config("*", {
-    root_markers = { ".git", ".hg" },
-    capabilities = require("plugins.lsp.configs").get_capabilities(),
-  })
-  for ls_name, ls_config in pairs(require("plugins.lsp.configs").get()) do
-    vim.lsp.config(ls_name, ls_config)
-  end
-  require("mason-lspconfig").setup()
-  vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
-end, { desc = "[LSP] Turn on LSPs" })
-
 
 ---@type LazyPluginSpec[]
 return require("utils").concat_tables(

@@ -1,47 +1,98 @@
+---@module "snacks"
 
 local function set_lsp_mappings(event)
-  vim.notify_once("Enabled LSP mappings")
-  local nmap = function(lhs, rhs, desc) vim.keymap.set("n", lhs, rhs, { buffer = event.buf, desc = desc }) end
-  local nvmap = function(lhs, rhs, desc) vim.keymap.set({ "n", "v" }, lhs, rhs, { buffer = event.buf, desc = desc }) end
+  --- Uses Snacks utility to only create the keymaps when LSP capability exists
+  local smap = function(mode, lhs, rhs, method, desc)
+    Snacks.keymap.set(mode, lhs, rhs, { lsp = { method = method }, desc = desc })
+  end
 
-  -- Buffer local mappings.
-  nmap("gd", vim.lsp.buf.definition, "[LSP] Go to definition")
-  nmap("gD", vim.lsp.buf.declaration, "[LSP] Go to declaration")
-  nmap("gi", vim.lsp.buf.implementation, "[LSP] Go to implementation")
-  nmap("gI", vim.lsp.buf.incoming_calls, "[LSP] Show incoming calls")
-  nmap("gO", vim.lsp.buf.outgoing_calls, "[LSP] Show outgoing calls")
-  nmap("gr", vim.lsp.buf.references, "[LSP] Go to references")
-  nmap("gt", vim.lsp.buf.type_definition, "[LSP] Go to type definition")
-  nmap("gT", function() vim.lsp.buf.typehierarchy("supertypes") end, "[LSP] Show super-types")
-  nmap("gY", function() vim.lsp.buf.typehierarchy("subtypes") end, "[LSP] Show sub-types")
-  nmap("gs", vim.lsp.buf.document_symbol, "[LSP] List document symbols")
-  nmap("gS", vim.lsp.buf.workspace_symbol, "[LSP] List Workspace Symbols")
+  local this_buf = { bufnr = 0 }
 
-  -- (w*)orkspace: (wa)dd, (wr)emove, (wl)ist
-  nmap("<space>wa", vim.lsp.buf.add_workspace_folder, "[Workspace] Add folder")
-  nmap("<space>wr", vim.lsp.buf.remove_workspace_folder, "[Workspace] Remove folder")
-  nmap("<space>wl", function()
-    local list = vim.inspect(vim.lsp.buf.list_workspace_folders())
-    vim.notify(list)
-  end, "[Workspace] List folders")
+  -- Movement
+  smap("n", "gD", vim.lsp.buf.declaration, "textDocument/declaration", "[LSP] Go to declaration")
+  smap("n", "gd", vim.lsp.buf.definition, "textDocument/definition", "[LSP] Go to definition")
+  smap("n", "gt", vim.lsp.buf.type_definition, "textDocument/typeDefinition", "[LSP] Go to type definition")
+  smap("n", "gi", vim.lsp.buf.implementation, "textDocument/implementation", "[LSP] Go to implementation")
 
-  -- (r)ename, (c)ode action, (f)ormat
-  nmap("<space>r", vim.lsp.buf.rename, "[LSP] Rename all references")
-  nvmap("<space>a", vim.lsp.buf.code_action, "[LSP] Select code action to execute")
-  nmap("<space>L", function()
-    local filter = { bufnr = 0 }
-    vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled(filter), filter)
-  end, "[LSP] Toggle codelens (current buffer)")
-  nmap("<space>l", vim.lsp.codelens.run, "[LSP] Run codelens here")
+  smap("n", "<space>r", vim.lsp.buf.references, "textDocument/references", "[Show] references")
+  smap("n", "<space>s", vim.lsp.buf.document_symbol, "textDocument/documentSymbol", "[Show] document symbols")
+
+  -- Hierarchies
+  local supertypes = function() vim.lsp.buf.typehierarchy("supertypes") end
+  local subtypes = function() vim.lsp.buf.typehierarchy("subtypes") end
+  smap("n", "<space>t", supertypes, "typeHierarchy/supertypes", "[Show] super-types")
+  smap("n", "<space>y", subtypes, "typeHierarchy/subtypes", "[Show] sub-types")
+
+  smap("n", "<space>i", vim.lsp.buf.incoming_calls, "callHierarchy/incomingCalls", "[Show] Incoming calls")
+  smap("n", "<space>o", vim.lsp.buf.outgoing_calls, "callHierarchy/outgoingCalls", "[Show] Outgoing calls")
+
+  -- Actions
+  local toggle_codelens = function()
+    vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled(this_buf), { bufnr = 0 })
+  end
+  smap("n", "<space>R", vim.lsp.buf.rename, "textDocument/rename", "[Run] Rename all references")
+  smap({ "n", "v" }, "<space>a", vim.lsp.buf.code_action, "textDocument/codeAction", "[Run] A Code Action")
+  smap("n", "<space>L", toggle_codelens, "textDocument/codeLens", "[Toggle] Code Lens")
+  smap("n", "<space>l", vim.lsp.codelens.run, "codeLens/resolve", "[Run] This Code Lens")
 
   -- Diagnostics/hover
-  nmap("<space>k", function() vim.lsp.buf.hover({ border = "rounded" }) end, "[LSP] Show hover information")
-  nmap("<space>K", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "[LSP] Show signature help")
+  local hover = function() vim.lsp.buf.hover({ border = "rounded" }) end
+  local signature_help = function() vim.lsp.buf.signature_help({ border = "rounded" }) end
+  smap("n", "<space>k", hover, "textDocument/hover", "[Show] hover information")
+  smap("n", "<space>K", signature_help, "textDocument/signatureHelp", "[Show] signature help")
+
+  -- Color
+  -- TODO: Probably needs more to avoid clashing with treesitter colors?
+  local color = Snacks.toggle({
+    name = "LSP colors",
+    set = function() vim.lsp.document_color.enable(not vim.lsp.document_color.is_enabled(this_buf), this_buf) end,
+    get = function() return vim.lsp.document_color.is_enabled(this_buf) end,
+  })
+  smap("n", "<space>c", function() color:toggle() end, "textDocument/documentColor", "[Toggle] LSP color")
+
+  -- Workspace
+  local workspace_folders = function()
+    local list = vim.inspect(vim.lsp.buf.list_workspace_folders())
+    vim.notify(list)
+  end
+  smap("n", "<space>ws", vim.lsp.buf.workspace_symbol, "workspace/symbol", "[Show] Workspace Symbols")
+  smap("n", "<space>wd", vim.lsp.buf.workspace_diagnostics, "workspace/diagnostic", "[Show] Workspace diagnostics")
+  smap("n", "<space>wl", workspace_folders, "workspace/workspaceFolders", "[Show] Folders")
+  smap("n", "<space>wa", vim.lsp.buf.add_workspace_folder, "workspace/didChangeWorkspaceFolders", "[Add] Folder")
+  smap("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, "workspace/didChangeWorkspaceFolders", "[Remove] Folder")
+
+  --TODO: vim.lsp.buf.selection_range()
+
+  -- NOTE: textDocument/documentHighlight -> Too much trouble for fancy '*'
+  -- NOTE: textDocument/inlayHint: Handled by normal snack toggle
+  -- NOTE: textDocument/linkedEditingRange: Hopefully handled by each server? Need to test
+  -- NOTE: Format handled alongside non-lsp formatters
+
+  vim.notify_once("Enabled LSP mappings")
 end
 
 -- Only create mappings off LspAttach'd buffers
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "Enable mappings for LSP functionality",
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(event) set_lsp_mappings(event) end,
+  callback = function(event)
+    set_lsp_mappings(event)
+  end,
 })
+
+-- Launch LSPs on command instead of automatically (avoid quick edits launching heavy processes)
+vim.keymap.set("n", "<space><space>", function()
+  -- Defaults
+  vim.lsp.config("*", {
+    root_markers = { ".git", ".hg" },
+    capabilities = require("plugins.lsp.configs").get_capabilities(),
+  })
+  for ls_name, ls_config in pairs(require("plugins.lsp.configs").get()) do
+    vim.lsp.config(ls_name, ls_config)
+  end
+  require("mason-lspconfig").setup()
+  vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
+  -- Remove keymap once done
+  vim.keymap.del("n", "<space><space>")
+end, { desc = "[LSP] Turn on LSPs" })
+
