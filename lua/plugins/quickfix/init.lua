@@ -1,9 +1,6 @@
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
-  -- Reopen files on their last edit position
-  { "vladdoster/remember.nvim", lazy = false, config = true },
-
   -- Add actions
   { "kevinhwang91/nvim-bqf", ft = "qf" },
 
