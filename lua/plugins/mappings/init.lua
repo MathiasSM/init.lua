@@ -23,7 +23,6 @@ return {
         { "<leader>x", group = "[Trouble]", icon = { icon = "󱖫", color = "red" } },
         -- LSP (space)
         { "<space>", group = "[LSP]", icon = { icon = "󰛨", color = "azure" } },
-        { "<space>s", group = "[Symbols]", icon = "" },
         { "<space>h", group = "[Haskell]", icon = "" },
         { "<space>t", group = "[Typescript]", icon = "󰛦" },
         { "<space>ti", group = "[TS:Imports]", icon = "󰛦" },

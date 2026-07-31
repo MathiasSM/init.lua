@@ -43,8 +43,8 @@ return {
         desc = "[TS] Go to scope start",
       },
       {
-        "<leader>c",
-        ":TSContext toggle<CR>",
+        "<leader><leader>C",
+        -- Defined in Snacks
         desc = "[TS] Toggle TS Context",
       },
     },
