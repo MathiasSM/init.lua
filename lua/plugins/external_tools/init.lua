@@ -4,7 +4,7 @@ return {
     "mason-org/mason.nvim",
     lazy = false, -- So path is up to date
     build = ":MasonUpdate",
-    opts = {},
+    opts = { ui = { border = "rounded" } },
   },
 
   { "neovim/nvim-lspconfig", lazy = true },
