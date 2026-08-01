@@ -19,6 +19,7 @@ return {
         { "<leader>f", group = "[Find]" },
         { "<leader>g", group = "[Git]", icon = { icon = "󰊢", color = "red" } },
         { "<leader>h", group = "[Hunks]", icon = { icon = "󰊢", color = "red" } },
+        { "<leader>l", group = "[LSP] Pickers", icon = { icon = "󰛨", color = "azure" } },
         { "<leader>r", group = "[Rules]", icon = { icon = "", color = "cyan" } },
         { "<leader>t", group = "[Test]", icon = { icon = "󰙨", color = "blue" } },
         { "<leader>x", group = "[Trouble]", icon = { icon = "󱖫", color = "red" } },
