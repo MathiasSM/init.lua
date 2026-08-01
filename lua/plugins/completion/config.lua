@@ -46,6 +46,8 @@ local function setup()
       sources = ft_sources,
     })
   end
+
+  cmp.setup.filetype("snacks_picker_input", { enabled = false })
 end
 
 return setup
