@@ -1,6 +1,6 @@
 local function lint_using(item)
   print("Linting using: " .. item.name)
-  require('lint').try_lint(item.name)
+  require("lint").try_lint(item.name)
 end
 
 local function select_linter_action(item, idx)
@@ -15,22 +15,16 @@ end
 local function get_available_linters()
   local linters = {}
 
-  local linters_path = package.searchpath('lint.linters', package.path)
-  if not linters_path then
-    return linters
-  end
+  local linters_path = package.searchpath("lint.linters", package.path)
+  if not linters_path then return linters end
 
   local dir_path = linters_path:match("(.+)/[^/]+$")
   local handle = io.popen('ls "' .. dir_path .. '"')
-  if not handle then
-    return linters
-  end
+  if not handle then return linters end
 
   for filename in handle:lines() do
     local linter_name = filename:match("^(.+)%.lua$")
-    if linter_name then
-      table.insert(linters, { name = linter_name })
-    end
+    if linter_name then table.insert(linters, { name = linter_name }) end
   end
 
   handle:close()
@@ -55,9 +49,8 @@ local function display_status()
   print("󱉶 " .. table.concat(linters, ", "))
 end
 
-
 local function remap_severity(linter_name, severity)
-  local lint = require('lint')
+  local lint = require("lint")
   return require("lint.util").wrap(lint.linters[linter_name], function(diagnostic)
     diagnostic.severity = severity
     return diagnostic
@@ -68,21 +61,21 @@ local function setup_linters()
   local lint = require("lint")
   lint.linters_by_ft = {}
   -- Programming
-  lint.linters_by_ft.bash       = { "bash", "shellcheck" }
-  lint.linters_by_ft.cfn        = { "cfn_lint", "cfn_nag" }
-  lint.linters_by_ft.css        = { "stylelint" }
-  lint.linters_by_ft.dotenv     = { "dotenv_linter" }
-  lint.linters_by_ft.help       = { }
-  lint.linters_by_ft.hledger    = { "hledger" }
-  lint.linters_by_ft.java       = { } -- Checkstyle is too annoying to configure
-  lint.linters_by_ft.javascript = { }
-  lint.linters_by_ft.latex      = { "chktex" }
-  lint.linters_by_ft.make       = { "checkmake" }
-  lint.linters_by_ft.sql        = { "sqlfluff" }
-  lint.linters_by_ft.systemd    = { "systemdlint" }
-  lint.linters_by_ft.typescript = { }
-  lint.linters_by_ft.vim        = { "vint" }
-  lint.linters_by_ft.zsh        = { "zsh" } -- ShellCheck doesn't work with zsh
+  lint.linters_by_ft.bash = { "bash", "shellcheck" }
+  lint.linters_by_ft.cfn = { "cfn_lint", "cfn_nag" }
+  lint.linters_by_ft.css = { "stylelint" }
+  lint.linters_by_ft.dotenv = { "dotenv_linter" }
+  lint.linters_by_ft.help = {}
+  lint.linters_by_ft.hledger = { "hledger" }
+  lint.linters_by_ft.java = {} -- Checkstyle is too annoying to configure
+  lint.linters_by_ft.javascript = {}
+  lint.linters_by_ft.latex = { "chktex" }
+  lint.linters_by_ft.make = { "checkmake" }
+  lint.linters_by_ft.sql = { "sqlfluff" }
+  lint.linters_by_ft.systemd = { "systemdlint" }
+  lint.linters_by_ft.typescript = {}
+  lint.linters_by_ft.vim = { "vint" }
+  lint.linters_by_ft.zsh = { "zsh" } -- ShellCheck doesn't work with zsh
   -- Markup/prose
   local prose = { "alex", "proselint", "vale", "write_good" }
   lint.linters_by_ft.markdown = prose
@@ -116,38 +109,32 @@ return {
       })
 
       -- Create commands
-      vim.api.nvim_create_user_command(
-        "LintProgress",
-        display_status,
-        { desc = "[Linters] Display current status" }
-      )
-      vim.api.nvim_create_user_command(
-        "Lint",
-        pick_linter,
-        { desc = "[Linters] Try one" }
-      )
+      vim.api.nvim_create_user_command("LintProgress", display_status, { desc = "[Linters] Display current status" })
+      vim.api.nvim_create_user_command("Lint", pick_linter, { desc = "[Linters] Try one" })
     end,
   },
 
   {
     "chrisgrieser/nvim-rulebook",
     keys = {
+      { "<leader>ri", function() require("rulebook").ignoreRule() end, desc = "Ignore rule" },
+      { "<leader>rl", function() require("rulebook").lookupRule() end, desc = "Lookup rules" },
+      { "<leader>ry", function() require("rulebook").yankDiagnosticCode() end, desc = "Yank diagnostic code" },
       {
-        "<leader>ri",
-        function() require("rulebook").ignoreRule() end,
-        desc = "[Rules] Ignore",
-      },
-      {
-        "<leader>rl",
-        function() require("rulebook").lookupRule() end,
-        desc = "[Rules] Lookup",
-      },
-      {
-        "<leader>ry",
-        function() require("rulebook").yankDiagnosticCode() end,
-        desc = "[Rules] Yank code",
+        mode = { "n", "x", "v" },
+        "<leader>rf",
+        function() require("rulebook").suppressFormatter() end,
+        desc = "Ignore formatter",
       },
     },
-    config = true,
+    config = function()
+      ---@module "snacks"
+      Snacks.keymap.set(
+        "n",
+        "<leader>rp",
+        require("rulebook").prettifyError,
+        { ft = { "typescript", "javascript" }, desc = "Show pretty error" }
+      )
+    end,
   },
 }
