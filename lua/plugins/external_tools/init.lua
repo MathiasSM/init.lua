@@ -50,94 +50,59 @@ return {
       {
         "]h",
         function()
-          if vim.wo.diff then return "]c" end
-          vim.schedule(function() require("gitsigns").next_hunk() end)
-          return "<Ignore>"
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          else
+            require("gitsigns").nav_hunk("next")
+          end
         end,
-        expr = true,
-        desc = "[Git] Next hunk (change)",
+        desc = "[Git] Next hunk",
       },
 
       {
         "[h",
         function()
-          if vim.wo.diff then return "[c" end
-          vim.schedule(function() require("gitsigns").prev_hunk() end)
-          return "<Ignore>"
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          else
+            require("gitsigns").nav_hunk("prev")
+          end
         end,
-        expr = true,
-        desc = "[Git] Previous hunk (change)",
+        desc = "[Git] Previous hunk",
       },
 
       -- Actions
+      { mode = "n", "<leader>hs", function() require("gitsigns").stage_hunk() end, desc = "Stage hunk" },
       {
+        mode = "v",
         "<leader>hs",
-        function() require("gitsigns").stage_hunk() end,
-        desc = "[Git] Stage hunk",
+        function() require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
+        desc = "Stage hunk",
       },
-      {
-        mode = "v",
-        "<leader>ha",
-        function()
-          require("gitsigns").stage_hunk({
-            vim.fn.line("."),
-            vim.fn.line("v"),
-          })
-        end,
-        desc = "[Git] Add (Stage) hunk",
-      },
-
-      {
-        mode = "n",
-        "<leader>hr",
-        function() require("gitsigns").reset_hunk() end,
-        desc = "[Git] Reset hunk",
-      },
+      { mode = "n", "<leader>hr", function() require("gitsigns").reset_hunk() end, desc = "Reset hunk" },
       {
         mode = "v",
         "<leader>hr",
-        function()
-          require("gitsigns").reset_hunk({
-            vim.fn.line("."),
-            vim.fn.line("v"),
-          })
-        end,
-        desc = "[Git] Reset hunk",
+        function() require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
+        desc = "Reset hunk",
       },
+      { "<leader>hS", function() require("gitsigns").stage_buffer() end, desc = "Stage buffer" },
+      { "<leader>hR", function() require("gitsigns").reset_buffer() end, desc = "Reset stage buffer" },
+      { "<leader>hp", function() require("gitsigns").preview_hunk() end, desc = "Preview hunk" },
+      { "<leader>hi", function() require("gitsigns").preview_hunk_inline() end, desc = "Preview hunk (inline)" },
 
-      {
-        "<leader>hu",
-        function() require("gitsigns").undo_stage_hunk() end,
-        desc = "[Git] Undo add (stage) hunk",
-      },
+      { "<leader>gb", function() require("gitsigns").blame_line() end, desc = "[Show] blame for line" },
+      { "<leader>gB", function() require("gitsigns").blame() end, desc = "[Show] blame (vsp)" },
 
-      {
-        "<leader>hS",
-        function() require("gitsigns").stage_buffer() end,
-        desc = "[Git] Add (stage) buffer",
-      },
-      {
-        "<leader>hR",
-        function() require("gitsigns").reset_buffer() end,
-        desc = "[Git] Reset add (stage) buffer",
-      },
+      { "<leader>gd", function() require("gitsigns").diffthis() end, desc = "[Show] diff" },
 
-      {
-        "<leader>hp",
-        function() require("gitsigns").preview_hunk() end,
-        desc = "[Git] Preview hunk",
-      },
+      { "<leader>gD", function() require("gitsigns").diffthis("~") end, desc = "[Show] diff (~)" },
 
-      { -- TODO: TOGGLE
-        "<leader>gb",
-        function() require("gitsigns").toggle_current_line_blame() end,
-        desc = "[Git] Blame (toggle)",
-      },
-      {
-        "<leader>gd",
-        function() require("gitsigns").diffthis() end,
-        desc = "[Git] Gitsigns diffthis",
-      },
+      { "<leader>gQ", function() require("gitsigns").setqflist("all") end, desc = "[Run] setqflist: file hunks" },
+      { "<leader>gq", function() require("gitsigns").setqflist() end, desc = "[Run] setqflist: workspace hunks" },
+
+      -- Text object
+      { mode = { "o", "x" }, "ih", function() require("gitsigns").select_hunk() end, desc = "inner hunk" },
     },
     opts = {
       attach_to_untracked = true,
@@ -146,12 +111,7 @@ return {
         local time = os.date("%Y-%m-%d", info.author_time)
         local username = (info.author_mail or ""):match("<(.-)@")
         local line = " " .. username .. "@ " .. time .. ": " .. (info.summary or "")
-        return {
-          {
-            line,
-            "GitSignsCurrentLineBlame",
-          },
-        }
+        return { { line, "GitSignsCurrentLineBlame" } }
       end,
       current_line_blame_opts = {
         ignore_whitespace = true,

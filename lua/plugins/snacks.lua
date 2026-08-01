@@ -125,12 +125,24 @@ return {
           Snacks.toggle.zen()                                 :map("<leader><leader>Z")
           Snacks.toggle.zoom()                                :map("<leader><leader>z")
 
-          -- NOTE: Must defined lazy keys in spec
+          -- NOTE: Must define lazy keys in spec
           Snacks.toggle({
             name = "TS Context",
             set = function() vim.cmd("TSContext toggle") end,
             get = require("treesitter-context").enabled,
           })                                                  :map("<leader><leader>C")
+
+          -- Gitsigns
+          Snacks.toggle({
+            name = "Git word diff",
+            set = function() require("gitsigns").toggle_word_diff() end,
+            get = function() return require('gitsigns.config').config.word_diff end,
+          })                                                  :map("<leader><leader>gw")
+          Snacks.toggle({
+            name = "Git current line blame",
+            set = function() require("gitsigns").toggle_current_line_blame() end,
+            get = function() return require('gitsigns.config').config.current_line_blame end,
+          })                                                  :map("<leader><leader>gb")
         end,
       })
     end,
