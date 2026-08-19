@@ -1,30 +1,43 @@
 local M = {}
 
-local function get_buf_next(with_snippet)
-  return function()
-    local cmp = require("cmp")
-    local luasnip = require("luasnip")
-    if cmp.visible() then
-      cmp.select_next_item()
-    elseif with_snippet and luasnip.locally_jumpable(1) then
-      luasnip.jump(1)
-    else
-      cmp.complete()
-    end
+local function get_select_behavior()
+  local cmp_types = require("cmp.types")
+  return cmp_types.cmp.SelectBehavior.Select
+end
+
+local function select_item(dir)
+  if dir == 1 then
+    return require("cmp").select_next_item
+  elseif dir == -1 then
+    return require("cmp").select_prev_item
+  else
+    error("Wrong dir: "..dir)
   end
 end
 
-local function get_buf_prev(with_snippet)
-  return function()
+local function get_handler(dir, is_tab)
+  return function(fallback)
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+
+    -- If visible, move selection
     if cmp.visible() then
-      cmp.select_prev_item()
-    elseif with_snippet and luasnip.locally_jumpable(-1) then
-      luasnip.jump(-1)
-    else
-      cmp.complete()
+      local behavior = get_select_behavior()
+      return select_item(dir)({ behavior = behavior })
     end
+
+    -- Otherwise, if tab and within a snippet, navigate it
+    if is_tab and luasnip.locally_jumpable(dir) then
+      return luasnip.jump(dir)
+    end
+
+    -- In any other case, tab should be just tab
+    if is_tab then
+      return fallback()
+    end
+
+    -- But if it was not a simple tab, enter completion
+    return cmp.complete()
   end
 end
 
@@ -35,15 +48,12 @@ M.get_global = function()
   return mapping.preset.insert({
     ["<C-b>"] = { i = mapping.scroll_docs(-4) },
     ["<C-f>"] = { i = mapping.scroll_docs(4) },
-    -- Safe newline: select if selecting, newline if not
-    ["<C-Space>"] = require("cmp").mapping.confirm({
-      behavior = confirm_insert,
-      select = true,
-    }),
-    ["<Tab>"] = require("cmp").mapping(get_buf_next(true), { "i", "s" }),
-    ["<S-Tab>"] = require("cmp").mapping(get_buf_prev(true), { "i", "s" }),
-    ["<C-n>"] = require("cmp").mapping(get_buf_next(false), { "i", "s" }),
-    ["<C-p>"] = require("cmp").mapping(get_buf_prev(false), { "i", "s" }),
+    ["<C-Space>"] = require("cmp").mapping.confirm({ behavior = confirm_insert, select = true }),
+    ["<CR>"] = require("cmp").mapping.confirm({ behavior = confirm_insert, select = true }),
+    ["<Tab>"] = require("cmp").mapping(get_handler(1, true), { "i", "s" }),
+    ["<S-Tab>"] = require("cmp").mapping(get_handler(-1, true), { "i", "s" }),
+    ["<C-n>"] = require("cmp").mapping(get_handler(1, false), { "i", "s" }),
+    ["<C-p>"] = require("cmp").mapping(get_handler(-1, false), { "i", "s" }),
   })
 end
 
@@ -52,8 +62,8 @@ M.get_cmdline = function()
   return mapping.preset.cmdline({
     ["<C-b>"] = { c = mapping.scroll_docs(-4) },
     ["<C-f>"] = { c = mapping.scroll_docs(4) },
-    ["<C-n>"] = require("cmp").mapping(get_buf_next(false), { "c" }),
-    ["<C-p>"] = require("cmp").mapping(get_buf_prev(false), { "c" }),
+    ["<C-n>"] = require("cmp").mapping(get_handler(1, false), { "c" }),
+    ["<C-p>"] = require("cmp").mapping(get_handler(-1, false), { "c" }),
   })
 end
 

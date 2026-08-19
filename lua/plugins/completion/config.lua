@@ -13,13 +13,13 @@ local function setup()
   -- Global configuration
   cmp.setup.global({
     formatting = {
-      fields = { "icon", "abbr", "menu" },
+      fields = { "icon", "abbr", "menu", "kind" },
       format = require("plugins.completion.format").format_completion_popup,
       expandable_indicator = true,
     },
     window = {
       completion = cmp.config.window.bordered({ border = "rounded" }),
-      documentation = { border = "single" },
+      documentation = { border = "rounded" },
     },
     completion = { autocomplete = { "InsertEnter", "TextChanged" } },
     mapping = mappings.get_global(),
