@@ -15,10 +15,26 @@ local function select_item(dir)
   end
 end
 
+-- This block allows me to disable the trigger to use completions (not cmp as a whole, though)
+local is_enabled = true
+local cmp_toggle = Snacks.toggle.new({
+  name = "Completion",
+  get = function() return is_enabled end,
+  set = function(state)
+    require("cmp").setup.buffer({ enabled = state })
+    is_enabled = state
+  end,
+})
+Snacks.keymap.set("n", "<leader><leader>n", function() cmp_toggle:toggle() end , { desc= "Toggle completion"})
+
 local function get_handler(dir, is_tab)
   return function(fallback)
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+
+    if not is_enabled then
+      return
+    end
 
     -- If visible, move selection
     if cmp.visible() then

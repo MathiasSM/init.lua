@@ -98,7 +98,7 @@ return {
           "lazy",
           "man",
           "mason",
-          --"nvim-dap-ui",
+          "nvim-dap-ui",
           "symbols-outline",
           "oil",
           "quickfix",

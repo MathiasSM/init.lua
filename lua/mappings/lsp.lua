@@ -90,7 +90,7 @@ vim.keymap.set("n", "<space><space>", function()
   for ls_name, ls_config in pairs(require("plugins.lsp.configs").get()) do
     vim.lsp.config(ls_name, ls_config)
   end
-  require("mason-lspconfig").setup()
+  require("mason-lspconfig")
   vim.cmd("doautocmd BufReadPost") -- HACK: Without this, it doesn't attach
   -- Remove keymap once done
   vim.keymap.del("n", "<space><space>")
