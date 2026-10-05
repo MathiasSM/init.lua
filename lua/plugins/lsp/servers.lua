@@ -10,8 +10,8 @@ return {
   -- Haskell
   {
     "mrcjkb/haskell-tools.nvim",
-    version = "^6", -- Recommended
-    lazy = false,
+    version = "^10", -- Recommended to pin a version
+    lazy = false, -- Already lazy
     config = function()
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "haskell", "lhaskell", "cabal", "cabalproject" },

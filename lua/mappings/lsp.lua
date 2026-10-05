@@ -27,12 +27,14 @@ local function set_lsp_mappings(event)
   smap("n", "<space>o", vim.lsp.buf.outgoing_calls, "callHierarchy/outgoingCalls", "[Show] Outgoing calls")
 
   -- Actions
-  local toggle_codelens = function()
-    vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled(this_buf), { bufnr = 0 })
-  end
+  local codelens = Snacks.toggle({
+    name = "Codelens",
+    set = function() vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled(this_buf), this_buf) end,
+    get = function() return vim.lsp.codelens.is_enabled(this_buf) end,
+  })
   smap("n", "<space>R", vim.lsp.buf.rename, "textDocument/rename", "[Run] Rename all references")
   smap({ "n", "v" }, "<space>a", vim.lsp.buf.code_action, "textDocument/codeAction", "[Run] A Code Action")
-  smap("n", "<space>L", toggle_codelens, "textDocument/codeLens", "[Toggle] Code Lens")
+  smap("n", "<space>L", function() codelens:toggle() end, "textDocument/codeLens", "[Toggle] Code Lens")
   smap("n", "<space>l", vim.lsp.codelens.run, "codeLens/resolve", "[Run] This Code Lens")
 
   -- Diagnostics/hover
