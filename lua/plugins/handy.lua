@@ -2,16 +2,12 @@
 ---@type LazyPluginSpec[]
 return {
   {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    event = "InsertEnter",
+    -- Provides treesitter-aware `commentstring` for the built-in `gc`/`gcc` operators
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    event = "VeryLazy",
     config = function()
       require("ts_context_commentstring").setup({
-        enable_autocmd = false,
-      })
-      ---@diagnostic disable-next-line: missing-fields
-      require("Comment").setup({
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+        enable_autocmd = true,
       })
     end,
   },

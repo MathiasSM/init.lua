@@ -1,7 +1,5 @@
 ---@type LazyPluginSpec[]
 return {
-  -- Reopen files on their last edit position
-  { "vladdoster/remember.nvim", lazy = false, config = true },
   -- Build a custom index of files to easily jump between them
   {
     "ThePrimeagen/harpoon",

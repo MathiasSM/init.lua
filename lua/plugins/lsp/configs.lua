@@ -40,11 +40,9 @@ function M.get()
 end
 
 function M.get_capabilities()
-  return vim.tbl_deep_extend(
-    "force",
-    vim.lsp.protocol.make_client_capabilities(),
-    require("cmp_nvim_lsp").default_capabilities()
-  )
+  local ok, blink = pcall(require, "blink.cmp")
+  if ok then return blink.get_lsp_capabilities() end
+  return vim.lsp.protocol.make_client_capabilities()
 end
 
 M.source_translations = {

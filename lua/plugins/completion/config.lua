@@ -1,53 +1,76 @@
-local function setup()
-  local cmp = require("cmp")
-  local luasnip = require("luasnip")
-  local mappings = require("plugins.completion.mappings")
-  local sources = require("plugins.completion.sources").get_sources()
+---@module "snacks"
 
-  -- Minimum configuration: Setup snippets engine
-  cmp.setup({
+---@type blink.cmp.Config
+local blink_opts = {
+  keymap = {
+    preset = "default",
+    -- Trigger completion when the menu is hidden; select when it is open
+    ["<C-n>"] = { "select_next", "show" },
+    ["<C-p>"] = { "select_prev", "show" },
+    ["<C-Space>"] = { "select_and_accept", "fallback" },
+  },
+  appearance = {
+    nerd_font_variant = "mono",
+  },
+  completion = {
+    documentation = { window = { border = "rounded" } },
+    menu = { border = "rounded" },
+  },
+  signature = {
     enabled = true,
-    snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+    window = { border = "rounded" },
+  },
+  fuzzy = { implementation = "prefer_rust" },
+  sources = {
+    default = { "lsp", "path", "snippets", "buffer", "calc", "tmux" },
+    per_filetype = {
+      markdown = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      pandoc = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      rmd = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      tex = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      text = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      asciidoc = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      html = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      rst = { inherit_defaults = true, "cmp_pandoc", "IM" },
+      gitcommit = { inherit_defaults = true, "cmp_pandoc", "IM" },
+    },
+    providers = {
+      lsp = { score_offset = 999 },
+      calc = { name = "calc", module = "blink.compat.source" },
+      tmux = {
+        name = "tmux",
+        module = "blink.compat.source",
+        score_offset = -9999,
+      },
+      cmp_pandoc = { name = "cmp_pandoc", module = "blink.compat.source" },
+      IM = { name = "IM", module = "blink.compat.source" },
+    },
+  },
+  cmdline = {
+    enabled = true,
+    keymap = { preset = "cmdline" },
+    completion = { menu = { auto_show = false }, ghost_text = { enabled = false } },
+    sources = function()
+      if vim.fn.getcmdtype() == ":" then return { "cmdline", "path" } end
+      return { "buffer" }
+    end,
+  },
+}
+
+return function()
+  require("blink.cmp").setup(blink_opts)
+
+  -- Disable completion inside the snacks picker input (previously done via cmp.setup.filetype)
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "snacks_picker_input",
+    callback = function() vim.b.completion = false end,
   })
 
-  -- Global configuration
-  cmp.setup.global({
-    formatting = {
-      fields = { "icon", "abbr", "menu", "kind" },
-      format = require("plugins.completion.format").format_completion_popup,
-      expandable_indicator = true,
-    },
-    window = {
-      completion = cmp.config.window.bordered({ border = "rounded" }),
-      documentation = { border = "rounded" },
-    },
-    completion = { autocomplete = { "InsertEnter", "TextChanged" } },
-    mapping = mappings.get_global(),
-    sources = sources.global,
+  -- Toggle completion globally. Blink respects `vim.b.completion` per buffer.
+  local toggle = Snacks.toggle.new({
+    name = "Completion",
+    get = function() return vim.b.completion ~= false end,
+    set = function(state) vim.b.completion = state end,
   })
-
-  -- Command line configuration
-  ---@type cmp.ConfigSchema
-  local common_cmdline = {
-    matching = { diallow_symbol_nonprefix_matching = true }, ---@diagnostic disable-line: missing-fields
-    window = { completion = cmp.config.window.bordered() },
-  }
-  for _, t in ipairs({ ":", "/", "?" }) do
-    local props = vim.tbl_deep_extend("force", {}, common_cmdline, {
-      mapping = mappings.get_cmdline(),
-      sources = sources.cmdline[t],
-    })
-    cmp.setup.cmdline(t, props)
-  end
-
-  -- Filetype-specific configurations
-  for ft, ft_sources in pairs(sources.ft) do
-    cmp.setup.filetype(ft, {
-      sources = ft_sources,
-    })
-  end
-
-  cmp.setup.filetype("snacks_picker_input", { enabled = false })
+  Snacks.keymap.set("n", "<leader><leader>n", function() toggle:toggle() end, { desc = "Toggle completion" })
 end
-
-return setup

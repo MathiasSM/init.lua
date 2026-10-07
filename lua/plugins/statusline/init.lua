@@ -99,7 +99,6 @@ return {
           "man",
           "mason",
           "nvim-dap-ui",
-          "symbols-outline",
           "oil",
           "quickfix",
           "trouble",

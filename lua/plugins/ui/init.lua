@@ -12,7 +12,7 @@ return {
     opts = {
       highlight_group = "Comment",
       cloak_length = 8,
-      cloak_telescope = true,
+      cloak_telescope = false,
       patterns = {
         {
           file_pattern = { ".env*" },
@@ -51,33 +51,6 @@ return {
         },
         NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
         TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-      },
-    },
-  },
-
-  {
-    "m4xshen/smartcolumn.nvim",
-    event = "VeryLazy",
-    opts = {
-      colorcolumn = "80",
-      disabled_filetypes = {
-        "Trouble",
-        "help",
-        "lazy",
-        "lspinfo",
-        "markdown",
-        "mason",
-        "neo-tree",
-        "netrw",
-        "noice",
-        "oil",
-        "qf",
-        "text",
-      },
-      custom_colorcolumn = {
-        java = "120",
-        lua = "100",
-        haskell = "100",
       },
     },
   },

@@ -1,16 +1,6 @@
 ---@module "lazy"
 ---@type LazyPluginSpec[]
 return {
-  -- Add actions
-  { "kevinhwang91/nvim-bqf", ft = "qf" },
-
-  -- Add formatting
-  {
-    "yorickpeterse/nvim-pqf",
-    config = true,
-    lazy = false, -- Non-lazy so it works on the first quickfix I open
-  },
-
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
