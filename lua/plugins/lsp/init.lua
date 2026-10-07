@@ -1,5 +1,3 @@
-local formatting_utils = require("plugins.lsp.formatting")
-
 ---@type LazyPluginSpec[]
 local BASE = {
   {
@@ -15,35 +13,38 @@ local BASE = {
           "jdtls", -- nvim-jdtls triggers the start already
           "ts_ls", -- typescript-tools takes priority
           "hls", -- haskell-tools handles it
-        }
-      }
-    }
+        },
+      },
+    },
   },
 
   {
-    "mhartington/formatter.nvim",
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvimtools/none-ls.nvim" },
     keys = {
       {
         "<leader>p",
-        formatting_utils.format_buffer, -- TODO: Move, since this uses LSP as well
+        function() vim.lsp.buf.format({ async = true }) end,
         desc = "[Format] Run",
         mode = { "n", "v" },
       },
     },
     config = function()
-      require("formatter").setup({
-        logging = true,
-        log_level = vim.log.levels.WARN,
-        filetype = formatting_utils.get_formatters_by_ft(),
+      require("null-ls").setup({ border = "rounded" })
+      -- Auto-register sources installed via mason
+      require("mason-null-ls").setup({
+        ensure_installed = {},
+        handlers = {}, -- Auto-register every source installed via Mason
+        automatic_installation = false, -- Install tools explicitly via :Mason
       })
     end,
   },
 }
 
-
 ---@type LazyPluginSpec[]
 return require("utils").concat_tables(
-  BASE, --
+  BASE, -- 
   require("plugins.lsp.servers"),
-  require("plugins.lsp.fallback")
+  require("plugins.lsp.rulebook")
 )

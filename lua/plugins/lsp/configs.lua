@@ -35,7 +35,7 @@ function M.get()
         client.server_capabilities.documentRangeFormattingProvider = false
       end,
     },
-    ["ts_ls"] = {}
+    ["ts_ls"] = {},
   }
 end
 
@@ -51,6 +51,8 @@ M.source_translations = {
   -- lua_ls
   ["Lua Syntax Check."] = "lua_ls 󰬴 ",
   ["Lua Diagnostics."] = "lua_ls 󱎸 ",
+  -- none-ls (fallback for sources that don't expose a generator/command name)
+  ["null-ls"] = "none-ls ",
 }
 
 return M
